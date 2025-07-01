@@ -17,11 +17,15 @@ jobs:
         run: |
           npm ci
           cd packages/webawesome && npm run build
-
+      - name: collect
+        run: |
+            mkdir -p combined_site
+            cp -r packages/webawesome/_site/* combined_site/
+            cp -r packages/webawesome/dist combined_site/
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: packages/webawesome/_site
+          path: combined_site
 
   deploy:
     needs: build
