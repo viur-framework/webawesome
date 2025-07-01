@@ -21,6 +21,9 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const isDev = process.argv.includes('--develop');
 const passThroughExtensions = ['js', 'css', 'png', 'svg', 'jpg', 'mp4'];
 
+
+import { HtmlBasePlugin } from "@11ty/eleventy";
+
 export default async function (eleventyConfig) {
   const packageData = JSON.parse(await readFile(path.join(__dirname, '..', 'package.json'), 'utf-8'));
   const docsDir = path.join(process.env.BASE_DIR || '.', 'docs');
@@ -151,6 +154,8 @@ export default async function (eleventyConfig) {
   // Use our own markdown instance
   eleventyConfig.setLibrary('md', markdown);
 
+  eleventyConfig.addPlugin(HtmlBasePlugin);
+
   // Add anchors to headings
   eleventyConfig.addPlugin(anchorHeadingsPlugin({ container: '#content' }));
 
@@ -257,6 +262,7 @@ export default async function (eleventyConfig) {
 
 export const config = {
   markdownTemplateEngine: 'njk',
+  pathPrefix:"webawesome",
   dir: {
     input: 'docs',
     includes: '_includes',
