@@ -21,7 +21,7 @@ jobs:
         run: |
             mkdir -p combined_site
             cp -r packages/webawesome/_site/* combined_site/
-            cp -r packages/webawesome/dist combined_site/
+            cp -r packages/webawesome/dist-cdn/* combined_site/dist
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
