@@ -1,5 +1,5 @@
 import 'https://cdn.jsdelivr.net/npm/@hotwired/turbo@8.0.10/+esm';
-import { preventTurboFouce } from '/dist/webawesome.js';
+import { preventTurboFouce } from '/webawesome/dist/webawesome.js';
 
 if (!window.___turboScrollPositions___) {
   window.___turboScrollPositions___ = {};

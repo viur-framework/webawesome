@@ -1,4 +1,4 @@
-import { allDefined } from '/dist/webawesome.js';
+import { allDefined } from '/webawesome/dist/webawesome.js';
 
 /**
  * Determines how the page was loaded. Possible return values include "reload", "navigate", "back_forward", "prerender",

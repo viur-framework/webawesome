@@ -34,7 +34,7 @@
       // Update the theme stylesheet link first
       const themeStylesheet = document.getElementById('theme-stylesheet');
       if (themeStylesheet) {
-        themeStylesheet.href = `/dist/styles/themes/${savedTheme}.css`;
+        themeStylesheet.href = `{{ "/dist/styles/themes/${savedTheme}.css" | htmlBaseUrl }}`;
       }
 
       if (savedTheme !== 'default') {

@@ -40,7 +40,7 @@ async function updateTheme(value, isInitialLoad = false) {
       className.startsWith('wa-theme-') || className.startsWith('wa-brand-') || className.startsWith('wa-palette-'),
   );
   const themeStylesheet = document.getElementById('theme-stylesheet');
-  const href = `/dist/styles/themes/${value}.css`;
+  const href = `/webawesome/dist/styles/themes/${value}.css`;
 
   doViewTransition(() => {
     // Update the theme
