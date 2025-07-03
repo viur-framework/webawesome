@@ -8,6 +8,11 @@ function normalize(pathname) {
     pathname = `/${pathname}`;
   }
 
+  //remove webawesome prefix
+  if (pathname.startsWith("/webawesome")) {
+    pathname = pathname.replace("/webawesome", "");
+  }
+
   // Must not end in a slash
   if (pathname.endsWith('/')) {
     pathname = pathname.slice(0, -1);
