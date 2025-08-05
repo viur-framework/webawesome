@@ -18,6 +18,7 @@ tags: layoutUtilities
     min-block-size: 4rem;
     min-inline-size: 4rem;
   }
+
 </style>
 
 ```html {.example}
@@ -33,13 +34,6 @@ tags: layoutUtilities
   <div></div>
 </div>
 
-<div class="wa-bar">
-  <div></div>
-  <div></div>
-  <div></div>
-</div>
-
-
 <!-- We'll vary the div sizes to show the flow of cluster elements -->
 <style>
   .wa-cluster div:empty:nth-child(3n) {
@@ -48,31 +42,6 @@ tags: layoutUtilities
   .wa-cluster div:empty:nth-child(3n + 2) {
     min-inline-size: 8rem;
   }
-  .wa-bar div{
-      background-color: var(--wa-color-indigo-60);
-    border-radius: var(--wa-border-radius-m);
-    min-block-size: 4rem;
-    min-inline-size: 4rem;
-  }
-  
-  
-    .wa-bar{
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-      }
-    .wa-bar *:first-child{
-        justify-self: flex-start;
-    }
-    
-    .wa-bar *:not(:first-child):not(:last-child){
-        justify-self: center;
-    }
-    
-    .wa-bar *:last-child{
-        justify-self: flex-end;
-    }
-    
 </style>
 ```
 
@@ -163,6 +132,7 @@ By default, the gap between cluster items uses `--wa-space-m` from your theme. Y
 - `wa-gap-xl`
 - `wa-gap-2xl`
 - `wa-gap-3xl`
+- `wa-gap-stretch`
 
 ```html {.example}
 <div class="wa-stack">

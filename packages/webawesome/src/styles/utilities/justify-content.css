@@ -1,0 +1,20 @@
+@layer wa-utilities {
+  .wa-justify-start {
+    justify-content: flex-start;
+  }
+  .wa-justify-end {
+    justify-content: flex-end;
+  }
+  .wa-justify-center {
+    justify-content: center;
+  }
+  .wa-justify-space-around {
+    justify-content: space-around;
+  }
+  .wa-justify-space-between {
+    justify-content: space-between;
+  }
+  .wa-justify-space-evenly {
+    justify-content: space-evenly;
+  }
+}
