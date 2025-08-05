@@ -8,6 +8,26 @@ Web Awesome follows [Semantic Versioning](https://semver.org/). Breaking changes
 
 Components with the <wa-badge variant="warning">Experimental</wa-badge> badge should not be used in production. They are made available as release candidates for development and testing purposes. As such, changes to experimental components will not be subject to semantic versioning.
 
+## 3.0.0-beta.3
+
+### New Features {data-no-outline}
+
+- Added `--track-height` custom property to `<wa-progress-bar>` [pr:1154]
+- Added `--pulse-color` custom property to `<wa-badge>` [pr:1173]
+
+### Bug Fixes and Improvements {data-no-outline}
+
+- Fixed a bug in `<wa-badge>` where `appearance="pulse"` was not working as expected [pr:1173]
+- Fixed a missing TypeScript type for `<wa-badge>` for its `attention` property missing `bounce` value. [pr:1173]
+- Fixed the missing `nanoid` dependency in `package.json` [discuss:1139]
+- Fixed a bug in `<wa-slider>` that prevented the hint from showing up [discuss:1172]
+- Fixed a bug in `<wa-textarea>` where setting `resize="auto"` caused the height of the textarea to double [issue:1155]
+- Fixed a bug in `<wa-color-picker>`, `<wa-checkbox>`, `<wa-input>`, `<wa-radio-group>`, `<wa-switch>`, and `<wa-textarea>` that prevented screen readers from announcing hints [issue:1186]
+- Fixed a bug in `<wa-card>` that caused slotted media to have incorrectly rounded corners [issue:1107]
+- Fixed a bug in `<wa-button-group>` that prevented pill buttons from rendering corners properly [issue:1165]
+- Fixed a bug in `<wa-button-group>` that caused some vertical groups to appear horizontal [issue:1152]
+- Improved accessibility of `<wa-animated-image>` so keyboard users can focus and toggle the animation [issue:1177]
+
 ## 3.0.0-beta.2
 
 ### New Features {data-no-outline}
@@ -92,6 +112,7 @@ Many of these changes and improvements were the direct result of feedback from u
 - Added a new free component: `<wa-zoomable-frame>` (#3 of 14 per stretch goals)
 - Added a `min-block-size` to `<wa-divider orientation="vertical">` to ensure the divider is visible regardless of container height
 - Added support for `name` in `<wa-details>` for exclusively opening one in a group
+- Added `--wa-content-spacing` to themes to set default spacing between HTML elements in Native Styles
 - Added `--checked-icon-scale` to `<wa-checkbox>`
 - Added `--tag-max-size` to `<wa-select>` when using `multiple`
 - Added support for `data-dialog="open <id>"` to `<wa-dialog>`

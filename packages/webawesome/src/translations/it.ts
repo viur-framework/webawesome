@@ -3,7 +3,7 @@ import type { Translation } from '../utilities/localize.js';
 
 const translation: Translation = {
   $code: 'it',
-  $name: 'Italian',
+  $name: 'Italiano',
   $dir: 'ltr',
 
   carousel: 'Carosello',
@@ -22,6 +22,8 @@ const translation: Translation = {
     if (num === 1) return '1 opzione selezionata';
     return `${num} opzioni selezionate`;
   },
+  pauseAnimation: 'Metti in pausa animazione',
+  playAnimation: 'Riproduci animazione',
   previousSlide: 'Diapositiva precedente',
   progress: 'Avanzamento',
   remove: 'Rimuovi',

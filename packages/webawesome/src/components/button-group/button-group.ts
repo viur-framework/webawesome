@@ -10,7 +10,7 @@ import styles from './button-group.css';
 
 /**
  * @summary Button groups can be used to group related buttons into sections.
- * @documentation https://backers.webawesome.com/docs/components/button-group
+ * @documentation https://webawesome.com/docs/components/button-group
  * @status stable
  * @since 2.0
  *
@@ -101,7 +101,10 @@ export default class WaButtonGroup extends WebAwesomeElement {
     return html`
       <slot
         part="base"
-        class=${classMap({ 'button-group': true, 'has-outlined': this.hasOutlined })}
+        class=${classMap({
+          'button-group': true,
+          'has-outlined': this.hasOutlined,
+        })}
         role="${this.disableRole ? 'presentation' : 'group'}"
         aria-label=${this.label}
         aria-orientation=${this.orientation}

@@ -4,19 +4,20 @@ import { execSync } from 'child_process';
 import { deleteAsync } from 'del';
 import esbuild from 'esbuild';
 import { replace } from 'esbuild-plugin-replace';
-
 import { mkdir, readFile } from 'fs/promises';
 import getPort, { portNumbers } from 'get-port';
 import { globby } from 'globby';
-import { dirname, join, relative } from 'node:path';
+import { dirname, extname, join, posix, relative } from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 import ora from 'ora';
 import copy from 'recursive-copy';
-import { getCdnDir, getDistDir, getDocsDir, getRootDir, getSiteDir, runScript } from './utils.js';
+import { SimulateWebAwesomeApp } from '../docs/_utils/simulate-webawesome-app.js';
+import { generateDocs } from './docs.js';
+import { getCdnDir, getDistDir, getDocsDir, getRootDir, getSiteDir } from './utils.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const isDeveloping = process.argv.includes('--develop');
+
 const spinner = ora({ text: 'Web Awesome', color: 'cyan' }).start();
 const getPackageData = async () => JSON.parse(await readFile(join(getRootDir(), 'package.json'), 'utf-8'));
 const getVersion = async () => JSON.stringify((await getPackageData()).version.toString());
@@ -25,11 +26,16 @@ let buildContexts = {
   unbundledContext: {},
 };
 
+const debugPerf = process.env.DEBUG_PERFORMANCE === '1';
+
+const isDeveloping = process.argv.includes('--develop');
+
 /**
  * @typedef {Object} BuildOptions
  * @property {Array<string>} [watchedSrcDirectories]
  * @property {Array<string>} [watchedDocsDirectories]
- * @property {(eventName: "change" | "add" | "unlink", filePath: string) => unknown} [onWatchEvent]
+ * @property {(eventName: "change" | "add" | "unlink", filePath: string) => unknown} [beforeWatchEvent]
+ * @property {(eventName: "change" | "add" | "unlink", filePath: string) => unknown} [afterWatchEvent]
  */
 
 /**
@@ -51,17 +57,24 @@ export async function build(options = {}) {
     const start = Date.now();
 
     try {
-      await cleanup();
-      await generateManifest();
-      await generateReactWrappers();
-      await generateTypes();
-      await generateStyles();
+      const steps = [cleanup, generateManifest, generateReactWrappers, generateTypes, generateStyles];
+
+      for (const step of steps) {
+        if (debugPerf) {
+          const stepStart = Date.now();
+          await step();
+          const elapsedTime = (Date.now() - stepStart) / 1000 + 's';
+          spinner.succeed(`${step.name}: ${elapsedTime}`);
+        } else {
+          await step();
+        }
+      }
 
       // copy everything to unbundled before we generate bundles.
       await copy(getCdnDir(), getDistDir(), { overwrite: true });
 
       await generateBundle();
-      await generateDocs();
+      await generateDocs({ spinner });
 
       const time = (Date.now() - start) / 1000 + 's';
       spinner.succeed(`The build is complete ${chalk.gray(`(finished in ${time})`)}`);
@@ -108,6 +121,11 @@ export async function build(options = {}) {
    * Generates React wrappers for all components.
    */
   function generateReactWrappers() {
+    // Used by webawesome-app to make re-rendering not miserable with extra React file generation.
+    if (process.env.SKIP_SLOW_STEPS === 'true') {
+      return Promise.resolve();
+    }
+
     spinner.start('Generating React wrappers');
 
     try {
@@ -142,6 +160,11 @@ export async function build(options = {}) {
    * Runs TypeScript to generate types.
    */
   async function generateTypes() {
+    // Used by webawesome-app to make re-rendering not miserable with extra TS compilations.
+    if (process.env.SKIP_SLOW_STEPS === 'true') {
+      return Promise.resolve();
+    }
+
     spinner.start('Running the TypeScript compiler');
 
     const cwd = process.cwd();
@@ -186,11 +209,11 @@ export async function build(options = {}) {
         join(rootDir, 'src/webawesome.loader.ts'),
         join(rootDir, 'src/webawesome.ssr-loader.ts'),
         // Individual components
-        ...(await globby(join(rootDir, 'src/components/**/!(*.(style|test)).ts'))),
+        ...(await globby(posix.join(rootDir, 'src/components/**/!(*.(style|test)).ts'))),
         // Translations
-        ...(await globby(join(rootDir, 'src/translations/**/*.ts'))),
+        ...(await globby(posix.join(rootDir, 'src/translations/**/*.ts'))),
         // React wrappers
-        ...(await globby(join(rootDir, 'src/react/**/*.ts'))),
+        ...(await globby(posix.join(rootDir, 'src/react/**/*.ts'))),
       ],
       outdir: getCdnDir(),
       chunkNames: 'chunks/[name].[hash]',
@@ -258,49 +281,6 @@ export async function build(options = {}) {
     spinner.succeed();
   }
 
-  /**
-   * Generates the documentation site.
-   */
-  async function generateDocs() {
-    /**
-     * Used by the webawesome-app to skip doc generation since it will do its own.
-     */
-    if (process.env.SKIP_ELEVENTY === 'true') {
-      return;
-    }
-
-    spinner.start('Writing the docs');
-
-    const args = [];
-    if (isDeveloping) args.push('--develop');
-
-    let output;
-    try {
-      // 11ty
-      output = (await runScript(join(__dirname, 'docs.js'), args, { env: process.env }))
-        // Cleanup the output
-        .replace('[11ty]', '')
-        .replace(' seconds', 's')
-        .replace(/\(.*?\)/, '')
-        .toLowerCase()
-        .trim();
-
-      // Copy dist (production only)
-      if (!isDeveloping) {
-        await copy(getCdnDir(), join(getSiteDir(), 'dist'));
-      }
-
-      spinner.succeed(`Writing the docs ${chalk.gray(`(${output}`)})`);
-    } catch (error) {
-      console.error('\n\n' + chalk.red(error) + '\n');
-
-      spinner.fail(chalk.red(`Error while writing the docs.`));
-      if (!isDeveloping) {
-        process.exit(1);
-      }
-    }
-  }
-
   // Initial build
   await buildAll();
 
@@ -339,6 +319,46 @@ export async function build(options = {}) {
             '/webawesome/dist/': './dist-cdn/',
           },
         },
+        middleware: [
+          function simulateWebawesomeApp(req, res, next) {
+            // Accumulator for strings so we can pass them through nunjucks a second time similar to how the webawesome-app
+            // will be running nunjucks twice.
+            const finalString = [];
+            const encoding = 'utf-8';
+
+            if (!next) {
+              return;
+            }
+
+            if (!req.url) {
+              next();
+              return;
+            }
+
+            const extension = extname(req.url);
+            if (extension !== '' && extension !== '.html') {
+              // Assume its something like .svg / .png / .css etc. that we don't want to transform.
+              next();
+              return;
+            }
+
+            const _write = res.write;
+
+            res.write = function (chunk, encoding) {
+              // Buffer chunks into an array so that we do a single transform.
+              finalString.push(chunk.toString());
+            };
+
+            const _end = res.end;
+            res.end = function (...args) {
+              const transformedStr = SimulateWebAwesomeApp(finalString.join(''));
+              _write.call(res, transformedStr, encoding);
+              _end.call(res, ...args);
+            };
+
+            next();
+          },
+        ],
         callbacks: {
           ready: (_err, instance) => {
             // 404 errors
@@ -367,22 +387,25 @@ export async function build(options = {}) {
       },
     );
 
-    // TODO: Should probably listen for all of these instead of just "change"
-    const watchEvents = [
-      'change',
-      // "unlink",
-      // "add"
-    ];
+    const watchEvents = ['change', 'unlink', 'add'];
     // Rebuild and reload when source files change
     options.watchedSrcDirectories.forEach(dir => {
-      const watcher = bs.watch(join(dir, '**', '!(*.test).*'));
+      const watcher = bs.watch(join(dir, '**', '!(*.test).*'), { ignoreInitial: true });
 
       watchEvents.forEach(evt => {
         watcher.on(evt, handleWatchEvent(evt));
       });
       function handleWatchEvent(evt) {
         return async filename => {
-          spinner.info(`File modified ${chalk.gray(`(${relative(getRootDir(), filename)})`)}`);
+          const changedFile = relative(getRootDir(), filename);
+
+          if (evt === 'changed') {
+            spinner.info(`File modified ${chalk.gray(`(${changedFile})`)}`);
+          } else if (evt === 'unlink') {
+            spinner.info(`File deleted ${chalk.gray(`(${changedFile})`)}`);
+          } else if (evt === 'add') {
+            spinner.info(`File added ${chalk.gray(`(${changedFile})`)}`);
+          }
 
           try {
             const isTestFile = filename.includes('.test.ts');
@@ -395,10 +418,9 @@ export async function build(options = {}) {
               return;
             }
 
-            if (typeof options.onWatchEvent === 'function') {
-              await options.onWatchEvent(evt, filename);
+            if (typeof options.beforeWatchEvent === 'function') {
+              await options.beforeWatchEvent(evt, filename);
             }
-            await regenerateBundle();
 
             // Copy stylesheets when CSS files change
             if (isCssStylesheet) {
@@ -410,8 +432,16 @@ export async function build(options = {}) {
               await generateManifest();
             }
 
+            // copy everything to unbundled before we generate bundles.
+            await copy(getCdnDir(), getDistDir(), { overwrite: true });
+            await regenerateBundle();
+
             // This needs to be outside of "isComponent" check because SSR needs to run on CSS files too.
-            await generateDocs();
+            await generateDocs({ spinner });
+
+            if (typeof options.afterWatchEvent === 'function') {
+              await options.afterWatchEvent(evt, filename);
+            }
 
             reload();
           } catch (err) {
@@ -427,7 +457,7 @@ export async function build(options = {}) {
 
     // Rebuild the docs and reload when the docs change
     options.watchedDocsDirectories.forEach(dir => {
-      const watcher = bs.watch(join(dir, '**', '*.*'));
+      const watcher = bs.watch(join(dir, '**', '*.*'), { ignoreInitial: true });
 
       watchEvents.forEach(evt => {
         watcher.on(evt, handleWatchEvent(evt));
@@ -436,10 +466,14 @@ export async function build(options = {}) {
       function handleWatchEvent(evt) {
         return async filename => {
           spinner.info(`File modified ${chalk.gray(`(${relative(getRootDir(), filename)})`)}`);
-          if (typeof options.onWatchEvent === 'function') {
-            await options.onWatchEvent(evt, filename);
+          if (typeof options.beforeWatchEvent === 'function') {
+            await options.beforeWatchEvent(evt, filename);
           }
-          await generateDocs();
+          await generateDocs({ spinner });
+
+          if (typeof options.beforeWatchEvent === 'function') {
+            await options.afterWatchEvent(evt, filename);
+          }
           reload();
         };
       }

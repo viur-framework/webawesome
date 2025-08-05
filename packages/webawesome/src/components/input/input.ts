@@ -17,7 +17,7 @@ import styles from './input.css';
 
 /**
  * @summary Inputs collect data from the user.
- * @documentation https://backers.webawesome.com/docs/components/input
+ * @documentation https://webawesome.com/docs/components/input
  * @status stable
  * @since 2.0
  *
@@ -432,8 +432,9 @@ export default class WaInput extends WebAwesomeFormAssociatedElement {
       </div>
 
       <slot
-        name="hint"
+        id="hint"
         part="hint"
+        name="hint"
         class=${classMap({
           'has-slotted': hasHint,
         })}

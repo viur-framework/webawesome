@@ -15,7 +15,7 @@ import styles from './checkbox.css';
 
 /**
  * @summary Checkboxes allow the user to toggle an option on or off.
- * @documentation https://backers.webawesome.com/docs/components/checkbox
+ * @documentation https://webawesome.com/docs/components/checkbox
  * @status stable
  * @since 2.0
  *
@@ -234,13 +234,14 @@ export default class WaCheckbox extends WebAwesomeFormAssociatedElement {
       </label>
 
       <slot
+        id="hint"
+        part="hint"
         name="hint"
         aria-hidden=${hasHint ? 'false' : 'true'}
         class="${classMap({ 'has-slotted': hasHint })}"
-        id="hint"
-        part="hint"
-        >${this.hint}</slot
       >
+        ${this.hint}
+      </slot>
     `;
   }
 }

@@ -39,7 +39,7 @@ declare const EyeDropper: EyeDropperConstructor;
 
 /**
  * @summary Color pickers allow the user to select a color.
- * @documentation https://backers.webawesome.com/docs/components/color-picker
+ * @documentation https://webawesome.com/docs/components/color-picker
  * @status stable
  * @since 2.0
  *
@@ -1310,6 +1310,7 @@ export default class WaColorPicker extends WebAwesomeFormAssociatedElement {
         ></button>
 
         <slot
+          id="hint"
           name="hint"
           part="hint"
           class=${classMap({
