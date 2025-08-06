@@ -8,6 +8,22 @@ Web Awesome follows [Semantic Versioning](https://semver.org/). Breaking changes
 
 Components with the <wa-badge variant="warning">Experimental</wa-badge> badge should not be used in production. They are made available as release candidates for development and testing purposes. As such, changes to experimental components will not be subject to semantic versioning.
 
+## 3.0.0-beta.4
+
+### New Features {data-no-outline}
+
+- Added the `icon-position` attribute to `<wa-details>` [discuss:1099]
+- Added the `animating` custom state to `<wa-details>` [pr:1214]
+- Added `--wa-tooltip-border-color`, `--wa-tooltip-border-style`, and `--wa-tooltip-border-width` tokens [issue:1224]
+- Added the `without-arrow` attribute to `<wa-popover>` and `<wa-tooltip>` to hide arrows without artifacts
+- Added JSX types for use with React and others [pr:1256]
+
+### Bug Fixes and Improvements {data-no-outline}
+
+- Fixed a bug in `<wa-details>` that caused the content to overflow the container when animating [issue:1149]
+- Fixed a bug in `<wa-dialog>` and `<wa-drawer>` that prevented the header from showing when the label was missing [issue:1209]
+- Fixed a missing dependency required for React wrappers
+
 ## 3.0.0-beta.3
 
 ### New Features {data-no-outline}
@@ -175,7 +191,7 @@ Many of these changes and improvements were the direct result of feedback from u
 
 ### Bug fixes {data-no-outline}
 
-- Specifying inherited CSS properties on `<wa-tooltip>` now works as expected ([thanks Dennis!](https://github.com/shoelace-style/webawesome-alpha/discussions/203))
+- Specifying inherited CSS properties on `<wa-tooltip>` now works as expected
 - Fixed a bug in `<wa-select>` that made it hard to use with VueJS, Svelte, and many other frameworks
 - Fixed a bug in `<wa-select multiple>` that sometimes resulted in empty `<div>` elements being output
 - Fixed a bug where changing a `<wa-option>` label wouldn't update the display label in `<wa-select>`
@@ -395,4 +411,4 @@ Many of these changes and improvements were the direct result of feedback from u
 
 </details>
 
-Did we miss something? [Let us know!](https://github.com/shoelace-style/webawesome-alpha/discussions)
+Did we miss something? [Let us know!](https://github.com/shoelace-style/webawesome/discussions)
