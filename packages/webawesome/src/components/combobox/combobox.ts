@@ -106,8 +106,8 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
 
   private readonly hasSlotController = new HasSlotController(this, 'hint', 'label');
   private readonly localize = new LocalizeController(this);
-  private typeToSelectString = '';
-  private typeToSelectTimeout: number;
+  //private typeToSelectString = '';
+  //private typeToSelectTimeout: number;
 
   @query('.select') popup: WaPopup;
   @query('.combobox') combobox: HTMLSlotElement;
@@ -457,7 +457,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
 
     // All other "printable" keys trigger type to select
     if (event.key?.length === 1 || event.key === 'Backspace') {
-      const allOptions = this.getAllOptions();
+      //const allOptions = this.getAllOptions();
 
       // Don't block important key combos like CMD+R
       if (event.metaKey || event.ctrlKey || event.altKey) {
@@ -472,7 +472,8 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
 
         this.show();
       }
-      this.fetchSuggestions(this.displayInput.value);
+      //console.log(event)
+      //this.fetchSuggestions(this.displayInput.value);
       //event.stopPropagation();
       //event.preventDefault();
 
@@ -681,7 +682,6 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
   // Sets the selected option(s)
   private setSelectedOptions(option: WaOption | WaOption[]) {
     const allOptions = this.getAllOptions();
-    console.log(allOptions)
     const newSelectedOptions = Array.isArray(option) ? option : [option];
 
     // Clear existing selection
@@ -928,7 +928,6 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
     }
 
     this.suggestions = this.highlightSearchTextInSuggestions(items, text);
-    console.log(this.suggestions)
     this.loadingSource = false;
   }
   highlightSearchTextInSuggestions(items: Suggestion[], searchText: string) {
@@ -948,6 +947,9 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
     );
   }
 
+  inputHandler(event:InputEvent){
+    this.fetchSuggestions(this.displayInput.value);
+  }
 
   render() {
     const hasLabelSlot = this.hasUpdated ? this.hasSlotController.test('label') : this.withLabel;
@@ -1026,6 +1028,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
                 role="combobox"
                 tabindex="0"
                 @focus=${this.handleFocus}
+                @input="${this.inputHandler}"
               />
 
               <!-- Tags need to wait for first hydration before populating otherwise it will create a hydration mismatch. -->
@@ -1084,6 +1087,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
                 : html`${this.suggestions.length === 0
                 ? html`
                   <wa-option disabled>${this.emptyMessage}</wa-option>`
+                  //@ts-ignore
                 : this.suggestions.map((item, index) => html`
                   <wa-option value=${item.value}
                             part="option"
@@ -1096,6 +1100,8 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
           </wa-popup>
         </div>
               ${this.displayLabel}
+          ${this.value}
+          ${this._value}
         <slot
           id="hint"
           name="hint"

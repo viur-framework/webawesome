@@ -13,7 +13,6 @@ category: Form Controls
 <script>
   const combobox = document.querySelector('.combobox-remote');
   const url = 'https://60db3b45801dcb0017290fdb.mockapi.io/users?name={q}';
-
   combobox.source = search => {
     return fetch(url.replace('{q}', search))
       .then(res => res.json())
@@ -40,11 +39,24 @@ This component works with standard `<form>` elements. Please refer to the sectio
 Use the `label` attribute to give the select an accessible label. For labels that contain HTML, use the `label` slot instead.
 
 ```html {.example}
-<wa-combobox label="Select one">
-  <wa-option value="option-1">Option 1</wa-option>
-  <wa-option value="option-2">Option 2</wa-option>
-  <wa-option value="option-3">Option 3</wa-option>
+<wa-combobox label="Select one"  class="combobox-remote">
 </wa-combobox>
+<script>
+  const combobox = document.querySelector('.combobox-remote');
+  const url = 'https://60db3b45801dcb0017290fdb.mockapi.io/users?name={q}';
+  combobox.source = search => {
+    return fetch(url.replace('{q}', search))
+      .then(res => res.json())
+      .then(data =>
+        data.map(d => {
+          return {
+            text: d.name,
+            value: d.id
+          };
+        })
+      );
+    };
+</script>
 ```
 
 ### Hint
@@ -52,11 +64,27 @@ Use the `label` attribute to give the select an accessible label. For labels tha
 Add descriptive hint to a select with the `hint` attribute. For hints that contain HTML, use the `hint` slot instead.
 
 ```html {.example}
-<wa-combobox label="Experience" hint="Please tell us your skill level.">
+<wa-combobox label="Experience" hint="Please tell us your skill level."  class="combobox-remote">
   <wa-option value="1">Novice</wa-option>
   <wa-option value="2">Intermediate</wa-option>
   <wa-option value="3">Advanced</wa-option>
 </wa-combobox>
+<script>
+  const combobox = document.querySelector('.combobox-remote');
+  const url = 'https://60db3b45801dcb0017290fdb.mockapi.io/users?name={q}';
+  combobox.source = search => {
+    return fetch(url.replace('{q}', search))
+      .then(res => res.json())
+      .then(data =>
+        data.map(d => {
+          return {
+            text: d.name,
+            value: d.id
+          };
+        })
+      );
+    };
+</script>
 ```
 
 ### Placeholders
@@ -64,11 +92,27 @@ Add descriptive hint to a select with the `hint` attribute. For hints that conta
 Use the `placeholder` attribute to add a placeholder.
 
 ```html {.example}
-<wa-combobox placeholder="Select one">
+<wa-combobox placeholder="Select one" class="combobox-remote">
   <wa-option value="option-1">Option 1</wa-option>
   <wa-option value="option-2">Option 2</wa-option>
   <wa-option value="option-3">Option 3</wa-option>
 </wa-combobox>
+<script>
+  const combobox = document.querySelector('.combobox-remote');
+  const url = 'https://60db3b45801dcb0017290fdb.mockapi.io/users?name={q}';
+  combobox.source = search => {
+    return fetch(url.replace('{q}', search))
+      .then(res => res.json())
+      .then(data =>
+        data.map(d => {
+          return {
+            text: d.name,
+            value: d.id
+          };
+        })
+      );
+    };
+</script>
 ```
 
 ### Clearable
@@ -76,11 +120,27 @@ Use the `placeholder` attribute to add a placeholder.
 Use the `with-clear` attribute to make the control clearable. The clear button only appears when an option is selected.
 
 ```html {.example}
-<wa-combobox with-clear value="option-1">
+<wa-combobox with-clear value="option-1" class="combobox-remote">
   <wa-option value="option-1">Option 1</wa-option>
   <wa-option value="option-2">Option 2</wa-option>
   <wa-option value="option-3">Option 3</wa-option>
 </wa-combobox>
+<script>
+  const combobox = document.querySelector('.combobox-remote');
+  const url = 'https://60db3b45801dcb0017290fdb.mockapi.io/users?name={q}';
+  combobox.source = search => {
+    return fetch(url.replace('{q}', search))
+      .then(res => res.json())
+      .then(data =>
+        data.map(d => {
+          return {
+            text: d.name,
+            value: d.id
+          };
+        })
+      );
+    };
+</script>
 ```
 
 ### Appearance
@@ -88,11 +148,27 @@ Use the `with-clear` attribute to make the control clearable. The clear button o
 Use the `appearance` attribute to change the select's visual appearance.
 
 ```html {.example}
-<wa-combobox appearance="filled">
+<wa-combobox appearance="filled" class="combobox-remote">
   <wa-option value="option-1">Option 1</wa-option>
   <wa-option value="option-2">Option 2</wa-option>
   <wa-option value="option-3">Option 3</wa-option>
 </wa-combobox>
+<script>
+  const combobox = document.querySelector('.combobox-remote');
+  const url = 'https://60db3b45801dcb0017290fdb.mockapi.io/users?name={q}';
+  combobox.source = search => {
+    return fetch(url.replace('{q}', search))
+      .then(res => res.json())
+      .then(data =>
+        data.map(d => {
+          return {
+            text: d.name,
+            value: d.id
+          };
+        })
+      );
+    };
+</script>
 ```
 
 ### Pill
@@ -100,11 +176,27 @@ Use the `appearance` attribute to change the select's visual appearance.
 Use the `pill` attribute to give selects rounded edges.
 
 ```html {.example}
-<wa-combobox pill>
+<wa-combobox pill class="combobox-remote">
   <wa-option value="option-1">Option 1</wa-option>
   <wa-option value="option-2">Option 2</wa-option>
   <wa-option value="option-3">Option 3</wa-option>
 </wa-combobox>
+<script>
+  const combobox = document.querySelector('.combobox-remote');
+  const url = 'https://60db3b45801dcb0017290fdb.mockapi.io/users?name={q}';
+  combobox.source = search => {
+    return fetch(url.replace('{q}', search))
+      .then(res => res.json())
+      .then(data =>
+        data.map(d => {
+          return {
+            text: d.name,
+            value: d.id
+          };
+        })
+      );
+    };
+</script>
 ```
 
 ### Disabled
@@ -112,11 +204,27 @@ Use the `pill` attribute to give selects rounded edges.
 Use the `disabled` attribute to disable a select.
 
 ```html {.example}
-<wa-combobox placeholder="Disabled" disabled>
+<wa-combobox placeholder="Disabled" disabled class="combobox-remote">
   <wa-option value="option-1">Option 1</wa-option>
   <wa-option value="option-2">Option 2</wa-option>
   <wa-option value="option-3">Option 3</wa-option>
 </wa-combobox>
+<script>
+  const combobox = document.querySelector('.combobox-remote');
+  const url = 'https://60db3b45801dcb0017290fdb.mockapi.io/users?name={q}';
+  combobox.source = search => {
+    return fetch(url.replace('{q}', search))
+      .then(res => res.json())
+      .then(data =>
+        data.map(d => {
+          return {
+            text: d.name,
+            value: d.id
+          };
+        })
+      );
+    };
+</script>
 ```
 
 ### Multiple
@@ -124,7 +232,7 @@ Use the `disabled` attribute to disable a select.
 To allow multiple options to be selected, use the `multiple` attribute. It's a good practice to use `with-clear` when this option is enabled. You can select multiple options by adding the `selected` attribute to individual options.
 
 ```html {.example}
-<wa-combobox label="Select a Few" multiple with-clear>
+<wa-combobox label="Select a Few" multiple with-clear class="combobox-remote">
   <wa-option value="option-1" selected>Option 1</wa-option>
   <wa-option value="option-2" selected>Option 2</wa-option>
   <wa-option value="option-3" selected>Option 3</wa-option>
@@ -132,6 +240,22 @@ To allow multiple options to be selected, use the `multiple` attribute. It's a g
   <wa-option value="option-5">Option 5</wa-option>
   <wa-option value="option-6">Option 6</wa-option>
 </wa-combobox>
+<script>
+  const combobox = document.querySelector('.combobox-remote');
+  const url = 'https://60db3b45801dcb0017290fdb.mockapi.io/users?name={q}';
+  combobox.source = search => {
+    return fetch(url.replace('{q}', search))
+      .then(res => res.json())
+      .then(data =>
+        data.map(d => {
+          return {
+            text: d.name,
+            value: d.id
+          };
+        })
+      );
+    };
+</script>
 ```
 
 :::info
@@ -143,23 +267,55 @@ Selecting multiple options may result in wrapping, causing the control to expand
 Use the `selected` attribute on individual options to set the initial selection, similar to native HTML.
 
 ```html {.example}
-<wa-combobox>
+<wa-combobox class="combobox-remote">
   <wa-option value="option-1" selected>Option 1</wa-option>
   <wa-option value="option-2">Option 2</wa-option>
   <wa-option value="option-3">Option 3</wa-option>
   <wa-option value="option-4">Option 4</wa-option>
 </wa-combobox>
+<script>
+  const combobox = document.querySelector('.combobox-remote');
+  const url = 'https://60db3b45801dcb0017290fdb.mockapi.io/users?name={q}';
+  combobox.source = search => {
+    return fetch(url.replace('{q}', search))
+      .then(res => res.json())
+      .then(data =>
+        data.map(d => {
+          return {
+            text: d.name,
+            value: d.id
+          };
+        })
+      );
+    };
+</script>
 ```
 
 For multiple selections, apply it to all selected options.
 
 ```html {.example}
-<wa-combobox multiple with-clear>
+<wa-combobox multiple with-clear class="combobox-remote">
   <wa-option value="option-1" selected>Option 1</wa-option>
   <wa-option value="option-2" selected>Option 2</wa-option>
   <wa-option value="option-3">Option 3</wa-option>
   <wa-option value="option-4">Option 4</wa-option>
 </wa-combobox>
+<script>
+  const combobox = document.querySelector('.combobox-remote');
+  const url = 'https://60db3b45801dcb0017290fdb.mockapi.io/users?name={q}';
+  combobox.source = search => {
+    return fetch(url.replace('{q}', search))
+      .then(res => res.json())
+      .then(data =>
+        data.map(d => {
+          return {
+            text: d.name,
+            value: d.id
+          };
+        })
+      );
+    };
+</script>
 ```
 
 :::info
@@ -182,6 +338,7 @@ Use `<wa-divider>` to group listbox items visually. You can also use `<small>` t
   <wa-option value="option-5">Option 5</wa-option>
   <wa-option value="option-6">Option 6</wa-option>
 </wa-combobox>
+
 ```
 
 ### Sizes
@@ -412,6 +569,27 @@ Here's a comprehensive example showing different lazy loading scenarios:
   container.addEventListener('click', addFooOption);
   container.addEventListener('submit', handleLazySubmit);
 </script>
+
+
+<script>
+  const comboboxes = document.querySelectorAll('.combobox-remote');
+  const url = 'https://60db3b45801dcb0017290fdb.mockapi.io/users?name={q}';
+  comboboxes.forEach((v)=>{
+      v.source = search => {
+    return fetch(url.replace('{q}', search))
+      .then(res => res.json())
+      .then(data =>
+        data.map(d => {
+          return {
+            text: d.name,
+            value: d.id
+          };
+        })
+      );
+    };
+  })
+</script>
+
 ```
 
 :::info
