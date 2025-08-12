@@ -227,41 +227,6 @@ Use the `disabled` attribute to disable a select.
 </script>
 ```
 
-### Multiple
-
-To allow multiple options to be selected, use the `multiple` attribute. It's a good practice to use `with-clear` when this option is enabled. You can select multiple options by adding the `selected` attribute to individual options.
-
-```html {.example}
-<wa-combobox label="Select a Few" multiple with-clear class="combobox-remote">
-  <wa-option value="option-1" selected>Option 1</wa-option>
-  <wa-option value="option-2" selected>Option 2</wa-option>
-  <wa-option value="option-3" selected>Option 3</wa-option>
-  <wa-option value="option-4">Option 4</wa-option>
-  <wa-option value="option-5">Option 5</wa-option>
-  <wa-option value="option-6">Option 6</wa-option>
-</wa-combobox>
-<script>
-  const combobox = document.querySelector('.combobox-remote');
-  const url = 'https://60db3b45801dcb0017290fdb.mockapi.io/users?name={q}';
-  combobox.source = search => {
-    return fetch(url.replace('{q}', search))
-      .then(res => res.json())
-      .then(data =>
-        data.map(d => {
-          return {
-            text: d.name,
-            value: d.id
-          };
-        })
-      );
-    };
-</script>
-```
-
-:::info
-Selecting multiple options may result in wrapping, causing the control to expand vertically. You can use the `max-options-visible` attribute to control the maximum number of selected options to show at once.
-:::
-
 ### Setting Initial Values
 
 Use the `selected` attribute on individual options to set the initial selection, similar to native HTML.
@@ -291,55 +256,11 @@ Use the `selected` attribute on individual options to set the initial selection,
 </script>
 ```
 
-For multiple selections, apply it to all selected options.
-
-```html {.example}
-<wa-combobox multiple with-clear class="combobox-remote">
-  <wa-option value="option-1" selected>Option 1</wa-option>
-  <wa-option value="option-2" selected>Option 2</wa-option>
-  <wa-option value="option-3">Option 3</wa-option>
-  <wa-option value="option-4">Option 4</wa-option>
-</wa-combobox>
-<script>
-  const combobox = document.querySelector('.combobox-remote');
-  const url = 'https://60db3b45801dcb0017290fdb.mockapi.io/users?name={q}';
-  combobox.source = search => {
-    return fetch(url.replace('{q}', search))
-      .then(res => res.json())
-      .then(data =>
-        data.map(d => {
-          return {
-            text: d.name,
-            value: d.id
-          };
-        })
-      );
-    };
-</script>
-```
 
 :::info
 Framework users can bind directly to the `value` property for reactive data binding and form state management.
 :::
 
-### Grouping Options
-
-Use `<wa-divider>` to group listbox items visually. You can also use `<small>` to provide labels, but they won't be announced by most assistive devices.
-
-```html {.example}
-<wa-combobox>
-  <small>Section 1</small>
-  <wa-option value="option-1">Option 1</wa-option>
-  <wa-option value="option-2">Option 2</wa-option>
-  <wa-option value="option-3">Option 3</wa-option>
-  <wa-divider></wa-divider>
-  <small>Section 2</small>
-  <wa-option value="option-4">Option 4</wa-option>
-  <wa-option value="option-5">Option 5</wa-option>
-  <wa-option value="option-6">Option 6</wa-option>
-</wa-combobox>
-
-```
 
 ### Sizes
 
@@ -411,165 +332,9 @@ Use the `start` and `end` slots to add presentational elements like `<wa-icon>` 
 </wa-combobox>
 ```
 
-### Custom Tags
 
-When multiple options can be selected, you can provide custom tags by passing a function to the `getTag` property. Your function can return a string of HTML, a [Lit Template](https://lit.dev/docs/templates/overview/), or an [`HTMLElement`](https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement). The `getTag()` function will be called for each option. The first argument is an `<wa-option>` element and the second argument is the tag's index (its position in the tag list).
-
-Remember that custom tags are rendered in a shadow root. To style them, you can use the `style` attribute in your template or you can add your own [parts](/docs/customizing/#css-parts) and target them with the [`::part()`](https://developer.mozilla.org/en-US/docs/Web/CSS/::part) selector.
 
 ```html {.example}
-<wa-combobox placeholder="Select one" multiple with-clear class="custom-tag">
-  <wa-option value="email" selected>
-    <wa-icon slot="start" name="envelope" variant="solid"></wa-icon>
-    Email
-  </wa-option>
-  <wa-option value="phone" selected>
-    <wa-icon slot="start" name="phone" variant="solid"></wa-icon>
-    Phone
-  </wa-option>
-  <wa-option value="chat">
-    <wa-icon slot="start" name="comment" variant="solid"></wa-icon>
-    Chat
-  </wa-option>
-</wa-combobox>
-
-<script type="module">
-  await customElements.whenDefined('wa-select');
-  const select = document.querySelector('.custom-tag');
-  await select.updateComplete;
-
-  select.getTag = (option, index) => {
-    // Use the same icon used in wa-option
-    const name = option.querySelector('wa-icon[slot="start"]').name;
-
-    // You can return a string, a Lit Template, or an HTMLElement here
-    return `
-      <wa-tag with-remove>
-        <wa-icon name="${name}" style="padding-inline-end: .5rem;"></wa-icon>
-        ${option.label}
-      </wa-tag>
-    `;
-  };
-</script>
-```
-
-:::warning
-Be sure you trust the content you are outputting! Passing unsanitized user input to `getTag()` can result in XSS vulnerabilities.
-:::
-
-### Lazy loading options
-
-Lazy loading options works similarly to native `<select>` elements. The select component handles various scenarios intelligently:
-
-#### Basic lazy loading scenarios:
-
-- **Empty select with value**: If a `<wa-select>` is created without any options but given a `value` attribute, its value will be `""` initially. When options are added later, if any option has a value matching the select's value attribute, the select's value will update to match.
-
-- **Multiple select with partial options**: If a `<wa-select multiple>` has an initial value with multiple options, but only some options are present in the DOM, it will respect only the available options. When additional selected options are loaded later (and the user hasn't changed the selection), those options will be automatically added to the selection.
-
-Here's a comprehensive example showing different lazy loading scenarios:
-
-```html {.example}
-<form id="lazy-options-example">
-  <div>
-    <wa-combobox name="select-1" value="foo" label="Single select (with existing options)">
-      <wa-option value="bar">Bar</wa-option>
-      <wa-option value="baz">Baz</wa-option>
-    </wa-combobox>
-    <br />
-    <wa-button type="button">Add "foo" option</wa-button>
-  </div>
-
-  <br />
-
-  <div>
-    <wa-combobox name="select-2" value="foo" label="Single select (with no existing options)"> </wa-combobox>
-    <br />
-    <wa-button type="button">Add "foo" option</wa-button>
-  </div>
-
-  <br />
-
-  <div>
-    <wa-combobox name="select-3" multiple label="Multiple Select (with existing selected options)">
-      <wa-option value="bar" selected>Bar</wa-option>
-      <wa-option value="baz" selected>Baz</wa-option>
-    </wa-combobox>
-    <br />
-    <wa-button type="button">Add "foo" option (selected)</wa-button>
-  </div>
-
-  <br />
-
-  <div>
-    <wa-combobox name="select-4" value="foo" multiple label="Multiple Select (with no existing options)"> </wa-combobox>
-    <br />
-    <wa-button type="button">Add "foo" option</wa-button>
-  </div>
-
-  <br /><br />
-
-  <div style="display: flex; gap: 16px;">
-    <wa-button type="reset">Reset</wa-button>
-    <wa-button type="submit" variant="brand">Show FormData</wa-button>
-  </div>
-
-  <br />
-
-  <pre hidden><code id="lazy-options-example-form-data"></code></pre>
-
-  <br />
-</form>
-
-<script type="module">
-  function addFooOption(e) {
-    const addFooButton = e.target.closest("wa-button[type='button']");
-    if (!addFooButton) {
-      return;
-    }
-    const select = addFooButton.parentElement.querySelector('wa-select');
-
-    if (select.querySelector("wa-option[value='foo']")) {
-      // Foo already exists. no-op.
-      return;
-    }
-
-    const option = document.createElement('wa-option');
-    option.setAttribute('value', 'foo');
-    option.selected = true
-    option.innerText = 'Foo';
-
-    // For the multiple select with existing selected options, make the new option selected
-    if (select.getAttribute('name') === 'select-3') {
-      option.selected = true;
-    }
-
-    select.append(option);
-  }
-
-  function handleLazySubmit(event) {
-    event.preventDefault();
-
-    const formData = new FormData(event.target);
-    const codeElement = document.querySelector('#lazy-options-example-form-data');
-
-    const obj = {};
-    for (const key of formData.keys()) {
-      const val = formData.getAll(key).length > 1 ? formData.getAll(key) : formData.get(key);
-      obj[key] = val;
-    }
-
-    codeElement.textContent = JSON.stringify(obj, null, 2);
-
-    const preElement = codeElement.parentElement;
-    preElement.removeAttribute('hidden');
-  }
-
-  const container = document.querySelector('#lazy-options-example');
-  container.addEventListener('click', addFooOption);
-  container.addEventListener('submit', handleLazySubmit);
-</script>
-
 
 <script>
   const comboboxes = document.querySelectorAll('.combobox-remote');

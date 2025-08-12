@@ -106,6 +106,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
 
   private readonly hasSlotController = new HasSlotController(this, 'hint', 'label');
   private readonly localize = new LocalizeController(this);
+  multiple = false;
   //private typeToSelectString = '';
   //private typeToSelectTimeout: number;
 
@@ -216,7 +217,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
   @property() placeholder = '';
 
   /** Allows more than one option to be selected. */
-  @property({ type: Boolean, reflect: true }) multiple = false;
+  //@property({ type: Boolean, reflect: true }) multiple = false;
 
   /**
    * The maximum number of selected options to show when `multiple` is true. After the maximum, "+n" will be shown to
@@ -354,7 +355,8 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
 
   private handleFocus() {
     this.fetchSuggestions("");
-    this.displayInput.setSelectionRange(0, 0);
+
+    //this.displayInput.setSelectionRange(0, 0);
   }
 
   private handleDocumentFocusIn = (event: KeyboardEvent) => {
@@ -421,7 +423,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
     }
 
     // Navigate options
-    if (['ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {
+    if (['ArrowUp', 'ArrowDown', 'Home', 'End', 'Tab'].includes(event.key)) {
       const allOptions = this.getAllOptions();
       const currentIndex = allOptions.indexOf(this.currentOption);
       let newIndex = Math.max(0, currentIndex);
@@ -450,6 +452,9 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
         newIndex = 0;
       } else if (event.key === 'End') {
         newIndex = allOptions.length - 1;
+      } else if (event.key === 'Tab'){
+        newIndex = currentIndex + 1;
+        if (newIndex > allOptions.length - 1) newIndex = 0;
       }
 
       this.setCurrentOption(allOptions[newIndex]);
@@ -503,6 +508,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
     if (this && !path.includes(this)) {
       this.hide();
     }
+    this.displayInput.focus();
   };
 
   private handleLabelClick() {
@@ -518,8 +524,8 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
       return;
     }
 
-    //event.preventDefault();
-    //this.displayInput.focus({ preventScroll: true });
+    event.preventDefault();
+    this.displayInput.focus({ preventScroll: true });
     this.open = !this.open;
   }
 
@@ -743,7 +749,11 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
       // Filter out values that are in the DOM
       this._value = this._value?.filter(value => !this.optionValues?.has(value)) ?? null;
       this._value?.unshift(...selectedValues);
+      console.log(this.value)
+      //this.value = this._value;
+      console.log(oldValue)
       this.requestUpdate('value', oldValue);
+      console.log(this.value)
     }
 
     // Update the value and display label
@@ -946,7 +956,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
       }
     );
   }
-
+  //@ts-ignore
   inputHandler(event:InputEvent){
     this.fetchSuggestions(this.displayInput.value);
   }
@@ -959,7 +969,6 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
     const hasClearIcon =
       (this.hasUpdated || isServer) && this.withClear && !this.disabled && this.value && this.value.length > 0;
     const isPlaceholderVisible = Boolean(this.placeholder && (!this.value || this.value.length === 0));
-
     return html`
       <div
         part="form-control"
@@ -1099,9 +1108,10 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
             </div>
           </wa-popup>
         </div>
-              ${this.displayLabel}
+          ${this.withClear }
           ${this.value}
-          ${this._value}
+          
+          
         <slot
           id="hint"
           name="hint"
