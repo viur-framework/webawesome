@@ -37,8 +37,8 @@ export interface SuggestionSource {
 }
 
 /**
- * @summary Selects allow you to choose items from a menu of predefined options.
- * @documentation https://webawesome.com/docs/components/select
+ * @summary A combobox lets you select an item from a list of dynamically retrieved options. You can also type in the field to quickly filter the list.
+ * @documentation https://webawesome.com/docs/components/combobox
  * @status stable
  * @since 2.0
  *
@@ -60,15 +60,15 @@ export interface SuggestionSource {
  * @event focus - Emitted when the control gains focus.
  * @event blur - Emitted when the control loses focus.
  * @event wa-clear - Emitted when the control's value is cleared.
- * @event wa-show - Emitted when the select's menu opens.
- * @event wa-after-show - Emitted after the select's menu opens and all animations are complete.
- * @event wa-hide - Emitted when the select's menu closes.
- * @event wa-after-hide - Emitted after the select's menu closes and all animations are complete.
+ * @event wa-show - Emitted when the combobox's menu opens.
+ * @event wa-after-show - Emitted after the combobox's menu opens and all animations are complete.
+ * @event wa-hide - Emitted when the combobox's menu closes.
+ * @event wa-after-hide - Emitted after the combobox's menu closes and all animations are complete.
  * @event wa-invalid - Emitted when the form control has been checked for validity and its constraints aren't satisfied.
  *
  * @csspart form-control - The form control that wraps the label, input, and hint.
  * @csspart form-control-label - The label's wrapper.
- * @csspart form-control-input - The select's wrapper.
+ * @csspart form-control-input - The combobox's wrapper.
  * @csspart hint - The hint's wrapper.
  * @csspart combobox - The container the wraps the start, end, value, clear icon, and expand button.
  * @csspart start - The container that wraps the `start` slot.
@@ -85,7 +85,7 @@ export interface SuggestionSource {
  *
  * @cssproperty [--tag-max-size=10ch] - When using `multiple`, the max size of tags before their content is truncated.
  *
- * @cssstate blank - The select is empty.
+ * @cssstate blank - The combobox is empty.
  */
 @customElement('wa-combobox')
 export default class WaCombobox extends WebAwesomeFormAssociatedElement {
@@ -354,7 +354,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
   }
 
   private handleFocus() {
-    this.fetchSuggestions("");
+    //this.fetchSuggestions("");
 
     //this.displayInput.setSelectionRange(0, 0);
   }
@@ -516,6 +516,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
   }
 
   private handleComboboxMouseDown(event: MouseEvent) {
+    this.fetchSuggestions("");
     const path = event.composedPath();
     const isButton = path.some(el => el instanceof Element && el.tagName.toLowerCase() === 'wa-button');
 
@@ -609,7 +610,6 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
     if (!Array.isArray(value)) {
       value = [value];
     }
-
     // Select only the options that match the new value
     const selectedOptions = allOptions.filter(el => value.includes(el.value));
     this.setSelectedOptions(selectedOptions);
@@ -657,7 +657,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
     if (!this.shadowRoot?.querySelectorAll) {
       return [];
     }
-    return [...this.shadowRoot?.querySelectorAll<WaOption>('wa-option')];
+    return [...this.shadowRoot?.querySelectorAll<WaOption>('wa-option'), ...this?.querySelectorAll<WaOption>('wa-option')];
   }
 
   // Gets the first `<wa-option>` element
@@ -722,7 +722,6 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
   // current value, and the display value. The option component uses it internally to update labels as they change.
   public selectionChanged() {
     const options = this.getAllOptions();
-
     // Update selected options cache
     this.selectedOptions = options.filter(el => {
       if (!this.hasInteracted && !this.valueHasChanged) {
@@ -749,11 +748,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
       // Filter out values that are in the DOM
       this._value = this._value?.filter(value => !this.optionValues?.has(value)) ?? null;
       this._value?.unshift(...selectedValues);
-      console.log(this.value)
-      //this.value = this._value;
-      console.log(oldValue)
       this.requestUpdate('value', oldValue);
-      console.log(this.value)
     }
 
     // Update the value and display label
@@ -939,6 +934,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
 
     this.suggestions = this.highlightSearchTextInSuggestions(items, text);
     this.loadingSource = false;
+    this.handleDefaultSlotChange()
   }
   highlightSearchTextInSuggestions(items: Suggestion[], searchText: string) {
     const regex = new RegExp(searchText, 'gi');
@@ -1105,13 +1101,10 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
                     ${unsafeHTML(item.text)}
               </wa-option>`)}
               `}
+              <!--<slot></slot>-->
             </div>
           </wa-popup>
         </div>
-          ${this.withClear }
-          ${this.value}
-          
-          
         <slot
           id="hint"
           name="hint"

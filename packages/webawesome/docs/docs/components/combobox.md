@@ -36,7 +36,7 @@ This component works with standard `<form>` elements. Please refer to the sectio
 
 ### Labels
 
-Use the `label` attribute to give the select an accessible label. For labels that contain HTML, use the `label` slot instead.
+Use the `label` attribute to give the combobox an accessible label. For labels that contain HTML, use the `label` slot instead.
 
 ```html {.example}
 <wa-combobox label="Select one"  class="combobox-remote">
@@ -61,7 +61,7 @@ Use the `label` attribute to give the select an accessible label. For labels tha
 
 ### Hint
 
-Add descriptive hint to a select with the `hint` attribute. For hints that contain HTML, use the `hint` slot instead.
+Add descriptive hint to a combobox with the `hint` attribute. For hints that contain HTML, use the `hint` slot instead.
 
 ```html {.example}
 <wa-combobox label="Experience" hint="Please tell us your skill level."  class="combobox-remote">
@@ -120,7 +120,7 @@ Use the `placeholder` attribute to add a placeholder.
 Use the `with-clear` attribute to make the control clearable. The clear button only appears when an option is selected.
 
 ```html {.example}
-<wa-combobox with-clear value="option-1" class="combobox-remote">
+<wa-combobox with-clear value="option-1" class="combobox-remote" placement="top">
   <wa-option value="option-1">Option 1</wa-option>
   <wa-option value="option-2">Option 2</wa-option>
   <wa-option value="option-3">Option 3</wa-option>
@@ -145,7 +145,7 @@ Use the `with-clear` attribute to make the control clearable. The clear button o
 
 ### Appearance
 
-Use the `appearance` attribute to change the select's visual appearance.
+Use the `appearance` attribute to change the combobox's visual appearance.
 
 ```html {.example}
 <wa-combobox appearance="filled" class="combobox-remote">
@@ -173,7 +173,7 @@ Use the `appearance` attribute to change the select's visual appearance.
 
 ### Pill
 
-Use the `pill` attribute to give selects rounded edges.
+Use the `pill` attribute to give comboboxes rounded edges.
 
 ```html {.example}
 <wa-combobox pill class="combobox-remote">
@@ -201,7 +201,7 @@ Use the `pill` attribute to give selects rounded edges.
 
 ### Disabled
 
-Use the `disabled` attribute to disable a select.
+Use the `disabled` attribute to disable a combobox.
 
 ```html {.example}
 <wa-combobox placeholder="Disabled" disabled class="combobox-remote">
@@ -264,7 +264,7 @@ Framework users can bind directly to the `value` property for reactive data bind
 
 ### Sizes
 
-Use the `size` attribute to change a select's size.
+Use the `size` attribute to change a combobox's size.
 
 ```html {.example}
 <wa-combobox placeholder="Small" size="small">
@@ -292,7 +292,7 @@ Use the `size` attribute to change a select's size.
 
 ### Placement
 
-The preferred placement of the select's listbox can be set with the `placement` attribute. Note that the actual position may vary to ensure the panel remains in the viewport. Valid placements are `top` and `bottom`.
+The preferred placement of the combobox's listbox can be set with the `placement` attribute. Note that the actual position may vary to ensure the panel remains in the viewport. Valid placements are `top` and `bottom`.
 
 ```html {.example}
 <wa-combobox placement="top">
@@ -358,5 +358,5 @@ Use the `start` and `end` slots to add presentational elements like `<wa-icon>` 
 ```
 
 :::info
-The key principle is that the select component prioritizes user interactions and explicit selections over programmatic changes, ensuring a predictable user experience even with dynamically loaded content.
+The key principle is that the combobox component prioritizes user interactions and explicit selections over programmatic changes, ensuring a predictable user experience even with dynamically loaded content.
 :::
