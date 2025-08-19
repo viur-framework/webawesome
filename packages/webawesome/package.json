@@ -65,7 +65,8 @@
     "check-updates": "npx npm-check-updates --interactive --format group",
     "print-version": "echo $npm_package_version",
     "tag-version": "git tag -a \"v$(npm run print-version | tail -n1)\" -m \"tag v$(npm run print-version | tail -n1)\"",
-    "postversion": "npm run tag-version"
+    "postversion": "npm run tag-version",
+    "icons": "node scripts/icons.js"
   },
   "engines": {
     "node": ">=14.17.0"
