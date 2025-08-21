@@ -43,13 +43,22 @@ function haveTar() {
 }
 
 async function main() {
-  if (!fs.existsSync(ICONS_JSON)) {
-    console.error(`icons.json not found: ${ICONS_JSON}`);
+  let iconsJsonPath = ICONS_JSON;
+  let assetsDir = ASSETS_DIR;
+  if (process.argv[2]) {
+    iconsJsonPath = path.join(path.resolve(process.argv[2]), "icons.json");
+  }
+  if (process.argv[3]) {
+    assetsDir = path.resolve(process.argv[3]);
+  }
+
+  if (!fs.existsSync(iconsJsonPath)) {
+    console.error(`icons.json not found: ${iconsJsonPath}`);
     process.exit(1);
   }
   let iconList;
   try {
-    iconList = JSON.parse(await fsp.readFile(ICONS_JSON, "utf8"));
+    iconList = JSON.parse(await fsp.readFile(iconsJsonPath, "utf8"));
   } catch (e) {
     console.error("error while reading icons.json :", e.message);
     process.exit(1);
@@ -80,7 +89,6 @@ async function main() {
   const tmp = await fsp.mkdtemp(path.join(os.tmpdir(), "fa7-"));
   console.log(`extracting...`);
   const packOut = execSync(`npm pack ${PKG}@${latest7}`, { cwd: tmp, encoding: "utf8" }).trim();
-  // npm pack gibt Dateiname aus, z.B. "fortawesome-fontawesome-free-7.0.0.tgz"
   const tgzPath = path.join(tmp, packOut);
   if (!fs.existsSync(tgzPath)) {
     console.error("error while extracting", tgzPath);
@@ -98,7 +106,7 @@ async function main() {
     process.exit(1);
   }
 
-  ensureDirSync(ASSETS_DIR);
+  ensureDirSync(assetsDir);
 
   console.log("collecting icons...");
   let copied = 0;
@@ -107,7 +115,7 @@ async function main() {
   for (const rel of wanted) {
     const src = path.join(svgsRoot, rel);
     if (fs.existsSync(src)) {
-      const dest = path.join(ASSETS_DIR, rel);
+      const dest = path.join(assetsDir, rel);
       ensureDirSync(path.dirname(dest));
       fs.copyFileSync(src, dest);
       copied++;
@@ -125,7 +133,7 @@ async function main() {
     timestamp: new Date().toISOString(),
   };
   await fsp.writeFile(
-    path.join(ASSETS_DIR, "fontawesome-manifest.json"),
+    path.join(assetsDir, "fontawesome-manifest.json"),
     JSON.stringify(manifest, null, 2),
     "utf8"
   );
