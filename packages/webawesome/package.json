@@ -1,12 +1,15 @@
 {
-  "name": "@awesome.me/webawesome",
+  "name": "@viur/webawesome",
   "publishConfig": {
     "access": "public"
   },
-  "description": "A forward-thinking library of web components.",
-  "version": "3.0.0-beta.4",
-  "homepage": "https://webawesome.com/",
+  "description": "A forward-thinking library of web components for ViUR",
+  "version": "0.5.0",
+  "homepage": "https://viur-framework.github.io/webawesome/",
   "author": "Web Awesome",
+  "contributors": [
+    "Andreas H. Kelch"
+  ],
   "license": "MIT",
   "customElements": "dist/custom-elements.json",
   "web-types": "./dist/web-types.json",
@@ -45,10 +48,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shoelace-style/webawesome.git"
+    "url": "git+https://github.com/viur-framework/webawesome.git"
   },
   "bugs": {
-    "url": "https://github.com/shoelace-style/webawesome/issues"
+    "url": "https://github.com/viur-framework/webawesome/issues"
   },
   "scripts": {
     "start": "node scripts/build.js --develop",
