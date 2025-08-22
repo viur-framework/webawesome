@@ -16,8 +16,8 @@
   "type": "module",
   "types": "dist/webawesome.d.ts",
   "jsdelivr": "./dist/webawesome.loader.js",
-  "bin":{
-    "wa-icons":"scripts/icons.js"
+  "bin": {
+    "wa-icons": "scripts/icons.js"
   },
   "exports": {
     ".": {
