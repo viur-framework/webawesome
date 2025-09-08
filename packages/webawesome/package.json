@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "A forward-thinking library of web components for ViUR",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "homepage": "https://viur-framework.github.io/webawesome/",
   "author": "Web Awesome",
   "contributors": [
