@@ -12,21 +12,19 @@ import { markdown } from './_utils/markdown.js';
 import { SimulateWebAwesomeApp } from './_utils/simulate-webawesome-app.js';
 // import { formatCodePlugin } from './_plugins/format-code.js';
 // import litPlugin from '@lit-labs/eleventy-plugin-lit';
+import { HtmlBasePlugin } from '@11ty/eleventy';
 import { readFile } from 'fs/promises';
 import process from 'process';
 import * as url from 'url';
 import { replaceTextPlugin } from './_plugins/replace-text.js';
 import { searchPlugin } from './_plugins/search.js';
-import { HtmlBasePlugin } from "@11ty/eleventy";
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const isDev = process.argv.includes('--develop');
 const passThroughExtensions = ['js', 'css', 'png', 'svg', 'jpg', 'mp4'];
 
-
 async function getPackageData() {
   return JSON.parse(await readFile(path.join(__dirname, '..', 'package.json'), 'utf-8'));
 }
-
 
 export default async function (eleventyConfig) {
   const docsDir = path.join(process.env.BASE_DIR || '.', 'docs');
@@ -79,6 +77,7 @@ export default async function (eleventyConfig) {
   //
   eleventyConfig.addGlobalData('package', packageData);
   eleventyConfig.addGlobalData('layout', 'page.njk');
+  eleventyConfig.addGlobalData('pageType', 'docs'); // Default page type
   eleventyConfig.addGlobalData('server', {
     head: '',
     loginOrAvatar: '',
@@ -163,6 +162,14 @@ export default async function (eleventyConfig) {
   eleventyConfig.setLibrary('md', markdown);
 
   eleventyConfig.addPlugin(HtmlBasePlugin);
+  // for files with `unpublished: true`, it will make sure they do not make it into the final build at all, but will be usable in development.
+  eleventyConfig.addPreprocessor('unpublished', '*', (data, content) => {
+    if (data.unpublished && process.env.ELEVENTY_RUN_MODE === 'build') {
+      return false;
+    }
+
+    return content;
+  });
 
   // Add anchors to headings
   eleventyConfig.addTransform('doc-transforms', function (content) {
@@ -286,7 +293,7 @@ export default async function (eleventyConfig) {
 
 export const config = {
   markdownTemplateEngine: 'njk',
-  pathPrefix:"webawesome",
+  pathPrefix: 'webawesome',
   dir: {
     input: 'docs',
     includes: '_includes',

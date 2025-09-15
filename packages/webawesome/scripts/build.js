@@ -123,6 +123,7 @@ export async function build(options = {}) {
   function generateReactWrappers() {
     // Used by webawesome-app to make re-rendering not miserable with extra React file generation.
     if (process.env.SKIP_SLOW_STEPS === 'true') {
+      spinner.info('Skipping React Wrapper generation.');
       return Promise.resolve();
     }
 
@@ -162,6 +163,7 @@ export async function build(options = {}) {
   async function generateTypes() {
     // Used by webawesome-app to make re-rendering not miserable with extra TS compilations.
     if (process.env.SKIP_SLOW_STEPS === 'true') {
+      spinner.info('Skipping TypeScript compiler.');
       return Promise.resolve();
     }
 
@@ -465,7 +467,25 @@ export async function build(options = {}) {
 
       function handleWatchEvent(evt) {
         return async filename => {
-          spinner.info(`File modified ${chalk.gray(`(${relative(getRootDir(), filename)})`)}`);
+          const changedFile = relative(getRootDir(), filename);
+
+          let message = '';
+          if (evt === 'change') {
+            message = chalk.blue(`File modified ${chalk.gray(`(${changedFile})`)}`);
+          } else if (evt === 'unlink') {
+            message = chalk.red(`File deleted ${chalk.gray(`(${changedFile})`)}`);
+          } else if (evt === 'add') {
+            message = chalk.green(`File added ${chalk.gray(`(${changedFile})`)}`);
+          }
+
+          if (message) {
+            if (spinner) {
+              spinner.info(message);
+            } else {
+              console.log(message);
+            }
+          }
+
           if (typeof options.beforeWatchEvent === 'function') {
             await options.beforeWatchEvent(evt, filename);
           }

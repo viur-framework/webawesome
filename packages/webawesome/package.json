@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "A forward-thinking library of web components for ViUR",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "homepage": "https://viur-framework.github.io/webawesome/",
   "author": "Web Awesome",
   "contributors": [
@@ -25,6 +25,7 @@
       "import": "./dist/webawesome.js"
     },
     "./dist/custom-elements.json": "./dist/custom-elements.json",
+    "./dist/custom-elements-jsx.d.ts": "./dist/custom-elements-jsx.d.ts",
     "./dist/webawesome.js": "./dist/webawesome.js",
     "./dist/webawesome.loader.js": "./dist/webawesome.loader.js",
     "./dist/styles": "./dist/styles",
@@ -34,7 +35,8 @@
     "./dist/react": "./dist/react/index.js",
     "./dist/react/*": "./dist/react/*",
     "./dist/translations": "./dist/translations",
-    "./dist/translations/*": "./dist/translations/*"
+    "./dist/translations/*": "./dist/translations/*",
+    "./package.json": "./package.json"
   },
   "files": [
     "README.md",

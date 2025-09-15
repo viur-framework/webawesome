@@ -1,9 +1,11 @@
 import type WaIcon from '../icon/icon.js';
+import cdnLibrary from './library.cdn.js';
 import defaultLibrary from './library.default.js';
 import systemLibrary from './library.system.js';
 
-export type IconLibraryResolver = (name: string, family: string, variant: string) => string;
-export type IconLibraryMutator = (svg: SVGElement) => void;
+export type IconLibraryHostElement = WaIcon;
+export type IconLibraryResolver = (name: string, family: string, variant: string, autoWidth: boolean) => string;
+export type IconLibraryMutator = (svg: SVGElement, hostElement?: IconLibraryHostElement) => void;
 export interface IconLibrary {
   name: string;
   resolver: IconLibraryResolver;
@@ -12,7 +14,7 @@ export interface IconLibrary {
 }
 
 let defaultIconFamily = 'classic';
-let registry: IconLibrary[] = [defaultLibrary, systemLibrary];
+let registry: IconLibrary[] = [defaultLibrary, systemLibrary, cdnLibrary];
 let watchedIcons: WaIcon[] = [];
 
 /** Adds an icon to the list of watched icons. */

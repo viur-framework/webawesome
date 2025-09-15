@@ -1,6 +1,6 @@
 {# Search #}
 <wa-button id="search-trigger" appearance="outlined" size="small" data-search>
-  <wa-icon slot="start" name="magnifying-glass"></wa-icon>
+  <wa-icon slot="start" name="magnifying-glass" library="cdn"></wa-icon>
   Search
   <kbd slot="end" class="wa-desktop-only">/</kbd>
 </wa-button>
@@ -31,16 +31,19 @@
 <!-- Components -->
 <wa-details appearance="outlined">
   <h2 slot="summary">
-    <a href="/docs/components/" title="Overview">
+    <a class="wa-cluster wa-gap-xs" href="/docs/components/" title="Overview">
+      <wa-icon name="box" library="cdn" aria-hidden="true"></wa-icon>
       Components
-      <wa-icon name="grid-2" aria-hidden="true"></wa-icon>
     </a>
   </h2>
   <ul>
     <li>
-      <a href="/docs/components/page/">Page</a>
-      <wa-icon name="flask" aria-hidden="true"></wa-icon>
-      <wa-badge class="pro" appearance="accent" attention="none">PRO</wa-badge>
+      <span class="wa-split">
+        <a class="wa-cluster wa-gap-xs" href="/docs/components/page/">
+          Page <wa-icon name="flask" aria-hidden="true" library="cdn"></wa-icon>
+        </a>
+        <wa-badge class="pro" appearance="accent" attention="none">PRO</wa-badge>
+      </span>
     </li>
     <li><a href="/docs/components/accordion">Accordion</a></li>
     <li><a href="/docs/components/animated-image/">Animated Image</a></li>
@@ -58,12 +61,16 @@
     <li><a href="/docs/components/callout/">Callout</a></li>
     <li><a href="/docs/components/card/">Card</a></li>
     <li>
-      <a href="/docs/components/carousel/">Carousel</a>
-      <wa-icon name="flask" aria-hidden="true"></wa-icon>
+      <a class="wa-cluster wa-gap-xs" href="/docs/components/carousel/">
+        Carousel
+        <wa-icon name="flask" aria-hidden="true"></wa-icon>
+      </a>
       <ul>
         <li>
-          <a href="/docs/components/carousel-item/">Carousel Item</a>
-          <wa-icon name="flask" aria-hidden="true"></wa-icon>
+          <a class="wa-cluster wa-gap-xs" href="/docs/components/carousel-item/">
+            Carousel Item
+            <wa-icon name="flask" aria-hidden="true" library="cdn"></wa-icon>
+          </a>
         </li>
       </ul>
     </li>
@@ -71,8 +78,10 @@
     <li><a href="/docs/components/color-picker/">Color Picker</a></li>
     <li><a href="/docs/components/comparison/">Comparison</a></li>
     <li>
-      <a href="/docs/components/copy-button/">Copy Button</a>
-      <wa-icon name="flask" aria-hidden="true"></wa-icon>
+      <a class="wa-cluster wa-gap-xs" href="/docs/components/copy-button/">
+        Copy Button
+        <wa-icon name="flask" aria-hidden="true" library="cdn"></wa-icon>
+      </a>
     </li>
     <li><a href="/docs/components/details/">Details</a></li>
     <li><a href="/docs/components/dialog/">Dialog</a></li>
@@ -90,6 +99,7 @@
     <li><a href="/docs/components/icon/">Icon</a></li>
     <li><a href="/docs/components/include/">Include</a></li>
     <li><a href="/docs/components/input/">Input</a></li>
+    <li><a href="/docs/components/intersection-observer">Intersection Observer</a></li>
     <li><a href="/docs/components/mutation-observer/">Mutation Observer</a></li>
     <li><a href="/docs/components/popover/">Popover</a></li>
     <li><a href="/docs/components/popup/">Popup</a></li>
@@ -138,9 +148,9 @@
 <!-- Style utilities -->
 <wa-details appearance="outlined">
   <h2 slot="summary">
-    <a href="/docs/utilities/" title="Overview">
+    <a class="wa-cluster wa-gap-xs" href="/docs/utilities/" title="Overview">
+      <wa-icon name="box" library="cdn" aria-hidden="true"></wa-icon>
       Style Utilities
-      <wa-icon name="grid-2" aria-hidden="true"></wa-icon>
     </a>
   </h2>
   <ul>
@@ -156,9 +166,9 @@
 <!-- Layout -->
 <wa-details appearance="outlined">
   <h2 slot="summary">
-    <a href="/docs/layout/" title="Overview">
+    <a class="wa-cluster wa-gap-xs" href="/docs/layout/" title="Overview">
+      <wa-icon name="box" library="cdn" aria-hidden="true"></wa-icon>
       Layout
-      <wa-icon name="grid-2" aria-hidden="true"></wa-icon>
     </a>
   </h2>
   <ul>
@@ -172,9 +182,12 @@
     <li><a href="/docs/utilities/stack/">Stack</a></li>
     <li><a href="/docs/utilities/justify-content/">Justify Content</a></li>
     <li>
-      <a href="/docs/components/page/">Page</a>
-      <wa-icon name="flask" aria-hidden="true"></wa-icon>
-      <wa-badge class="pro" appearance="accent" attention="none">PRO</wa-badge>
+      <span class="wa-split">
+        <a class="wa-cluster wa-gap-xs" href="/docs/components/page/">
+          Page <wa-icon name="flask" aria-hidden="true" library="cdn"></wa-icon>
+        </a>
+        <wa-badge class="pro" appearance="accent" attention="none">PRO</wa-badge>
+      </span>
     </li>
   </ul>
 </wa-details>
@@ -182,15 +195,17 @@
 <!-- Patterns -->
 <wa-details appearance="outlined">
   <h2 slot="summary">
-    <a href="/docs/patterns/" title="Overview">
+    <a class="wa-cluster wa-gap-xs" href="/docs/patterns/" title="Overview">
+      <wa-icon name="box" library="cdn" aria-hidden="true"></wa-icon>
       Patterns
-      <wa-icon name="grid-2" aria-hidden="true"></wa-icon>
     </a>
   </h2>
   <ul>
     <li>
-      <a href="/docs/patterns/app/">App</a>
-      <wa-badge class="pro" appearance="accent" attention="none">PRO</wa-badge>
+      <span class="wa-split">
+        <a href="/docs/patterns/app/">App</a>
+        <wa-badge class="pro" appearance="accent" attention="none">PRO</wa-badge>
+      </span>
       <ul>
         <li>
           <a href="/docs/patterns/app/action-panel/">Action Panel</a>
@@ -233,8 +248,10 @@
       </ul>
     </li>
     <li>
-      <a href="/docs/patterns/blog-news/">Blog &amp; News</a>
-      <wa-badge class="pro" appearance="accent" attention="none">PRO</wa-badge>
+      <span class="wa-split">
+        <a href="/docs/patterns/blog-news/">Blog &amp; News</a>
+        <wa-badge class="pro" appearance="accent" attention="none">PRO</wa-badge>
+      </span>
       <ul>
       <li>
           <a href="/docs/patterns/blog-news/banners/">Banners</a>
@@ -278,7 +295,7 @@
         <li>
           <a href="/docs/patterns/blog-news/login/">Sign Up &amp; Login</a>
         </li>
-         <li>
+        <li>
           <a href="/docs/patterns/blog-news/numbers/">Numbers</a>
         </li>
         <li>
@@ -287,14 +304,16 @@
         <li>
           <a href="/docs/patterns/blog-news/teams/">Teams</a>
         </li>
-         <li>
+        <li>
           <a href="/docs/patterns/blog-news/testimonials/">Testimonials</a>
         </li>
       </ul>
     </li>
     <li>
-      <a href="/docs/patterns/ecommerce/">Ecommerce</a>
-      <wa-badge class="pro" appearance="accent" attention="none">PRO</wa-badge>
+      <span class="wa-split">
+        <a href="/docs/patterns/ecommerce/">Ecommerce</a>
+        <wa-badge class="pro" appearance="accent" attention="none">PRO</wa-badge>
+      </span>
       <ul>
         <li>
           <a href="/docs/patterns/ecommerce/category-filter/">Category Filter</a>
@@ -332,8 +351,10 @@
       </ul>
     </li>
     <li>
-      <a href="/docs/patterns/layouts/">Layouts</a>
-      <wa-badge class="pro" appearance="accent" attention="none">PRO</wa-badge>
+      <span class="wa-split">
+        <a href="/docs/patterns/layouts/">Layouts</a>
+        <wa-badge class="pro" appearance="accent" attention="none">PRO</wa-badge>
+      </span>
       <ul>
         <li>
           <a href="/docs/patterns/layouts/ecommerce/">Ecommerce</a>
@@ -355,17 +376,19 @@
   <li><a href="/docs/color-palettes">Color Palettes</a></li>
   <li><a href="/docs/themes">Themes</a></li>
   <li>
-    <a href="/themer" data-turbo="false">Theme Builder</a>
-    <wa-badge class="pro" appearance="accent" attention="none">PRO</wa-badge>
+    <span class="wa-split">
+      <a href="/themer" data-turbo="false">Theme Builder</a>
+      <wa-badge class="pro" appearance="accent" attention="none">PRO</wa-badge>
+    </span>
   </li>
 </ul>
 
 <!-- Design tokens -->
 <wa-details appearance="outlined">
   <h2 slot="summary">
-    <a href="/docs/tokens/" title="Overview">
+    <a class="wa-cluster wa-gap-xs" href="/docs/tokens/" title="Overview">
+      <wa-icon name="box" library="cdn" aria-hidden="true"></wa-icon>
       Design Tokens
-      <wa-icon name="grid-2" aria-hidden="true"></wa-icon>
     </a>
   </h2>
   <ul>
