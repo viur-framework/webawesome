@@ -100,7 +100,7 @@ Icons are sized relative to the current font size. To change their size, set the
 
 ### Auto Width
 
-By default, icons have a 1em height and a fixed 1em width. Use the `auto-width` attribute to allow the icon to use its natural variable width.
+By default, icons have a `1em` height and a fixed `1.25em` width. Use the `auto-width` attribute to allow the icon to use its natural variable width.
 
 ```html {.example}
 Without auto-width<br />
@@ -839,19 +839,19 @@ Icons in this library are licensed under the [Apache 2.0 License](https://github
 </script>
 
 <div style="font-size: 24px;">
-  <wa-icon library="unicons" name="clock"></wa-icon>
-  <wa-icon library="unicons" name="graph-bar"></wa-icon>
-  <wa-icon library="unicons" name="padlock"></wa-icon>
-  <wa-icon library="unicons" name="polygon"></wa-icon>
-  <wa-icon library="unicons" name="rocket"></wa-icon>
-  <wa-icon library="unicons" name="star"></wa-icon>
+  <wa-icon library="unicons" name="clock" library="cdn"></wa-icon>
+  <wa-icon library="unicons" name="graph-bar" library="cdn"></wa-icon>
+  <wa-icon library="unicons" name="padlock" library="cdn"></wa-icon>
+  <wa-icon library="unicons" name="polygon" library="cdn"></wa-icon>
+  <wa-icon library="unicons" name="rocket"  library="cdn"></wa-icon>
+  <wa-icon library="unicons" name="star" library="cdn"></wa-icon>
   <br />
-  <wa-icon library="unicons" name="clock-s"></wa-icon>
-  <wa-icon library="unicons" name="graph-bar-s"></wa-icon>
-  <wa-icon library="unicons" name="padlock-s"></wa-icon>
-  <wa-icon library="unicons" name="polygon-s"></wa-icon>
-  <wa-icon library="unicons" name="rocket-s"></wa-icon>
-  <wa-icon library="unicons" name="star-s"></wa-icon>
+  <wa-icon library="unicons" name="clock-s" library="cdn"></wa-icon>
+  <wa-icon library="unicons" name="graph-bar-s" library="cdn"></wa-icon>
+  <wa-icon library="unicons" name="padlock-s" library="cdn"></wa-icon>
+  <wa-icon library="unicons" name="polygon-s" library="cdn"></wa-icon>
+  <wa-icon library="unicons" name="rocket-s" library="cdn"></wa-icon>
+  <wa-icon library="unicons" name="star-s" library="cdn"></wa-icon>
 </div>
 ```
 

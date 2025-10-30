@@ -1,5 +1,6 @@
 // Search data
-const res = await Promise.all([import('https://cdn.jsdelivr.net/npm/lunr/+esm'), fetch('/webawesome/search.json')]);
+const version = document.documentElement.getAttribute('data-version') || '';
+const res = await Promise.all([import('https://cdn.jsdelivr.net/npm/lunr/+esm'), fetch(`/search.json?v=${version}`)]);
 const lunr = res[0].default;
 const searchData = await res[1].json();
 const searchIndex = lunr.Index.load(searchData.searchIndex);
@@ -205,7 +206,7 @@ async function updateResults(query = '') {
       a.href = page.url;
       a.innerHTML = `
         <div class="site-search-result-icon" aria-hidden="true">
-          <wa-icon name="${icon}"></wa-icon>
+          <wa-icon name="${icon}" library="cdn"></wa-icon>
         </div>
         <div class="site-search-result-details">
           <div class="site-search-result-title"></div>

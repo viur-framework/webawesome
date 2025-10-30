@@ -29,7 +29,7 @@ markdown.use(markdownItMark);
       if (tokens[idx].nesting === 1) {
         return `
           <div class="callout callout-${variant}">
-            <wa-icon class="callout-icon" name="${icon}"></wa-icon>
+            <wa-icon class="callout-icon" name="${icon}" library="cdn"></wa-icon>
             <div class="callout-content">
         `;
       }

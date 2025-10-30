@@ -1,0 +1,49 @@
+<!doctype html>
+
+<link rel="stylesheet" href="/webawesome/dist/styles/themes/default.css" render="blocking" fetchpriority="high" />
+<link rel="stylesheet" href="/webawesome/dist/styles/webawesome.css" />
+<script src="/webawesome/dist/webawesome.loader.js" type="module"></script>
+
+<wa-page>
+  <!--TOP-->
+  <div class="slot-content" slot="banner">banner</div>
+  <div class="slot-content" slot="header">header</div>
+  <div class="slot-content" slot="subheader">subheader</div>
+  <!--NAVIGATION-->
+  <div class="slot-content" slot="navigation-header">navigation-header</div>
+  <div class="slot-content" slot="navigation">navigation</div>
+  <div class="slot-content" slot="navigation-footer">navigation-footer</div>
+  <!--CONTENT-->
+  <div class="slot-content" slot="main-header">main-header</div>
+  <div class="slot-content main">main</div>
+  <div class="slot-content" slot="main-footer">main-footer</div>
+  <!--ASIDE-->
+  <div class="slot-content" slot="aside">aside</div>
+  <!--FOOTER-->
+  <div class="slot-content" slot="footer">footer</div>
+</wa-page>
+
+<style>
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
+  wa-page {
+    &::part(base),
+    &::part(main),
+    &::part(navigation),
+    &::part(body) {
+      gap: var(--wa-space-xs);
+    }
+  }
+  .main {
+    text-align: center;
+  }
+  .slot-content {
+    align-content: center;
+    justify-content: center;
+    height: 100%;
+    background: var(--wa-color-gray-70);
+  }
+</style>
