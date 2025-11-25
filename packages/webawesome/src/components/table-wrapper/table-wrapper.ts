@@ -1,0 +1,206 @@
+import { html } from 'lit';
+import { customElement, property } from 'lit/decorators.js';
+import { watch } from '../../internal/watch.js';
+import WebAwesomeElement from '../../internal/webawesome-element.js';
+// @ts-ignore
+import naturalCompare from 'string-natural-compare';
+import styles from './table-wrapper.css';
+
+/**
+ * @summary Table Wrapper can be used to extend a simple Table with interactive functions
+ * @documentation https://webawesome.com/docs/components/table-wrapper
+ * @status experimental
+ * @since 3.0
+ *
+ * @dependency wa-input
+ * @dependency wa-icon
+ *
+ * @slot - The default slot. - Place here the table
+ *
+ * @csspart search - The component's searcg input.
+ */
+ @customElement("wa-table-wrapper")
+export default class WaTableWrapper extends WebAwesomeElement {
+  static css = styles;
+
+  tableElement:any;
+  sortOrder = ["asc","desc","none"]
+
+  /** Wenn set searchField is shown */
+  @property({ type: Boolean, reflect: true }) searchable = false;
+
+  /** Wenn set table header is sortable */
+  @property({ type: Boolean, reflect: true }) sortable = false;
+
+  @property({ type: String, reflect: true }) search = "";
+
+
+
+  createTableSortHead(){
+    /** append wa-icons to show sort state */
+    if (!this.tableElement){
+      return 0;
+    }
+    let allTHs = this.tableElement.querySelectorAll("th")
+
+    let i = 0
+    for(let aTH of allTHs){
+      aTH.dataset.column = i
+      aTH.dataset.sort = "none"
+
+      let sortMarker = document.createElement("wa-icon")
+      sortMarker.setAttribute("name","")
+      sortMarker.setAttribute("library","system")
+      aTH.appendChild(sortMarker)
+      i++
+    }
+    return 1
+  }
+
+
+  createTable(){
+    /** collect Tabel and create header if needed */
+    this.getTable()
+    if (this.sortable){
+      this.createTableSortHead()
+    }
+
+  }
+
+
+  getTable(){
+    /** store table element */
+    // @ts-ignore
+    const childs = this.shadowRoot!.querySelector("slot").assignedElements({flatten: true})
+    if (childs.length===0){
+      return 0
+    }
+    if (childs[0].nodeName ==="TABLE"){
+      this.tableElement = childs[0]
+    }else{
+      this.tableElement = childs[0].querySelector("table")
+    }
+    return 1
+  }
+
+
+  toggleOrder(e:any){
+    /** slot Clickhandler, currently only used for sorting */
+    if (!this.sortable){
+      return 0
+    }
+    let cth = e.target.closest("th")
+    if (e.target.closest("th")){
+      let allTHs = this.tableElement.querySelectorAll("th")
+      for(let aTH of allTHs){
+        aTH.querySelector("wa-icon").setAttribute("name", "")
+      }
+
+      cth.dataset.sort=this.sortOrder[this.sortOrder.indexOf(cth.dataset.sort)===2?0:(this.sortOrder.indexOf(cth.dataset.sort)+1)%2]
+      cth.querySelector("wa-icon").setAttribute("name", cth.dataset.sort ==="asc"?"chevron-up":"chevron-down")
+      sortTable(this.tableElement,cth.dataset.column,cth.dataset.sort)
+    }
+    return 1
+  }
+
+  @watch(['search'])
+  performSearch() {
+    searchTable(this.tableElement,this.search)
+
+  }
+
+  filterTable(e:any){
+    /** search input handler */
+    searchTable(this.tableElement,e.target.value)
+  }
+
+
+  clearSearchField(){
+    /** search input clear handler */
+    searchTable(this.tableElement,"")
+  }
+
+  render() {
+    return html`
+      ${this.searchable? html`
+      <wa-input part="search" placeholder="Search" clearable @input="${this.filterTable}" @wa-clear="${this.clearSearchField}"></wa-input>`:""
+      }
+      <slot @click="${this.toggleOrder}" @slotchange=${this.createTable}></slot>`;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'wa-table-wrapper': WaTableWrapper;
+  }
+}
+
+/** Sort a givn table, idx is the column, direction can be asc or desc */
+function sortTable(table:HTMLTableElement,idx:number,direction:string) {
+  var rows, switching, i, x, y, shouldSwitch;
+  switching = true;
+
+  while (switching) {
+    switching = false;
+
+    rows = table.rows;
+
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+
+      x = rows[i].getElementsByTagName("TD")[idx];
+      y = rows[i + 1].getElementsByTagName("TD")[idx];
+      try {
+        let sortResult = naturalCompare(x.innerHTML.toLowerCase(), y.innerHTML.toLowerCase())
+
+        if (direction === "asc") {
+          if (sortResult > 0) {
+            shouldSwitch = true;
+            break;
+          }
+        } else if (direction === "desc") {
+          if (sortResult < 0) {
+            shouldSwitch = true;
+            break;
+          }
+        }
+
+
+      }catch(e){}
+
+    }
+    if (shouldSwitch) {
+      // @ts-ignore
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+}
+
+/** Search in a givn table for searchString*/
+function searchTable(table:HTMLTableElement, searchString:string) {
+  if(!table){
+    return 0
+  }
+
+  let tr = table.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+  for (let i = 0; i < tr.length; i++) {
+    let tds = tr[i].getElementsByTagName("td");
+    for (let td of tds){
+      if (td) {
+        try{
+          let txtValue = td.textContent || td.innerText;
+          if (txtValue.toUpperCase().indexOf(searchString.toUpperCase()) > -1 || !searchString) {
+            tr[i].style.display = "";
+            break; // if we found one match in a row go to next
+          } else {
+            tr[i].style.display = "none";
+          }
+        }catch(e){
+
+        }
+      }
+    }
+  }
+  return 1
+}
