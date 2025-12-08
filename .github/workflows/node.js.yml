@@ -1,4 +1,5 @@
-# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# This workflow will do a clean install of node dependencies, cache/restore them,
+# build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
 name: Node.js CI
@@ -9,6 +10,11 @@ on:
       - "v0.*"
       - "v1.*"
 
+# Needed for npm Trusted Publishing (OIDC)
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,21 +22,21 @@ jobs:
     strategy:
       matrix:
         node-version: [22.x]
-        # ,  See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v4
-      with:
-        submodules: true
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build
-    - uses: JS-DevTools/npm-publish@v3
-      with:
-        access: "public"
-        package: "packages/webawesome"
-        token: ${{ secrets.NPM_TOKEN }}
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: "https://registry.npmjs.org"
+          cache: "npm"
+      - run: npm ci
+      - run: npm run build
+      - name: Publish to npm (Trusted Publishing)
+        working-directory: packages/webawesome
+        run: npm publish --access public
