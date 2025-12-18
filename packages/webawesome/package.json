@@ -11,7 +11,7 @@
     "Andreas H. Kelch"
   ],
   "license": "MIT",
-  "customElements": "dist/custom-elements.json",
+  "customElements": "dist-cdn/custom-elements.json",
   "web-types": "./dist/web-types.json",
   "type": "module",
   "types": "dist/webawesome.d.ts",
