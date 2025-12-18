@@ -4,7 +4,7 @@ import { watch } from '../../internal/watch.js';
 import WebAwesomeElement from '../../internal/webawesome-element.js';
 // @ts-ignore
 import naturalCompare from 'string-natural-compare';
-import styles from './table-wrapper.css';
+import styles from './table-wrapper.styles.js';
 
 /**
  * @summary Table Wrapper can be used to extend a simple Table with interactive functions

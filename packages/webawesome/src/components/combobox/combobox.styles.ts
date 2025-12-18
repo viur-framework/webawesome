@@ -1,3 +1,6 @@
+import {css} from 'lit'
+
+export default css`
 :host {
   --tag-max-size: 10ch;
 }
@@ -280,3 +283,4 @@ wa-option[active] .highlight {
   color: var(--wa-color-success-50);
   font-weight: bold;
 }
+`

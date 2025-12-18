@@ -16,8 +16,8 @@ import { HasSlotController } from '../../internal/slot.js';
 import { RequiredValidator } from '../../internal/validators/required-validator.js';
 import { watch } from '../../internal/watch.js';
 import { WebAwesomeFormAssociatedElement } from '../../internal/webawesome-form-associated-element.js';
-import formControlStyles from '../../styles/component/form-control.css';
-import sizeStyles from '../../styles/utilities/size.css';
+import formControlStyles from '../../styles/component/form-control.styles.js';
+import sizeStyles from '../../styles/component/size.styles.js';
 import { LocalizeController } from '../../utilities/localize.js';
 import '../icon/icon.js';
 import '../option/option.js';
@@ -25,7 +25,7 @@ import type WaOption from '../option/option.js';
 import '../popup/popup.js';
 import type WaPopup from '../popup/popup.js';
 import '../tag/tag.js';
-import styles from './combobox.css';
+import styles from './combobox.styles.js';
 
 export interface Suggestion {
   text: string;
@@ -128,7 +128,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
   @state() loadingSource: Boolean = false;
 
   /** The name of the select, submitted as a name/value pair with form data. */
-  @property() name = '';
+  @property({reflect:true}) name = '';
 
   private _defaultValue: null | string | string[] = null;
 
@@ -264,13 +264,6 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
    * Used for SSR purposes when hint is slotted in. Will show the hint on first render.
    */
   @property({ attribute: 'with-hint', type: Boolean }) withHint = false;
-
-  /**
-   * By default, form controls are associated with the nearest containing `<form>` element. This attribute allows you
-   * to place the form control outside of a form and associate it with the form that has this `id`. The form must be in
-   * the same document or shadow root for this to work.
-   */
-  @property({ reflect: true }) form = null;
 
   /** The select's required attribute. */
   @property({ type: Boolean, reflect: true }) required = false;

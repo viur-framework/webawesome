@@ -1,7 +1,7 @@
 import { html } from 'lit';
 import { customElement, queryAssignedNodes } from 'lit/decorators.js';
 import WebAwesomeElement from '../../internal/webawesome-element.js';
-import styles from './accordion.css';
+import styles from './accordion.styles.js';
 
 /**
  * @summary Provides a wrapper for the details component to implement an accordion-like behavior, allowing only a single section to be open at any given time.
