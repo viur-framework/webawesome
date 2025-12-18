@@ -84,14 +84,15 @@
     <li><a href="/docs/components/checkbox/">Checkbox</a></li>
     <li><a href="/docs/components/color-picker/">Color Picker</a></li>
     <li>
-      <span class="wa-split">
+      <span class="is-planned wa-split">Combobox
         <span>
-          <a href="/docs/components/combobox">Combobox</a>
+          <a href="/docs/components/combobox"></a>
           <wa-icon name="flask" aria-hidden="true" class="icon-shrink"></wa-icon>
         </span>
         {{ proBadge() }}
       </span>
     </li>
+    <li><a href="/docs/components/combobox">Combobox <wa-icon name="star" aria-hidden="true" class="icon-shrink" library="cdn"></wa-icon></a></li>
     <li><a href="/docs/components/comparison/">Comparison</a></li>
     <li>
       <a class="wa-cluster wa-gap-xs" href="/docs/components/copy-button/">
@@ -166,7 +167,7 @@
     </li>
     <li><span class="is-planned wa-split">Video <span><a href="https://github.com/shoelace-style/webawesome/issues/985" target="_blank">{{ plannedBadge("A Web Awesome Kickstarter stretch goal!") }}</a>{{ proBadge( { description: "This will require access to Web Awesome Pro" }) }}</span></span></li>
     <li><a href="/docs/components/zoomable-frame">Zoomable Frame</a></li>
-    <li><a href="/docs/components/combobox">Combobox <wa-icon name="star" aria-hidden="true" class="icon-shrink" library="cdn"></wa-icon></a></li>
+
     <li><a href="/docs/components/table-wrapper">Table Wrapper <wa-icon name="star" aria-hidden="true" class="icon-shrink" library="cdn"></wa-icon></a></li>
     {# PLOP_NEW_COMPONENT_PLACEHOLDER #}
   </ul>
@@ -431,7 +432,7 @@
     {% include "logo-simple.njk" %}
     <h2 class="wa-heading-s">Web Awesome</h2>
     <p class="wa-caption-xs wa-cluster wa-gap-xs">
-      Version {{ package.version }}
+      Version {{ package.version }} ViUR
       <wa-icon id="version-icon-info" family="duotone" variant="regular" name="party-horn" library="cdn"></wa-icon>
       <wa-tooltip for="version-icon-info" distance="2" class="wa-font-size-xs">Here be freshly launched Awesome and no wa-dragons</wa-tooltip>
     </p>
