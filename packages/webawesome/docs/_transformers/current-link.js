@@ -9,8 +9,8 @@ function normalize(pathname) {
   }
 
   //remove webawesome prefix
-  if (pathname.startsWith("/webawesome")) {
-    pathname = pathname.replace("/webawesome", "");
+  if (pathname.startsWith('/webawesome')) {
+    pathname = pathname.replace('/webawesome', '');
   }
 
   // Must not end in a slash

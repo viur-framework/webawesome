@@ -15,11 +15,11 @@ import styles from './accordion.styles.js';
  *
  * @cssproperty --details-gap - The Gap between the details.
  */
- @customElement("wa-accordion")
+@customElement('wa-accordion')
 export default class WaAccordion extends WebAwesomeElement {
   static css = styles;
 
-  @queryAssignedNodes({flatten:true})
+  @queryAssignedNodes({ flatten: true })
   currentSlotNodes: any;
 
   hasChanged() {
@@ -33,7 +33,7 @@ export default class WaAccordion extends WebAwesomeElement {
   registerDetails() {
     let detailsList = Array.prototype.filter.call(
       this.currentSlotNodes,
-      (node: any) => node.nodeType == Node.ELEMENT_NODE
+      (node: any) => node.nodeType == Node.ELEMENT_NODE,
     );
 
     if (detailsList) {
@@ -44,7 +44,6 @@ export default class WaAccordion extends WebAwesomeElement {
       }
     }
   }
-
 
   render() {
     return html` <slot part="base" @slotchange=${this.handleSlotChange}></slot> `;

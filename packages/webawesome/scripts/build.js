@@ -318,7 +318,7 @@ export async function build(options = {}) {
         server: {
           baseDir: getSiteDir(),
           routes: {
-            "/webawesome/": getSiteDir(),
+            '/webawesome/': getSiteDir(),
             '/webawesome/dist/': './dist-cdn/',
           },
         },

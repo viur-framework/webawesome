@@ -9,8 +9,8 @@ import '../button/button.js';
 import '../drawer/drawer.js';
 import type WaDrawer from '../drawer/drawer.js';
 import '../icon/icon.js';
-import styles from './page.styles.js';
 import mobileStyles from './page.mobile.styles.js';
+import styles from './page.styles.js';
 
 if (typeof ResizeObserver === 'undefined') {
   globalThis.ResizeObserver = class {

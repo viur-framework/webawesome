@@ -33,7 +33,7 @@ export interface Suggestion {
 }
 
 export interface SuggestionSource {
-  (search: string): Promise<Suggestion[]>
+  (search: string): Promise<Suggestion[]>;
 }
 
 /**
@@ -128,7 +128,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
   @state() loadingSource: Boolean = false;
 
   /** The name of the select, submitted as a name/value pair with form data. */
-  @property({reflect:true}) name = '';
+  @property({ reflect: true }) name = '';
 
   private _defaultValue: null | string | string[] = null;
 
@@ -297,7 +297,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
   @property() source?: SuggestionSource;
 
   /** Message displayed when no result found. */
-  @property({attribute: 'empty-message'}) emptyMessage: string = 'no data found';
+  @property({ attribute: 'empty-message' }) emptyMessage: string = 'no data found';
 
   connectedCallback() {
     super.connectedCallback();
@@ -348,7 +348,6 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
 
   private handleFocus() {
     //this.fetchSuggestions("");
-
     //this.displayInput.setSelectionRange(0, 0);
   }
 
@@ -445,7 +444,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
         newIndex = 0;
       } else if (event.key === 'End') {
         newIndex = allOptions.length - 1;
-      } else if (event.key === 'Tab'){
+      } else if (event.key === 'Tab') {
         newIndex = currentIndex + 1;
         if (newIndex > allOptions.length - 1) newIndex = 0;
       }
@@ -509,7 +508,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
   }
 
   private handleComboboxMouseDown(event: MouseEvent) {
-    this.fetchSuggestions("");
+    this.fetchSuggestions('');
     const path = event.composedPath();
     const isButton = path.some(el => el instanceof Element && el.tagName.toLowerCase() === 'wa-button');
 
@@ -650,7 +649,10 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
     if (!this.shadowRoot?.querySelectorAll) {
       return [];
     }
-    return [...this.shadowRoot?.querySelectorAll<WaOption>('wa-option'), ...this?.querySelectorAll<WaOption>('wa-option')];
+    return [
+      ...this.shadowRoot?.querySelectorAll<WaOption>('wa-option'),
+      ...this?.querySelectorAll<WaOption>('wa-option'),
+    ];
   }
 
   // Gets the first `<wa-option>` element
@@ -912,14 +914,14 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
     if (typeof this.source !== 'function') {
       return;
     }
-    if (text && this.displayLabel === text){
+    if (text && this.displayLabel === text) {
       return;
     }
     this.loadingSource = true;
     let items = null;
-    try{
-      items = await this.source(text || "");
-    }catch(e){
+    try {
+      items = await this.source(text || '');
+    } catch (e) {
       this.suggestions = [];
       this.loadingSource = false;
       return;
@@ -927,26 +929,22 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
 
     this.suggestions = this.highlightSearchTextInSuggestions(items, text);
     this.loadingSource = false;
-    this.handleDefaultSlotChange()
+    this.handleDefaultSlotChange();
   }
   highlightSearchTextInSuggestions(items: Suggestion[], searchText: string) {
     const regex = new RegExp(searchText, 'gi');
 
     return items.map(item => {
-        const highlightedSuggestion = item.text.replace(
-          regex,
-          (match) => `<span class="highlight">${match}</span>`
-        );
+      const highlightedSuggestion = item.text.replace(regex, match => `<span class="highlight">${match}</span>`);
 
-        return {
-          ...item,
-          text: highlightedSuggestion
-        };
-      }
-    );
+      return {
+        ...item,
+        text: highlightedSuggestion,
+      };
+    });
   }
   //@ts-ignore
-  inputHandler(event:InputEvent){
+  inputHandler(event: InputEvent) {
     this.fetchSuggestions(this.displayInput.value);
   }
 
@@ -1080,20 +1078,21 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
               tabindex="-1"
               @mouseup=${this.handleOptionClick}
             >
-              ${this.loadingSource?html`
-                <wa-option disabled><wa-spinner></wa-spinner></wa-option>`
+              ${this.loadingSource
+                ? html` <wa-option disabled><wa-spinner></wa-spinner></wa-option>`
                 : html`${this.suggestions.length === 0
-                ? html`
-                  <wa-option disabled>${this.emptyMessage}</wa-option>`
-                  //@ts-ignore
-                : this.suggestions.map((item, index) => html`
-                  <wa-option value=${item.value}
+                    ? html` <wa-option disabled>${this.emptyMessage}</wa-option>`
+                    : //@ts-ignore
+                      this.suggestions.map(
+                        item =>
+                          html` <wa-option
+                            value=${item.value}
                             part="option"
                             exportparts="start:option__start, end:option__end, label:option__label, checked-icon:option__checked-icon"
-                  >
-                    ${unsafeHTML(item.text)}
-              </wa-option>`)}
-              `}
+                          >
+                            ${unsafeHTML(item.text)}
+                          </wa-option>`,
+                      )} `}
               <!--<slot></slot>-->
             </div>
           </wa-popup>
