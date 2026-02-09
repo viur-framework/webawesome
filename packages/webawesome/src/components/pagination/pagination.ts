@@ -5,6 +5,9 @@ import styles from './pagination.styles.js';
 import { repeat } from 'lit/directives/repeat.js';
 import type { PropertyValues, TemplateResult } from 'lit';
 import WaButton from '../button/button.js';
+import WaOption from '../option/option.js';
+import WaIcon from '../icon/icon.js';
+import WaSelect from '../select/select.js';
 import { watch } from '../../internal/watch.js';
 import { LocalizeController } from '../../utilities/localize.js';
 import { onEvent } from '../../internal/event.js';
@@ -132,8 +135,9 @@ export default class WaPagination extends WebAwesomeElement {
       });
       this._eventDispose2 = onEvent(baseDiv, 'wa-input,wa-select[part=show-size-change]', 'change', (event: Event) => {
         let el = (event as any).delegateTarget as HTMLElement;
-        //@ts-ignore
-        const beforeEvent = this.emit('wa-page-before-change');
+        const beforeEvent = this.dispatchEvent(
+          new CustomEvent('wa-page-before-change', { bubbles: true, composed: true, cancelable: true })
+        );
         if (!beforeEvent.defaultPrevented) {
           if (el.matches('wa-select[part=show-size-change]')) {
             this.pageSize = Number((el as any).value);
@@ -150,10 +154,13 @@ export default class WaPagination extends WebAwesomeElement {
             (el as any).value = value;
             this.value = value;
           }
-          //@ts-ignore
-          this.emit('wa-page-change', {
-            detail: { value: this.value }
-          });
+          this.dispatchEvent(
+            new CustomEvent('wa-page-change', {
+              detail: { value: this.value },
+              bubbles: true,
+              composed: true
+            })
+          );
         }
       });
 
@@ -185,8 +192,9 @@ export default class WaPagination extends WebAwesomeElement {
     this.goToPage(result);
   }
   goToPage(pageNo: number) {
-    //@ts-ignore
-    const event = this.emit('wa-page-before-change');
+    const event = this.dispatchEvent(
+      new CustomEvent('wa-page-before-change', { bubbles: true, composed: true, cancelable: true })
+    );
     if (!event.defaultPrevented) {
       if (!isNaN(pageNo)) {
         let tempValue = pageNo;
@@ -196,10 +204,13 @@ export default class WaPagination extends WebAwesomeElement {
           tempValue = this.pageCount;
         }
         this.value = tempValue;
-        //@ts-ignore
-        this.emit('wa-page-change', {
-          detail: { value: this.value }
-        });
+        this.dispatchEvent(
+          new CustomEvent('wa-page-change', {
+            detail: { value: this.value },
+            bubbles: true,
+            composed: true
+          })
+        );
       }
     }
   }
