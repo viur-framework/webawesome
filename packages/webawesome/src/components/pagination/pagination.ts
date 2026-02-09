@@ -96,7 +96,7 @@ export default class WaPagination extends WebAwesomeElement {
     for (let i = prev; i <= next; i++) {
       array.push(i);
     }
-    return html`${repeat(array, item => html`<wa-button size="small" data-page-no=${item} .variant=${this.value == item ? 'primary' : 'default'}>${item}</wa-button> `)}`;
+    return html`${repeat(array, item => html`<wa-button size="small" data-page-no=${item} .variant=${this.value == item ? 'brand' : 'default'}>${item}</wa-button> `)}`;
   }
 
   _renderPage() {
@@ -211,14 +211,13 @@ export default class WaPagination extends WebAwesomeElement {
         ? html`<div part="no-data"><slot name="no-data">${this.localize.term('zoomIn')}</slot></div>`
         : html`
             ${this.showFirst
-              ? html`<wa-tooltip content="${this.localize.term('zoomIn')}"
-                  ><wa-button size="small" ?disabled=${this.value == 1} data-page-no="first" variant="text"><wa-icon part="first" name="angles-left" library="system"></wa-icon></wa-button
+              ? html`<wa-tooltip content="${this.localize.term('zoomIn')}"><wa-button size="small" ?disabled=${this.value == 1} data-page-no="first" variant="text"><wa-icon part="first" name="angles-left" library="system"></wa-icon></wa-button
                 ></wa-tooltip>`
-              : nothing}
+              : nothing}b
             <wa-tooltip content="${this.localize.term('zoomIn')}">
-              <wa-button ?disabled=${this.value == 1} data-page-no="prev" size="small" left variant="text"><wa-icon part="prev" name="chevron-left" ?disabled=${this.value <= 1} library="system"></wa-icon></wa-button
-            ></wa-tooltip>
-            <div part="pageWrap">${this.simple ? this._renderSimple() : this._renderPage()}</div>
+              <wa-button ?disabled=${this.value == 1} data-page-no="prev" size="small"><wa-icon part="prev" name="chevron-left" ?disabled=${this.value <= 1} library="system"></wa-icon></wa-button
+            ></wa-tooltip>c
+            <div part="pageWrap">${this.simple ? this._renderSimple() : this._renderPage()}</div>a
             <wa-tooltip content="${this.localize.term('zoomIn')}"
               ><wa-button size="small" ?disabled=${this.value + 1 > this.pageCount} data-page-no="next" right variant="text"><wa-icon part="next" name="chevron-right" ?disabled=${this.value <= 1} library="system"></wa-icon></wa-button
             ></wa-tooltip>

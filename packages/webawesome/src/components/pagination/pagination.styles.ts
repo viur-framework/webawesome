@@ -31,7 +31,7 @@ export default css`
 
   div[part=no-data] {
     margin: 0 1em;
-    color: rgb(var(--wa-color-gray-30));
+    color: rgb(var(--wa-color-gray-50));
   }
 
   wa-button {
@@ -43,7 +43,7 @@ export default css`
     cursor: default;
   }
   wa-button wa-icon {
-    color: rgb(var(--wa-color-neutral-600));
+    color: rgb(var(--wa-color-neutral-60));
   }
 
   wa-button::part(base) {
