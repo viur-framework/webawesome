@@ -114,7 +114,7 @@ export default class WebAwesomeElement extends LitElement {
   }
 
   /**
-   * Methods for setting and checking custom states.
+   * @internal Methods for setting and checking custom states.
    */
   public customStates = {
     /** Adds or removes the specified custom state. */
@@ -148,12 +148,14 @@ export default class WebAwesomeElement extends LitElement {
   };
 
   /**
-   * Given a native event, this function cancels it and dispatches it again from the host element using the desired
+   * @internal Given a native event, this function cancels it and dispatches it again from the host element using the desired
    * event options.
    */
   relayNativeEvent(event: Event, eventOptions?: EventInit) {
     event.stopImmediatePropagation();
 
+    // This triggers an error in CEM, so we need to ignore it.
+    /** @internal */
     this.dispatchEvent(
       new (event.constructor as typeof Event)(event.type, {
         ...event,

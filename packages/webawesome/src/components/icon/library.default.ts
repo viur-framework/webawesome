@@ -54,10 +54,16 @@ const library: IconLibrary = {
         family === 'duotone' ||
         // Sharp duotone
         family === 'sharp-duotone' ||
-        // Notdog duo-solid
+        // Notdog duo (correct usage: family="notdog-duo")
+        family === 'notdog-duo' ||
+        // NOTE: family="notdog" variant="duo-solid" is deprecated
         (family === 'notdog' && variant === 'duo-solid') ||
-        // Jelly duo-regular
+        // Jelly duo (correct usage: family="jelly-duo")
+        family === 'jelly-duo' ||
+        // NOTE: family="jelly" variant="duo-regular" is deprecated
         (family === 'jelly' && variant === 'duo-regular') ||
+        // Utility duo (correct usage: family="utility-duo")
+        family === 'utility-duo' ||
         // Thumbprint
         family === 'thumbprint'
       ) {

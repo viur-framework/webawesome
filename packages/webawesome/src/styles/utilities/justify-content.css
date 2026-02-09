@@ -1,20 +1,32 @@
 @layer wa-utilities {
-  .wa-justify-start {
+  /* Apply Flexbox with 0 specificity to ensure a justify-content util produces a visible change */
+  :where(
+    .wa-justify-content-start,
+    .wa-justify-content-end,
+    .wa-justify-content-center,
+    .wa-justify-content-space-around,
+    .wa-justify-content-space-between,
+    .wa-justify-content-space-evenly
+  ) {
+    display: flex;
+  }
+
+  .wa-justify-content-start {
     justify-content: flex-start;
   }
-  .wa-justify-end {
+  .wa-justify-content-end {
     justify-content: flex-end;
   }
-  .wa-justify-center {
+  .wa-justify-content-center {
     justify-content: center;
   }
-  .wa-justify-space-around {
+  .wa-justify-content-space-around {
     justify-content: space-around;
   }
-  .wa-justify-space-between {
+  .wa-justify-content-space-between {
     justify-content: space-between;
   }
-  .wa-justify-space-evenly {
+  .wa-justify-content-space-evenly {
     justify-content: space-evenly;
   }
 }
