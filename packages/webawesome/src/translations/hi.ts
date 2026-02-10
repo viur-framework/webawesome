@@ -40,6 +40,12 @@ const translation: Translation = {
   toggleColorFormat: 'रंग प्रारूप बदलें',
   zoomIn: 'ज़ूम इन',
   zoomOut: 'ज़ूम आउट',
+  paginationTill: 'में से',
+  paginationEmpty: 'कोई प्रविष्टि नहीं',
+  paginationFirst: 'पहला',
+  paginationLast: 'अंतिम',
+  paginationPrev: 'पिछला',
+  paginationNext: 'अगला',
 };
 
 registerTranslation(translation);

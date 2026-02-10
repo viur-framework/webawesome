@@ -41,6 +41,12 @@ const translation: Translation = {
   toggleColorFormat: 'Beralih format warna',
   zoomIn: 'Perbesar',
   zoomOut: 'Perkecil',
+  paginationTill: 'dari',
+  paginationEmpty: 'Tidak ada entri',
+  paginationFirst: 'Pertama',
+  paginationLast: 'Terakhir',
+  paginationPrev: 'Sebelumnya',
+  paginationNext: 'Berikutnya',
 };
 
 registerTranslation(translation);

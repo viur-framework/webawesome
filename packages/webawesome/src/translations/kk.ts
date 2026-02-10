@@ -42,6 +42,12 @@ const translation: Translation = {
   toggleColorFormat: 'Түс пішімін ауыстыру',
   zoomIn: 'Жақындату',
   zoomOut: 'Алыстату',
+  paginationTill: '/',
+  paginationEmpty: 'Жазба жоқ',
+  paginationFirst: 'Бірінші',
+  paginationLast: 'Соңғы',
+  paginationPrev: 'Алдыңғы',
+  paginationNext: 'Келесі',
 };
 
 registerTranslation(translation);

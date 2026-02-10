@@ -41,6 +41,12 @@ const translation: Translation = {
   toggleColorFormat: 'Přepnout formát barvy',
   zoomIn: 'Přiblížit',
   zoomOut: 'Oddálit',
+  paginationTill: 'z',
+  paginationEmpty: 'Žádné záznamy',
+  paginationFirst: 'První',
+  paginationLast: 'Poslední',
+  paginationPrev: 'Předchozí',
+  paginationNext: 'Další',
 };
 
 registerTranslation(translation);

@@ -52,4 +52,10 @@ export interface Translation extends DefaultTranslation {
   toggleColorFormat: string;
   zoomIn: string;
   zoomOut: string;
+  paginationTill:string;
+  paginationEmpty:string;
+  paginationFirst:string;
+  paginationLast:string;
+  paginationPrev:string;
+  paginationNext:string;
 }

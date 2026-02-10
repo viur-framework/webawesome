@@ -40,6 +40,12 @@ const translation: Translation = {
   toggleColorFormat: '色のフォーマットを切り替える',
   zoomIn: 'ズームイン',
   zoomOut: 'ズームアウト',
+  paginationTill: '全',
+  paginationEmpty: '項目がありません',
+  paginationFirst: '最初のページ',
+  paginationLast: '最後のページ',
+  paginationPrev: '前のページ',
+  paginationNext: '次のページ',
 };
 
 registerTranslation(translation);

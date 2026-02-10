@@ -43,6 +43,12 @@ const translation: Translation = {
   toggleColorFormat: 'تغيير صيغة عرض  اللون',
   zoomIn: 'تكبير',
   zoomOut: 'تصغير',
+  paginationTill: 'من',
+  paginationEmpty: 'لا توجد عناصر',
+  paginationFirst: 'الأول',
+  paginationLast: 'الأخير',
+  paginationPrev: 'السابق',
+  paginationNext: 'التالي',
 };
 
 registerTranslation(translation);

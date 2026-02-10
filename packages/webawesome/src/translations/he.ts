@@ -41,6 +41,12 @@ const translation: Translation = {
   toggleColorFormat: 'החלף פורמט צבע',
   zoomIn: 'התקרב',
   zoomOut: 'התרחק',
+  paginationTill: 'מתוך',
+  paginationEmpty: 'אין רשומות',
+  paginationFirst: 'ראשון',
+  paginationLast: 'אחרון',
+  paginationPrev: 'הקודם',
+  paginationNext: 'הבא',
 };
 
 registerTranslation(translation);

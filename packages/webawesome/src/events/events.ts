@@ -29,3 +29,4 @@ export type { WaStartEvent } from './start.js';
 export type { WaTabHideEvent } from './tab-hide.js';
 export type { WaTabShowEvent } from './tab-show.js';
 export type { WaVideoChangeEvent } from './video-change.js';
+export type { WaBeforeChangeEvent } from './before-change.js';

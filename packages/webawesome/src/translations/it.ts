@@ -41,6 +41,12 @@ const translation: Translation = {
   toggleColorFormat: 'Cambia formato colore',
   zoomIn: 'Ingrandire',
   zoomOut: 'Rimpicciolire',
+  paginationTill: 'di',
+  paginationEmpty: 'Nessuna voce',
+  paginationFirst: 'Primo',
+  paginationLast: 'Ultimo',
+  paginationPrev: 'Precedente',
+  paginationNext: 'Successivo',
 };
 
 registerTranslation(translation);

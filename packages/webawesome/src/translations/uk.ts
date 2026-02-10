@@ -43,6 +43,12 @@ const translation: Translation = {
   toggleColorFormat: 'Переключити кольорову модель',
   zoomIn: 'Збільшити',
   zoomOut: 'Зменшити',
+  paginationTill: 'з',
+  paginationEmpty: 'Немає записів',
+  paginationFirst: 'Перший',
+  paginationLast: 'Останній',
+  paginationPrev: 'Попередній',
+  paginationNext: 'Наступний',
 };
 
 registerTranslation(translation);

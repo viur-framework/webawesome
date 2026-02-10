@@ -29,9 +29,8 @@ export default css`
     display: inline-flex;
   }
 
-  div[part=no-data] {
+  div[part=empty] {
     margin: 0 1em;
-    color: rgb(var(--wa-color-gray-50));
   }
 
   wa-button {
@@ -41,14 +40,6 @@ export default css`
   }
   wa-button[disabled] {
     cursor: default;
-  }
-  wa-button wa-icon {
-    color: rgb(var(--wa-color-neutral-60));
-  }
-
-  wa-button::part(base) {
-    height: var(--wa-input-height-small);
-    line-height: var(--wa-input-height-small);
   }
 
   wa-select, wa-input {

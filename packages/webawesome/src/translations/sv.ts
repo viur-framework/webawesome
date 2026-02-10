@@ -41,6 +41,12 @@ const translation: Translation = {
   toggleColorFormat: 'Växla färgformat',
   zoomIn: 'Zooma in',
   zoomOut: 'Zooma ut',
+  paginationTill: 'av',
+  paginationEmpty: 'Inga poster',
+  paginationFirst: 'Första',
+  paginationLast: 'Sista',
+  paginationPrev: 'Föregående',
+  paginationNext: 'Nästa',
 };
 
 registerTranslation(translation);

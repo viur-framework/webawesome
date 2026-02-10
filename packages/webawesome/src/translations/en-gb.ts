@@ -9,6 +9,12 @@ const translation: Translation = {
 
   selectAColorFromTheScreen: 'Select a colour from the screen',
   toggleColorFormat: 'Toggle colour format',
+  paginationTill: 'of',
+  paginationEmpty: 'No entries',
+  paginationFirst: 'First',
+  paginationLast: 'Last',
+  paginationPrev: 'Previous',
+  paginationNext: 'Next',
 };
 
 registerTranslation(translation);

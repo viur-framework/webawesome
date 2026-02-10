@@ -9,6 +9,12 @@ const translation: Translation = {
 
   close: 'Schliessen',
   resize: 'Grösse ändern',
+  paginationTill: 'von',
+  paginationEmpty: 'Keine Einträge',
+  paginationFirst: 'Erster',
+  paginationLast: 'Letzter',
+  paginationPrev: 'Vorheriger',
+  paginationNext: 'Nächster',
 };
 
 registerTranslation(translation);

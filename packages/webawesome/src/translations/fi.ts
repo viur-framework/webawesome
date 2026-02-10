@@ -41,6 +41,12 @@ const translation: Translation = {
   toggleColorFormat: 'Vaihda väriformaattia',
   zoomIn: 'Lähennä',
   zoomOut: 'Loitonna',
+  paginationTill: '/',
+  paginationEmpty: 'Ei merkintöjä',
+  paginationFirst: 'Ensimmäinen',
+  paginationLast: 'Viimeinen',
+  paginationPrev: 'Edellinen',
+  paginationNext: 'Seuraava',
 };
 
 registerTranslation(translation);

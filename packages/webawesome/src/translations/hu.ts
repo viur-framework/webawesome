@@ -41,6 +41,12 @@ const translation: Translation = {
   toggleColorFormat: 'Színformátum változtatása',
   zoomIn: 'Nagyítás',
   zoomOut: 'Kicsinyítés',
+  paginationTill: '/',
+  paginationEmpty: 'Nincs bejegyzés',
+  paginationFirst: 'Első',
+  paginationLast: 'Utolsó',
+  paginationPrev: 'Előző',
+  paginationNext: 'Következő',
 };
 
 registerTranslation(translation);

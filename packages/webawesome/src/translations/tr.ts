@@ -41,6 +41,12 @@ const translation: Translation = {
   toggleColorFormat: 'Renk biçimini değiştir',
   zoomIn: 'Yakınlaştır',
   zoomOut: 'Uzaklaştır',
+  paginationTill: '/',
+  paginationEmpty: 'Kayıt yok',
+  paginationFirst: 'İlk',
+  paginationLast: 'Son',
+  paginationPrev: 'Önceki',
+  paginationNext: 'Sonraki',
 };
 
 registerTranslation(translation);

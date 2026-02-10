@@ -41,6 +41,12 @@ const translation: Translation = {
   toggleColorFormat: 'Zamijeni format boje',
   zoomIn: 'Povećaj',
   zoomOut: 'Smanji',
+  paginationTill: 'od',
+  paginationEmpty: 'Nema zapisa',
+  paginationFirst: 'Prvi',
+  paginationLast: 'Zadnji',
+  paginationPrev: 'Prethodni',
+  paginationNext: 'Sljedeći',
 };
 
 registerTranslation(translation);

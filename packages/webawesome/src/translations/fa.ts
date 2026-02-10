@@ -40,6 +40,12 @@ const translation: Translation = {
   toggleColorFormat: 'تغییر قالب رنگ',
   zoomIn: 'بزرگ‌نمایی',
   zoomOut: 'کوچک‌نمایی',
+  paginationTill: 'از',
+  paginationEmpty: 'هیچ موردی وجود ندارد',
+  paginationFirst: 'اول',
+  paginationLast: 'آخر',
+  paginationPrev: 'قبلی',
+  paginationNext: 'بعدی',
 };
 
 registerTranslation(translation);

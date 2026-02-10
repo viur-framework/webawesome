@@ -94,14 +94,6 @@
     </a>
   </h2>
   <ul>
-    <li>
-      <span class="wa-split">
-        <a class="wa-cluster wa-gap-xs" href="/docs/components/page/">
-          Page <wa-icon name="flask" aria-hidden="true" class="icon-shrink" library="cdn"></wa-icon>
-          <wa-icon name="star" aria-hidden="true" class="icon-shrink" library="cdn"></wa-icon>
-        </a>
-      </span>
-    </li>
     <!--<li><a href="/docs/components/accordion">Accordion <wa-icon name="star" aria-hidden="true" class="icon-shrink" library="cdn"></wa-icon></a></li>-->
     <li><a href="/docs/components/animated-image/">Animated Image</a></li>
     <li><a href="/docs/components/animation/">Animation</a></li>
@@ -143,7 +135,6 @@
         {{ proBadge() }}
       </span>
     </li>
-    <li><a href="/docs/components/combobox">Combobox <wa-icon name="star" aria-hidden="true" class="icon-shrink" library="cdn"></wa-icon></a></li>
     <li><a href="/docs/components/comparison/">Comparison</a></li>
     <li>
       <a class="wa-cluster wa-gap-xs" href="/docs/components/copy-button/">
@@ -227,11 +218,34 @@
     <li><span class="is-planned wa-split">Video <span><a href="https://github.com/shoelace-style/webawesome/issues/985" target="_blank">{{ plannedBadge("A Web Awesome Kickstarter stretch goal!") }}</a>{{ proBadge( { description: "This will require access to Web Awesome Pro" }) }}</span></span></li>
     <li><a href="/docs/components/zoomable-frame">Zoomable Frame</a></li>
 
-    <li><a href="/docs/components/table-wrapper">Table Wrapper <wa-icon name="star" aria-hidden="true" class="icon-shrink" library="cdn"></wa-icon></a></li>
-    <li><a href="/docs/components/pagination">Pagination</a></li>
+
+
     {# PLOP_NEW_COMPONENT_PLACEHOLDER #}
   </ul>
 </wa-details>
+
+
+<wa-details appearance="outlined">
+  <h2 slot="summary">
+    <a class="wa-cluster wa-gap-xs" href="/docs/components/" title="Overview">
+      <wa-icon name="viur" aria-hidden="true" library="system"></wa-icon>
+      ViUR Components
+    </a>
+  </h2>
+  <ul>
+    <li><a href="/docs/components/pagination">Pagination</a></li>
+    <li><a href="/docs/components/combobox">Combobox</a></li>
+    <li><a href="/docs/components/table-wrapper">Table Wrapper</a></li>
+    <li>
+      <span class="wa-split">
+        <a class="wa-cluster wa-gap-xs" href="/docs/components/page/">
+          Page <wa-icon name="star" aria-hidden="true" class="icon-shrink" library="cdn"></wa-icon>
+        </a>
+      </span>
+    </li>
+  </ul>
+</wa-details>
+
 
 <!-- Data Visualization -->
 <wa-details appearance="outlined">

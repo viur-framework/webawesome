@@ -41,6 +41,12 @@ const translation: Translation = {
   toggleColorFormat: '切換顏色格式',
   zoomIn: '放大',
   zoomOut: '縮小',
+  paginationTill: '共',
+  paginationEmpty: '沒有項目',
+  paginationFirst: '首頁',
+  paginationLast: '末頁',
+  paginationPrev: '上一頁',
+  paginationNext: '下一頁',
 };
 
 registerTranslation(translation);

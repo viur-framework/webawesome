@@ -41,6 +41,12 @@ const translation: Translation = {
   toggleColorFormat: 'Переключить цветовую модель',
   zoomIn: 'Увеличить',
   zoomOut: 'Уменьшить',
+  paginationTill: 'из',
+  paginationEmpty: 'Нет записей',
+  paginationFirst: 'Первый',
+  paginationLast: 'Последний',
+  paginationPrev: 'Предыдущий',
+  paginationNext: 'Следующий',
 };
 
 registerTranslation(translation);

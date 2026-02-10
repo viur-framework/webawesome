@@ -41,6 +41,12 @@ const translation: Translation = {
   toggleColorFormat: 'Byt fargeformat',
   zoomIn: 'Zoom inn',
   zoomOut: 'Zoom ut',
+  paginationTill: 'av',
+  paginationEmpty: 'Ingen oppføringar',
+  paginationFirst: 'Første',
+  paginationLast: 'Siste',
+  paginationPrev: 'Førre',
+  paginationNext: 'Neste',
 };
 
 registerTranslation(translation);
