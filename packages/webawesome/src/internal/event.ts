@@ -24,12 +24,11 @@ export function onEvent(
   type: string,
   callBack: EventListener,
   userCapture = false,
-  context?: unknown
+  context?: unknown,
 ): EventDisposable {
   const listener = function (e: Event) {
     const target = e.target as Node | null;
-    const elementTarget =
-      target instanceof Element ? target : target instanceof Node ? target.parentElement : null;
+    const elementTarget = target instanceof Element ? target : target instanceof Node ? target.parentElement : null;
     const delegateTarget = elementTarget?.closest(selector) ?? null;
     (e as any).delegateTarget = delegateTarget;
     if (delegateTarget) {
@@ -51,6 +50,6 @@ export function onEvent(
   return {
     dispose() {
       node.removeEventListener(type, listener, userCapture);
-    }
+    },
   };
 }

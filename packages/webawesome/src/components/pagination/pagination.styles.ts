@@ -1,4 +1,4 @@
-import { css } from "lit";
+import { css } from 'lit';
 
 export default css`
   :host {
@@ -6,18 +6,18 @@ export default css`
     font-size: inherit;
   }
 
-  div[part=base] {
+  div[part='base'] {
     display: flex;
     white-space: nowrap;
     align-items: center;
   }
-  div[part=base][page-align=left] {
+  div[part='base'][page-align='left'] {
     justify-content: flex-start;
   }
-  div[part=base][page-align=center] {
+  div[part='base'][page-align='center'] {
     justify-content: center;
   }
-  div[part=base][page-align=right] {
+  div[part='base'][page-align='right'] {
     justify-content: flex-end;
   }
 
@@ -25,11 +25,11 @@ export default css`
     margin: auto 5px;
   }
 
-  div[part=pageWrap] {
+  div[part='pageWrap'] {
     display: inline-flex;
   }
 
-  div[part=empty] {
+  div[part='empty'] {
     margin: 0 1em;
   }
 
@@ -42,8 +42,9 @@ export default css`
     cursor: default;
   }
 
-  wa-select, wa-input {
+  wa-select,
+  wa-input {
     display: inline-flex;
     margin: 0 3px;
   }
-`
+`;

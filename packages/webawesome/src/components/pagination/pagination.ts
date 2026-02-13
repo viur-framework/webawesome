@@ -1,17 +1,17 @@
+import type { PropertyValues, TemplateResult } from 'lit';
 import { html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import WebAwesomeElement from '../../internal/webawesome-element.js';
-import styles from './pagination.styles.js';
 import { repeat } from 'lit/directives/repeat.js';
-import type { PropertyValues, TemplateResult } from 'lit';
+import { onEvent } from '../../internal/event.js';
+import { watch } from '../../internal/watch.js';
+import WebAwesomeElement from '../../internal/webawesome-element.js';
+import { LocalizeController } from '../../utilities/localize.js';
 import WaButton from '../button/button.js';
-import '../option/option.js';
 import '../icon/icon.js';
+import '../option/option.js';
 import '../select/select.js';
 import '../tooltip/tooltip.js';
-import { watch } from '../../internal/watch.js';
-import { LocalizeController } from '../../utilities/localize.js';
-import { onEvent } from '../../internal/event.js';
+import styles from './pagination.styles.js';
 /**
  * @since 2.0
  * @status experimental
@@ -30,7 +30,7 @@ import { onEvent } from '../../internal/event.js';
  *
  *
  */
- @customElement("wa-pagination")
+@customElement('wa-pagination')
 export default class WaPagination extends WebAwesomeElement {
   static css = [styles];
   private readonly localize = new LocalizeController(this);
@@ -52,7 +52,10 @@ export default class WaPagination extends WebAwesomeElement {
   /** Total number of sizes */
   @property({ type: Number, attribute: 'total', reflect: true }) total: number;
   /** Support for resized pagination */
-  @property({ type: Array, attribute: false }) pageSizeOptions: Array<Number> = Array.from({ length: 10 }, (_item, value) => 10 + value * 10);
+  @property({ type: Array, attribute: false }) pageSizeOptions: Array<Number> = Array.from(
+    { length: 10 },
+    (_item, value) => 10 + value * 10,
+  );
   /** Whether to display Jump directly to the first page */
   @property({ type: Boolean, reflect: true, attribute: 'show-first' }) showFirst = false;
   /** Show or not Show Jump directly to the last page */
@@ -75,7 +78,15 @@ export default class WaPagination extends WebAwesomeElement {
     }
   }
   _renderSimple() {
-    return html`<wa-input size="small" type="number" step="1" min="1" max=${this.pageCount} .value=${this.value + ''}></wa-input><span part="page" class="pageCountSpan">${this.localize.term('paginationTill')} ${this.pageCount}</span>`;
+    return html`<wa-input
+        size="small"
+        type="number"
+        step="1"
+        min="1"
+        max=${this.pageCount}
+        .value=${this.value + ''}
+      ></wa-input
+      ><span part="page" class="pageCountSpan">${this.localize.term('paginationTill')} ${this.pageCount}</span>`;
   }
   _renderPageButton() {
     const pageCount = this.pageCount;
@@ -100,7 +111,13 @@ export default class WaPagination extends WebAwesomeElement {
     for (let i = prev; i <= next; i++) {
       array.push(i);
     }
-    return html`${repeat(array, item => html`<wa-button size="small" data-page-no=${item} .variant=${this.value == item ? 'brand' : 'default'}>${item}</wa-button> `)}`;
+    return html`${repeat(
+      array,
+      item =>
+        html`<wa-button size="small" data-page-no=${item} .variant=${this.value == item ? 'brand' : 'default'}
+          >${item}</wa-button
+        > `,
+    )}`;
   }
 
   _renderPage() {
@@ -110,9 +127,11 @@ export default class WaPagination extends WebAwesomeElement {
       result.push(this._renderSimple());
     }
     if (this.showSizeChange) {
-      result.push(html`<wa-select size="small" part="show-size-change" .value=${this.pageSize + ''}>
-        ${repeat(this.pageSizeOptions, (value, _index) => html`<wa-option .value=${value + ''}>${value}</wa-option>`)}
-      </wa-select>`);
+      result.push(
+        html`<wa-select size="small" part="show-size-change" .value=${this.pageSize + ''}>
+          ${repeat(this.pageSizeOptions, (value, _index) => html`<wa-option .value=${value + ''}>${value}</wa-option>`)}
+        </wa-select>`,
+      );
     }
     return result;
   }
@@ -133,37 +152,33 @@ export default class WaPagination extends WebAwesomeElement {
       } else {
         this.goToPage(tempNo);
       }
-      });
-      this._eventDispose2 = onEvent(baseDiv, 'wa-input,wa-select[part=show-size-change]', 'change', (event: Event) => {
-        let el = (event as any).delegateTarget as HTMLElement;
-        this.dispatchEvent(
-          new CustomEvent('before-change', { bubbles: true, composed: true, cancelable: true })
-        );
-        if (el.matches('wa-select[part=show-size-change]')) {
-          this.pageSize = Number((el as any).value);
-        } else {
-          this.watchPageChange();
-          let value = (el as any).value;
-          if (isNaN(value)) {
-            value = 1;
-          }
-          value = Number(value);
-          if (value > this.pageCount) {
-            value = this.pageCount;
-          }
-          (el as any).value = value;
-          this.value = value;
+    });
+    this._eventDispose2 = onEvent(baseDiv, 'wa-input,wa-select[part=show-size-change]', 'change', (event: Event) => {
+      let el = (event as any).delegateTarget as HTMLElement;
+      this.dispatchEvent(new CustomEvent('before-change', { bubbles: true, composed: true, cancelable: true }));
+      if (el.matches('wa-select[part=show-size-change]')) {
+        this.pageSize = Number((el as any).value);
+      } else {
+        this.watchPageChange();
+        let value = (el as any).value;
+        if (isNaN(value)) {
+          value = 1;
         }
-        this.dispatchEvent(
-          new CustomEvent('change', {
-            detail: { value: this.value },
-            bubbles: true,
-            composed: true
-          })
-        );
-
-      });
-
+        value = Number(value);
+        if (value > this.pageCount) {
+          value = this.pageCount;
+        }
+        (el as any).value = value;
+        this.value = value;
+      }
+      this.dispatchEvent(
+        new CustomEvent('change', {
+          detail: { value: this.value },
+          bubbles: true,
+          composed: true,
+        }),
+      );
+    });
   }
   disconnectedCallback() {
     super.disconnectedCallback();
@@ -192,9 +207,7 @@ export default class WaPagination extends WebAwesomeElement {
     this.goToPage(result);
   }
   goToPage(pageNo: number) {
-    this.dispatchEvent(
-      new CustomEvent('before-change', { bubbles: true, composed: true, cancelable: true })
-    );
+    this.dispatchEvent(new CustomEvent('before-change', { bubbles: true, composed: true, cancelable: true }));
 
     if (!isNaN(pageNo)) {
       let tempValue = pageNo;
@@ -208,11 +221,10 @@ export default class WaPagination extends WebAwesomeElement {
         new CustomEvent('change', {
           detail: { value: this.value },
           bubbles: true,
-          composed: true
-        })
+          composed: true,
+        }),
       );
     }
-
   }
 
   render() {
@@ -223,31 +235,51 @@ export default class WaPagination extends WebAwesomeElement {
         : html`
             ${this.showFirst
               ? html`<wa-tooltip for="wa-pagination-first">${this.localize.term('paginationFirst')}</wa-tooltip>
-                      <wa-button id="wa-pagination-first" size="small" ?disabled=${this.value == 1} data-page-no="first" appearance="plain">
-                        <wa-icon part="first" name="chevron-bar-left" library="system"></wa-icon>
-                      </wa-button>
-
-              `
+                  <wa-button
+                    id="wa-pagination-first"
+                    size="small"
+                    ?disabled=${this.value == 1}
+                    data-page-no="first"
+                    appearance="plain"
+                  >
+                    <wa-icon part="first" name="chevron-bar-left" library="system"></wa-icon>
+                  </wa-button> `
               : nothing}
 
             <wa-tooltip for="wa-pagination-prev">${this.localize.term('paginationPrev')}</wa-tooltip>
-            <wa-button id="wa-pagination-prev" ?disabled=${this.value == 1} data-page-no="prev" size="small" appearance="plain">
-                <wa-icon part="prev" name="chevron-left" ?disabled=${this.value <= 1} library="system"></wa-icon>
+            <wa-button
+              id="wa-pagination-prev"
+              ?disabled=${this.value == 1}
+              data-page-no="prev"
+              size="small"
+              appearance="plain"
+            >
+              <wa-icon part="prev" name="chevron-left" ?disabled=${this.value <= 1} library="system"></wa-icon>
             </wa-button>
 
             <div part="pageWrap">${this.simple ? this._renderSimple() : this._renderPage()}</div>
 
             <wa-tooltip for="wa-pagination-next">${this.localize.term('paginationNext')}</wa-tooltip>
-            <wa-button id="wa-pagination-next" size="small" ?disabled=${this.value + 1 > this.pageCount} data-page-no="next" appearance="plain">
+            <wa-button
+              id="wa-pagination-next"
+              size="small"
+              ?disabled=${this.value + 1 > this.pageCount}
+              data-page-no="next"
+              appearance="plain"
+            >
               <wa-icon part="next" name="chevron-right" ?disabled=${this.value <= 1} library="system"></wa-icon>
             </wa-button>
             ${this.showLast
               ? html`<wa-tooltip for="wa-pagination-last">${this.localize.term('paginationLast')}</wa-tooltip>
-              <wa-button id="wa-pagination-last" size="small" ?disabled=${this.value == this.pageCount} data-page-no="last" appearance="plain">
-                <wa-icon part="last" name="chevron-bar-right" library="system"></wa-icon>
-              </wa-button>
-
-              `
+                  <wa-button
+                    id="wa-pagination-last"
+                    size="small"
+                    ?disabled=${this.value == this.pageCount}
+                    data-page-no="last"
+                    appearance="plain"
+                  >
+                    <wa-icon part="last" name="chevron-bar-right" library="system"></wa-icon>
+                  </wa-button> `
               : nothing}
           `}
       <slot name="end"></slot>
