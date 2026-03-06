@@ -15,7 +15,7 @@ jobs:
 
       - name: Install dependencies and build
         run: |
-          npm ci
+          npm ci --include=optional
           cd packages/webawesome && npm run build
       - name: collect
         run: |
