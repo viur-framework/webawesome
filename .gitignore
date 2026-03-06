@@ -13,3 +13,4 @@ _bundle_
 .idea
 packages/webawesome/assets
 custom-elements.json
+.claude/settings.local.json
