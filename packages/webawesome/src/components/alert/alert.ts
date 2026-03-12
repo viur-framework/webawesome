@@ -8,8 +8,8 @@ import { animateWithClass } from '../../internal/animate.js';
 import { waitForEvent } from '../../internal/event.js';
 import { watch } from '../../internal/watch.js';
 import { LocalizeController } from '../../utilities/localize.js';
-import WaCallout from '../callout/callout.js';
 import '../button/button.js';
+import WaCallout from '../callout/callout.js';
 import '../icon/icon.js';
 import styles from './alert.styles.js';
 
@@ -41,10 +41,7 @@ import styles from './alert.styles.js';
  */
 @customElement('wa-alert')
 export default class WaAlert extends WaCallout {
-  static css = [
-    ...(Array.isArray(WaCallout.css) ? WaCallout.css : WaCallout.css ? [WaCallout.css] : []),
-    styles,
-  ];
+  static css = [...(Array.isArray(WaCallout.css) ? WaCallout.css : WaCallout.css ? [WaCallout.css] : []), styles];
 
   private autoHideTimeout: number;
   private readonly localize = new LocalizeController(this);
