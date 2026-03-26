@@ -134,7 +134,8 @@ By default, the gap between cluster items uses `--wa-space-m` from your theme. Y
 - `wa-gap-xl`
 - `wa-gap-2xl`
 - `wa-gap-3xl`
-- `wa-gap-stretch`
+- `wa-gap-4xl`
+- `wa-gap-5xl`
 
 ```html {.example}
 <div class="wa-stack">
