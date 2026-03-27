@@ -4,7 +4,7 @@ import { execSync } from 'child_process';
 import { deleteAsync } from 'del';
 import esbuild from 'esbuild';
 import { replace } from 'esbuild-plugin-replace';
-import { mkdir, readFile } from 'fs/promises';
+import { copyFile, mkdir, readFile } from 'fs/promises';
 import getPort, { portNumbers } from 'get-port';
 import { globby } from 'globby';
 import { dirname, extname, join, posix, relative } from 'node:path';
@@ -26,6 +26,9 @@ let buildContexts = {
   bundledContext: {},
   unbundledContext: {},
 };
+
+const REBUILD_MANIFEST = false
+
 
 const debugPerf = process.env.DEBUG_PERFORMANCE === '1';
 const isDeveloping = process.argv.includes('--develop');
@@ -59,13 +62,28 @@ export async function build(options = {}) {
   }
 
   /**
+   * Copies the checked-in custom-elements.json from src/ to dist/ and dist-cdn/.
+   */
+  async function copyManifest() {
+    const src = join(__dirname, '../src/custom-elements.json');
+    await mkdir(getCdnDir(), { recursive: true });
+    await mkdir(getDistDir(), { recursive: true });
+    await copyFile(src, join(getCdnDir(), 'custom-elements.json'));
+    await copyFile(src, join(getDistDir(), 'custom-elements.json'));
+  }
+
+  /**
    * Runs the full build.
    */
   async function buildAll() {
     const start = Date.now();
 
     try {
-      const steps = [cleanup, generateManifest, generateReactWrappers, generateTypes, generateStyles];
+      let steps = [cleanup, copyManifest, generateTypes, generateStyles];
+
+      if (REBUILD_MANIFEST){
+        steps = [cleanup, generateManifest, generateReactWrappers, generateTypes, generateStyles];
+      }
 
       for (const step of steps) {
         if (debugPerf) {
