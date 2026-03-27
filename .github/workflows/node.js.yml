@@ -37,7 +37,7 @@ jobs:
           cache: "npm"
       - name: Ensure npm supports trusted publishing
         run: npm install -g npm@latest
-      - run: npm ci --include=optional
+      - run: npm install
       - run: npm run build
       - name: Publish to npm (Trusted Publishing)
         working-directory: packages/webawesome
