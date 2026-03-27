@@ -27,8 +27,7 @@ let buildContexts = {
   unbundledContext: {},
 };
 
-const REBUILD_MANIFEST = false
-
+const REBUILD_MANIFEST = false;
 
 const debugPerf = process.env.DEBUG_PERFORMANCE === '1';
 const isDeveloping = process.argv.includes('--develop');
@@ -81,7 +80,7 @@ export async function build(options = {}) {
     try {
       let steps = [cleanup, copyManifest, generateTypes, generateStyles];
 
-      if (REBUILD_MANIFEST){
+      if (REBUILD_MANIFEST) {
         steps = [cleanup, generateManifest, generateReactWrappers, generateTypes, generateStyles];
       }
 
