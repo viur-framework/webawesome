@@ -12,5 +12,4 @@ _bundle_
 /packages/webawesome-app
 .idea
 packages/webawesome/assets
-custom-elements.json
 .claude/settings.local.json
