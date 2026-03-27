@@ -19,6 +19,13 @@ describe('<wa-tag>', () => {
         expect(el.getAttribute('variant')).to.equal('danger');
       });
 
+      it('should accept the info variant', async () => {
+        const el = await fixture<WaTag>(html` <wa-tag>Test</wa-tag> `);
+        el.variant = 'info';
+        await el.updateComplete;
+        expect(el.getAttribute('variant')).to.equal('info');
+      });
+
       it('should set size by attribute', async () => {
         const el = await fixture<WaTag>(html` <wa-tag size="large">Test</wa-tag> `);
         expect(el.getAttribute('size')).to.equal('large');

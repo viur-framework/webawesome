@@ -21,6 +21,7 @@ Set the `variant` attribute to change the badge's variant.
 <wa-badge variant="neutral">Neutral</wa-badge>
 <wa-badge variant="warning">Warning</wa-badge>
 <wa-badge variant="danger">Danger</wa-badge>
+<wa-badge variant="info">Info</wa-badge>
 ```
 
 ### Appearance
@@ -52,11 +53,17 @@ Use the `appearance` attribute to change the badge's visual appearance.
   <wa-badge appearance="filled" variant="warning">Filled</wa-badge>
   <wa-badge appearance="outlined" variant="warning">Outlined</wa-badge>
 </div>
-<div>
+<div style="margin-block-end: 1rem;">
   <wa-badge appearance="accent" variant="danger">Accent</wa-badge>
   <wa-badge appearance="filled-outlined" variant="danger">Filled-Outlined</wa-badge>
   <wa-badge appearance="filled" variant="danger">Filled</wa-badge>
   <wa-badge appearance="outlined" variant="danger">Outlined</wa-badge>
+</div>
+<div>
+  <wa-badge appearance="accent" variant="info">Accent</wa-badge>
+  <wa-badge appearance="filled-outlined" variant="info">Filled-Outlined</wa-badge>
+  <wa-badge appearance="filled" variant="info">Filled</wa-badge>
+  <wa-badge appearance="outlined" variant="info">Outlined</wa-badge>
 </div>
 ```
 
@@ -82,6 +89,7 @@ Use the `pill` attribute to give badges rounded edges.
 <wa-badge variant="neutral" pill>Neutral</wa-badge>
 <wa-badge variant="warning" pill>Warning</wa-badge>
 <wa-badge variant="danger" pill>Danger</wa-badge>
+<wa-badge variant="info" pill>Info</wa-badge>
 ```
 
 ### Drawing Attention
@@ -95,6 +103,7 @@ Use the `attention` attribute to draw attention to the badge with a subtle anima
   <wa-badge variant="neutral" attention="pulse" pill>1</wa-badge>
   <wa-badge variant="warning" attention="pulse" pill>1</wa-badge>
   <wa-badge variant="danger" attention="pulse" pill>1</wa-badge>
+  <wa-badge variant="info" attention="pulse" pill>1</wa-badge>
 </div>
 
 <div class="badge-attention">
@@ -103,6 +112,7 @@ Use the `attention` attribute to draw attention to the badge with a subtle anima
   <wa-badge variant="neutral" attention="bounce" pill>1</wa-badge>
   <wa-badge variant="warning" attention="bounce" pill>1</wa-badge>
   <wa-badge variant="danger" attention="bounce" pill>1</wa-badge>
+  <wa-badge variant="info" attention="bounce" pill>1</wa-badge>
 </div>
 
 <style>

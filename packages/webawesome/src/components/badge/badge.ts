@@ -26,7 +26,7 @@ export default class WaBadge extends WebAwesomeElement {
   static css = [variantStyles, styles];
 
   /** The badge's theme variant. Defaults to `brand` if not within another element with a variant. */
-  @property({ reflect: true }) variant: 'brand' | 'neutral' | 'success' | 'warning' | 'danger' = 'brand';
+  @property({ reflect: true }) variant: 'brand' | 'neutral' | 'success' | 'warning' | 'danger' | 'info' = 'brand';
 
   /** The badge's visual appearance. */
   @property({ reflect: true }) appearance: 'accent' | 'filled' | 'outlined' | 'filled-outlined' = 'accent';

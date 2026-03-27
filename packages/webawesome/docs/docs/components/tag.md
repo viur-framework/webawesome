@@ -11,6 +11,7 @@ category: Feedback & Status
 <wa-tag variant="neutral">Neutral</wa-tag>
 <wa-tag variant="warning">Warning</wa-tag>
 <wa-tag variant="danger">Danger</wa-tag>
+<wa-tag variant="info">Info</wa-tag>
 ```
 
 ## Examples
@@ -54,6 +55,13 @@ The default appearance is `filled-outlined`.
     <wa-tag variant="danger" appearance="filled-outlined">Filled-Outlined</wa-tag>
     <wa-tag variant="danger" appearance="filled">Filled</wa-tag>
     <wa-tag variant="danger" appearance="outlined">Outlined</wa-tag>
+  </p>
+
+  <p>
+    <wa-tag variant="info" appearance="accent">Accent</wa-tag>
+    <wa-tag variant="info" appearance="filled-outlined">Filled-Outlined</wa-tag>
+    <wa-tag variant="info" appearance="filled">Filled</wa-tag>
+    <wa-tag variant="info" appearance="outlined">Outlined</wa-tag>
   </p>
 </div>
 ```

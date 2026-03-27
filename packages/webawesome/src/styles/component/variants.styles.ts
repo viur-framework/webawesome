@@ -66,4 +66,17 @@ export default css`
     --wa-color-on-normal: var(--wa-color-danger-on-normal);
     --wa-color-on-quiet: var(--wa-color-danger-on-quiet);
   }
+
+  .wa-info,
+  :host([variant='info']) {
+    --wa-color-fill-loud: var(--wa-color-info-fill-loud);
+    --wa-color-fill-normal: var(--wa-color-info-fill-normal);
+    --wa-color-fill-quiet: var(--wa-color-info-fill-quiet);
+    --wa-color-border-loud: var(--wa-color-info-border-loud);
+    --wa-color-border-normal: var(--wa-color-info-border-normal);
+    --wa-color-border-quiet: var(--wa-color-info-border-quiet);
+    --wa-color-on-loud: var(--wa-color-info-on-loud);
+    --wa-color-on-normal: var(--wa-color-info-on-normal);
+    --wa-color-on-quiet: var(--wa-color-info-on-quiet);
+  }
 `;

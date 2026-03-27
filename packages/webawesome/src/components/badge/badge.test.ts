@@ -26,6 +26,13 @@ describe('<wa-badge>', () => {
           expect(el.getAttribute('variant')).to.eq('brand');
           expect(el.variant).to.eq('brand');
         });
+
+        it('should accept the info variant', async () => {
+          const el = await fixture<WaBadge>(html` <wa-badge>Badge</wa-badge> `);
+          el.variant = 'info';
+          await el.updateComplete;
+          expect(el.getAttribute('variant')).to.eq('info');
+        });
       });
 
       describe('when provided a pill parameter', () => {

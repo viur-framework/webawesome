@@ -88,9 +88,9 @@ You have several hand-crafted [color palettes](/docs/color-palettes) to choose f
 
 ### Semantic Scales
 
-Any hue can be mapped to `brand`, `neutral`, `success`, `warning`, and `danger` scales. Like the tokens in a color scale, each token is identified by its semantic group and a numerical tint using the format `--wa-color-{group}-{tint}`.
+Any hue can be mapped to `brand`, `neutral`, `success`, `warning`, `danger`, and `info` scales. Like the tokens in a color scale, each token is identified by its semantic group and a numerical tint using the format `--wa-color-{group}-{tint}`.
 
-{% for group in ['brand', 'neutral', 'success', 'warning', 'danger'] -%}
+{% for group in ['brand', 'neutral', 'success', 'warning', 'danger', 'info'] -%}
 
 <div class="color-name">{{ group | capitalize }}</div>
 <ul class="color-group">
@@ -169,13 +169,14 @@ Web Awesome leverages `color-mix()` to achieve consistent hover and active state
 
 ## Semantic Colors
 
-Semantic colors reinforce a specific message, intended usage, or expected results through familiar, meaningful hues. Each color is identified by its semantic group, role, and attention using the format `--wa-color-{group}-{role}-{attention}`. There are five groups of semantic colors:
+Semantic colors reinforce a specific message, intended usage, or expected results through familiar, meaningful hues. Each color is identified by its semantic group, role, and attention using the format `--wa-color-{group}-{role}-{attention}`. There are six groups of semantic colors:
 
 - **Brand** to emphasize your brand color
 - **Success** for validity or confirmation
 - **Neutral** for ordinary or inactive content
 - **Warning** for caution or uncertainty
 - **Danger** for errors or risk
+- **Info** for informational or supplementary content
 
 Each group defines colors for specific roles so that colors can be easily assembled with predictable results and readable contrast. There are three roles:
 
@@ -189,7 +190,7 @@ Finally, each color is named according to how much attention it draws. Here, we 
 - **Normal** draws some attention
 - **Loud** draws the most attention
 
-{% set variants = ['brand', 'success', 'neutral', 'warning', 'danger'] %}
+{% set variants = ['brand', 'success', 'neutral', 'warning', 'danger', 'info'] %}
 
 <table>
   <thead>

@@ -60,6 +60,14 @@ Set the `variant` attribute to change the alert's variant.
   <strong>Your account has been deleted</strong><br />
   We're very sorry to see you go!
 </wa-alert>
+
+<br />
+
+<wa-alert variant="info" open>
+  <wa-icon slot="icon" name="circle-info" library="cdn"></wa-icon>
+  <strong>Just so you know</strong><br />
+  Here's some additional information you might find useful.
+</wa-alert>
 ```
 
 ### Closable

@@ -87,6 +87,16 @@
     --wa-color-neutral-on-quiet: var(--wa-color-neutral-40);
     --wa-color-neutral-on-normal: var(--wa-color-neutral-40);
     --wa-color-neutral-on-loud: var(--wa-color-text-normal);
+
+    --wa-color-info-fill-quiet: var(--wa-color-info-95);
+    --wa-color-info-fill-normal: var(--wa-color-info-90);
+    --wa-color-info-fill-loud: var(--wa-color-info-70);
+    --wa-color-info-border-quiet: var(--wa-color-info-70);
+    --wa-color-info-border-normal: var(--wa-color-info-50);
+    --wa-color-info-border-loud: var(--wa-color-info-30);
+    --wa-color-info-on-quiet: var(--wa-color-info-40);
+    --wa-color-info-on-normal: var(--wa-color-info-40);
+    --wa-color-info-on-loud: var(--wa-color-text-normal);
     /* #endregion */
   }
 
@@ -163,6 +173,16 @@
     --wa-color-danger-on-quiet: var(--wa-color-danger-70);
     --wa-color-danger-on-normal: var(--wa-color-danger-80);
     --wa-color-danger-on-loud: white;
+
+    --wa-color-info-fill-quiet: var(--wa-color-info-10);
+    --wa-color-info-fill-normal: var(--wa-color-info-20);
+    --wa-color-info-fill-loud: var(--wa-color-info-50);
+    --wa-color-info-border-quiet: var(--wa-color-info-30);
+    --wa-color-info-border-normal: var(--wa-color-info-50);
+    --wa-color-info-border-loud: var(--wa-color-info-80);
+    --wa-color-info-on-quiet: var(--wa-color-info-70);
+    --wa-color-info-on-normal: var(--wa-color-info-80);
+    --wa-color-info-on-loud: white;
 
     --wa-color-neutral-fill-quiet: var(--wa-color-neutral-10);
     --wa-color-neutral-fill-normal: var(--wa-color-neutral-20);

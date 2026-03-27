@@ -32,7 +32,7 @@ export default class WaTag extends WebAwesomeElement {
   private readonly localize = new LocalizeController(this);
 
   /** The tag's theme variant. Defaults to `neutral` if not within another element with a variant. */
-  @property({ reflect: true }) variant: 'brand' | 'neutral' | 'success' | 'warning' | 'danger' = 'neutral';
+  @property({ reflect: true }) variant: 'brand' | 'neutral' | 'success' | 'warning' | 'danger' | 'info' = 'neutral';
 
   /** The tag's visual appearance. */
   @property({ reflect: true }) appearance: 'accent' | 'filled' | 'outlined' | 'filled-outlined' = 'filled-outlined';

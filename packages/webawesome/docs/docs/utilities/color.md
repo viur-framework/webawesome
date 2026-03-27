@@ -1,6 +1,6 @@
 ---
 title: Color Variants
-description: Color utilities allow you to apply the brand, neutral, success, warning, and danger colors from your theme to any element.
+description: Color utilities allow you to apply the brand, neutral, success, warning, danger, and info colors from your theme to any element.
 layout: docs
 tags: styleUtilities
 ---
@@ -20,9 +20,10 @@ You can create the same effect on any element by using the color variant utility
 - `.wa-success`
 - `.wa-warning`
 - `.wa-danger`
+- `.wa-info`
 
 Using these classes is a two-way handshake:
-they do not directly apply styles, but define generic color tokens modeled after our [Semantic Colors](/docs/tokens/color/#semantic-colors) but _without_ the group identifier (`neutral`, `brand`, `success`, `warning`, `danger`), defaulting to `neutral`.
+they do not directly apply styles, but define generic color tokens modeled after our [Semantic Colors](/docs/tokens/color/#semantic-colors) but _without_ the group identifier (`neutral`, `brand`, `success`, `warning`, `danger`, `info`), defaulting to `neutral`.
 This means that styles can be written to respond to variants by using e.g. `--wa-color-fill-loud` instead of e.g. `--wa-color-brand-fill-loud`,
 and all of our [native styles](/docs/utilities/native/) do so (where it made sense).
 
@@ -35,6 +36,7 @@ This is all we need to do:
 <p class="callout wa-success">This is a callout.</p>
 <p class="callout wa-warning">This is a callout.</p>
 <p class="callout wa-danger">This is a callout.</p>
+<p class="callout wa-info">This is a callout.</p>
 
 <style>
   .callout {

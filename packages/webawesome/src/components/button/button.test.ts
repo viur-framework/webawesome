@@ -5,7 +5,7 @@ import { fixtures } from '../../internal/test/fixture.js';
 import { runFormControlBaseTests } from '../../internal/test/form-control-base-tests.js';
 import type WaButton from './button.js';
 
-const variants = ['brand', 'success', 'neutral', 'warning', 'danger'];
+const variants = ['brand', 'success', 'neutral', 'warning', 'danger', 'info'];
 
 describe('<wa-button>', () => {
   runFormControlBaseTests({
@@ -41,6 +41,15 @@ describe('<wa-button>', () => {
             const el = await fixture<WaButton>(html` <wa-button variant="${variant}"> Button Label </wa-button> `);
             await expect(el).to.be.accessible();
           });
+        });
+      });
+
+      describe('when provided no parameters', () => {
+        it('should accept the info variant', async () => {
+          const el = await fixture<WaButton>(html` <wa-button>Button Label</wa-button> `);
+          el.variant = 'info';
+          await el.updateComplete;
+          expect(el.getAttribute('variant')).to.equal('info');
         });
       });
 

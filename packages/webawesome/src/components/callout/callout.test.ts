@@ -25,6 +25,13 @@ describe('<wa-callout>', () => {
           await expect(callout).to.be.accessible();
         }
       });
+
+      it('should accept the info variant', async () => {
+        const el = await fixture<WaCallout>(html` <wa-callout>Test</wa-callout> `);
+        el.variant = 'info';
+        await el.updateComplete;
+        expect(el.getAttribute('variant')).to.equal('info');
+      });
     });
   }
 });

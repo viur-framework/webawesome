@@ -22,6 +22,7 @@ Use the `variant` attribute to set the button's semantic variant.
   <wa-button variant="success">Success</wa-button>
   <wa-button variant="warning">Warning</wa-button>
   <wa-button variant="danger">Danger</wa-button>
+  <wa-button variant="info">Info</wa-button>
 </div>
 ```
 
@@ -65,6 +66,13 @@ Use the `appearance` attribute to change the button's visual appearance.
     <wa-button appearance="filled" variant="danger">Filled</wa-button>
     <wa-button appearance="outlined" variant="danger">Outlined</wa-button>
     <wa-button appearance="plain" variant="danger">Plain</wa-button>
+  </div>
+  <div class="wa-cluster wa-gap-2xs">
+    <wa-button appearance="accent" variant="info">Accent</wa-button>
+    <wa-button appearance="filled-outlined" variant="info">Filled-Outlined</wa-button>
+    <wa-button appearance="filled" variant="info">Filled</wa-button>
+    <wa-button appearance="outlined" variant="info">Outlined</wa-button>
+    <wa-button appearance="plain" variant="info">Plain</wa-button>
   </div>
 </div>
 ```

@@ -56,6 +56,14 @@ Set the `variant` attribute to change the callout's variant.
   <strong>Your account has been deleted</strong><br />
   We're very sorry to see you go!
 </wa-callout>
+
+<br />
+
+<wa-callout variant="info">
+  <wa-icon slot="icon" name="circle-info" variant="regular"></wa-icon>
+  <strong>Just so you know</strong><br />
+  Here's some additional information you might find useful.
+</wa-callout>
 ```
 
 ### Appearance
