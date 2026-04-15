@@ -5,7 +5,7 @@ export default css`
     display: block;
     background-color: var(--wa-color-surface-default);
     box-sizing: border-box;
-    height: 100%;
+    min-height: 100%;
     --menu-width: auto;
     --main-width: 1fr;
     --aside-width: auto;
@@ -13,6 +13,10 @@ export default css`
     --header-height: 0px;
     --subheader-height: 0px;
     --scroll-margin-top: calc(var(--header-height, 0px) + var(--subheader-height, 0px) + 0.5em);
+
+    --banner-top: var(--banner-height);
+    --header-top: var(--header-height);
+    --subheader-top: var(--subheader-height);
   }
 
   slot[name]:not([name='skip-to-content'], [name='navigation-toggle'])::slotted(*) {
@@ -77,11 +81,14 @@ export default css`
     padding: var(--wa-space-3xl);
   }
 
-  :host([disable-sticky~='banner']) :is([part~='header'], [part~='subheader']) {
-    --banner-height: 0px !important;
+  :host([disable-sticky~='banner']) {
+    --banner-top: 0px;
   }
-  :host([disable-sticky~='header']) [part~='subheader'] {
-    --header-height: 0px !important;
+  :host([disable-sticky~='header']) {
+    --header-top: 0px;
+  }
+  :host([disable-sticky~='subheader']) {
+    --subheader-top: 0px;
   }
 
   /* Nothing else depends on subheader-height. */
@@ -110,7 +117,7 @@ export default css`
   }
 
   [part~='base'] {
-    min-height: 100%;
+    min-height: 100dvh;
     display: grid;
     grid-template-rows: repeat(3, minmax(0, auto)) minmax(0, 1fr) minmax(0, auto);
     grid-template-columns: 100%;
@@ -160,7 +167,7 @@ export default css`
     top: 0px;
   }
   [part~='header'] {
-    top: var(--banner-height);
+    top: var(--banner-top);
 
     /** Make the header flex so that you don't unexpectedly have the default toggle button appearing above a slotted div because block elements are fun. */
     display: flex;
@@ -169,11 +176,11 @@ export default css`
     justify-content: space-between;
   }
   [part~='subheader'] {
-    top: calc(var(--header-height) + var(--banner-height));
+    top: calc(var(--header-top) + var(--banner-top));
   }
   [part~='body'] {
     display: grid;
-    height: 100%;
+    min-height: 100%;
     align-items: flex-start;
     grid-template-columns: minmax(0, var(--menu-width)) minmax(0, var(--main-width)) minmax(0, var(--aside-width));
     grid-template-rows: minmax(0, 1fr);
@@ -217,10 +224,10 @@ export default css`
   [part~='menu'],
   [part~='aside'] {
     position: sticky;
-    top: calc(var(--banner-height) + var(--header-height) + var(--subheader-height));
+    top: calc(var(--banner-top) + var(--header-top) + var(--subheader-top));
     z-index: 4;
-    height: calc(100dvh - var(--header-height) - var(--banner-height) - var(--subheader-height));
-    max-height: calc(100dvh - var(--header-height) - var(--banner-height) - var(--subheader-height));
+    height: min(var(--main-height), calc(100dvh - var(--header-top) - var(--banner-top) - var(--subheader-top)));
+    max-height: min(var(--main-height), calc(100dvh - var(--header-top) - var(--banner-top) - var(--subheader-top)));
     overflow: auto;
   }
 
@@ -248,7 +255,7 @@ export default css`
 
   [part~='navigation-toggle'] {
     /* Use only a margin-inline-start because the slotted header is expected to have default padding
-       so it looks really awkward if this sets a margin-inline-end and the slotted header has a padding-inline-start. */
+        so it looks really awkward if this sets a margin-inline-end and the slotted header has a padding-inline-start. */
     margin-inline-start: var(--wa-space-m);
   }
 `;

@@ -149,12 +149,14 @@ export default class WaNumberInput extends WebAwesomeFormAssociatedElement {
   @property() inputmode: 'numeric' | 'decimal' = 'numeric';
 
   /**
-   * Used for SSR. Will determine if the SSRed component will have the label slot rendered on initial paint.
+   * Only required for SSR. Set to `true` if you're slotting in a `label` element so the server-rendered markup
+   * includes the label before the component hydrates on the client.
    */
   @property({ attribute: 'with-label', type: Boolean }) withLabel = false;
 
   /**
-   * Used for SSR. Will determine if the SSRed component will have the hint slot rendered on initial paint.
+   * Only required for SSR. Set to `true` if you're slotting in a `hint` element so the server-rendered markup
+   * includes the hint before the component hydrates on the client.
    */
   @property({ attribute: 'with-hint', type: Boolean }) withHint = false;
 
@@ -379,6 +381,12 @@ export default class WaNumberInput extends WebAwesomeFormAssociatedElement {
     `;
   }
 }
+
+// The change-in-update warning is required for this component because the form-associated base class calls
+// updateValidity() in firstUpdated(), which triggers requestUpdate('validity') to sync the validation state after the
+// first render when the validation target is available. Additionally, HasSlotController triggers requestUpdate() on
+// initial slotchange events. See https://lit.dev/docs/tools/development/#development-build-runtime-warnings
+WaNumberInput.disableWarning?.('change-in-update');
 
 declare global {
   interface HTMLElementTagNameMap {

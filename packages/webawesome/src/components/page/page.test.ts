@@ -9,6 +9,7 @@ describe('<wa-page>', () => {
         const el = await fixture(html` <wa-page></wa-page> `);
 
         expect(el).to.exist;
+        expect(el.shadowRoot).to.exist;
       });
     });
   }

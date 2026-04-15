@@ -173,7 +173,16 @@ export default class WaColorPicker extends WebAwesomeFormAssociatedElement {
   /** The default value of the form control. Primarily used for resetting the form control. */
   @property({ attribute: 'value', reflect: true }) defaultValue: string | null = this.getAttribute('value') || null;
 
+  /**
+   * Only required for SSR. Set to `true` if you're slotting in a `label` element so the server-rendered markup
+   * includes the label before the component hydrates on the client.
+   */
   @property({ attribute: 'with-label', reflect: true, type: Boolean }) withLabel = false;
+
+  /**
+   * Only required for SSR. Set to `true` if you're slotting in a `hint` element so the server-rendered markup
+   * includes the hint before the component hydrates on the client.
+   */
   @property({ attribute: 'with-hint', reflect: true, type: Boolean }) withHint = false;
 
   @state() private hasEyeDropper: boolean = false;
@@ -197,6 +206,24 @@ export default class WaColorPicker extends WebAwesomeFormAssociatedElement {
 
   /** Determines the size of the color picker's trigger */
   @property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
+
+  /**
+   * The preferred placement of the color picker's popup. Note that the actual placement will vary as configured to
+   * keep the panel inside of the viewport.
+   */
+  @property({ reflect: true }) placement:
+    | 'top'
+    | 'top-start'
+    | 'top-end'
+    | 'bottom'
+    | 'bottom-start'
+    | 'bottom-end'
+    | 'right'
+    | 'right-start'
+    | 'right-end'
+    | 'left'
+    | 'left-start'
+    | 'left-end' = 'bottom-start';
 
   /** Removes the button that lets users toggle between format.   */
   @property({ attribute: 'without-format-toggle', type: Boolean }) withoutFormatToggle = false;
@@ -1336,7 +1363,7 @@ export default class WaColorPicker extends WebAwesomeFormAssociatedElement {
       <wa-popup
         class="color-popup"
         anchor="trigger"
-        placement="bottom-start"
+        placement=${this.placement}
         distance="0"
         skidding="0"
         flip
@@ -1352,3 +1379,16 @@ export default class WaColorPicker extends WebAwesomeFormAssociatedElement {
     `;
   }
 }
+
+// The change-in-update warning is required for this component because:
+//
+// - The base class (WebAwesomeFormAssociatedElement) firstUpdated() calls updateValidity() which triggers
+//    requestUpdate('validity').
+// - HasSlotController calls host.requestUpdate() on slotchange events.
+// - @watch('value') handler sets multiple @state properties (isEmpty, hue, saturation, brightness, alpha, inputValue)
+//    and calls syncValues() and requestUpdate() during the update cycle to keep color state in sync.
+// - @watch('opacity') and @watch('format') handlers set @state properties during update to synchronize color values.
+// - firstUpdated() sets the @state property hasEyeDropper based on browser capability detection.
+//
+// See https://lit.dev/docs/tools/development/#development-build-runtime-warnings
+WaColorPicker.disableWarning?.('change-in-update');

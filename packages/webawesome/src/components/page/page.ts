@@ -12,19 +12,6 @@ import '../icon/icon.js';
 import mobileStyles from './page.mobile.styles.js';
 import styles from './page.styles.js';
 
-if (typeof ResizeObserver === 'undefined') {
-  globalThis.ResizeObserver = class {
-    // eslint-disable-next-line
-    constructor(..._args: ConstructorParameters<typeof ResizeObserver>) {}
-    // eslint-disable-next-line
-    observe(..._args: Parameters<ResizeObserver['observe']>) {}
-    // eslint-disable-next-line
-    unobserve(..._args: Parameters<ResizeObserver['unobserve']>) {}
-    // eslint-disable-next-line
-    disconnect(..._args: Parameters<ResizeObserver['disconnect']>) {}
-  };
-}
-
 //
 // TODO - the toPx and toLength functions aren't used anywhere else, and they're not named or documented well enough to
 // abstract into a utility as-is.
@@ -78,9 +65,9 @@ function toLength(px: number | string): string {
 }
 
 /**
- * @summary Pages make it simple to build complete page layouts with clean and minimal code.
+ * @summary Pages offer an easy way to scaffold entire page layouts using minimal markup.
  * @documentation https://webawesome.com/docs/components/page
- * @status experimental
+ * @status stable
  * @since 3.0
  *
  * @slot - The page's main content.
@@ -130,11 +117,11 @@ function toLength(px: number | string): string {
 export default class WaPage extends WebAwesomeElement {
   static css = [visuallyHidden, styles];
 
-  private headerResizeObserver = this.slotResizeObserver('header');
-  private subheaderResizeObserver = this.slotResizeObserver('subheader');
-  private bannerResizeObserver = this.slotResizeObserver('banner');
-  private footerResizeObserver = this.slotResizeObserver('footer');
-
+  // SSR guard: ResizeObserver is not available during server-side rendering
+  private headerResizeObserver = !isServer ? this.slotResizeObserver('header') : null;
+  private subheaderResizeObserver = !isServer ? this.slotResizeObserver('subheader') : null;
+  private bannerResizeObserver = !isServer ? this.slotResizeObserver('banner') : null;
+  private footerResizeObserver = !isServer ? this.slotResizeObserver('footer') : null;
   private slotResizeObserver(slot: string) {
     return new ResizeObserver(entries => {
       for (const entry of entries) {
@@ -173,6 +160,9 @@ export default class WaPage extends WebAwesomeElement {
   };
 
   @query("[part~='header']") header: HTMLElement;
+  @query("[part~='menu']") menu: HTMLElement;
+  @query("[part~='main']") main: HTMLElement;
+  @query("[part~='aside']") aside: HTMLElement;
   @query("[part~='subheader']") subheader: HTMLElement;
   @query("[part~='footer']") footer: HTMLElement;
   @query("[part~='banner']") banner: HTMLElement;
@@ -212,24 +202,43 @@ export default class WaPage extends WebAwesomeElement {
   @property({ attribute: 'disable-navigation-toggle', reflect: true, type: Boolean }) disableNavigationToggle: boolean =
     false;
 
-  pageResizeObserver = new ResizeObserver(entries => {
-    for (const entry of entries) {
-      if (entry.contentBoxSize) {
-        const contentBoxSize = entry.borderBoxSize[0];
-        const pageWidth = contentBoxSize.inlineSize;
+  pageResizeObserver = !isServer
+    ? new ResizeObserver(entries => {
+        for (const entry of entries) {
+          if (entry.contentBoxSize) {
+            const contentBoxSize = entry.borderBoxSize[0];
+            const pageWidth = contentBoxSize.inlineSize;
 
-        const oldView = this.view;
+            const oldView = this.view;
 
-        if (pageWidth >= toPx(this.mobileBreakpoint)) {
-          this.view = 'desktop';
-        } else {
-          this.view = 'mobile';
+            if (pageWidth >= toPx(this.mobileBreakpoint)) {
+              this.view = 'desktop';
+            } else {
+              this.view = 'mobile';
+            }
+
+            this.requestUpdate('view', oldView);
+          }
         }
+        if (entries.length > 0) {
+          this.updateAsideAndMenuHeights();
+        }
+      })
+    : null;
 
-        this.requestUpdate('view', oldView);
-      }
+  private updateNavigationToggleState = (e?: Event) => {
+    if (e) {
+      const slotName = (e.target as HTMLSlotElement).name;
+      if (!['navigation', 'navigation-header', 'navigation-footer'].includes(slotName)) return;
     }
-  });
+
+    const hasCustomToggle = Boolean(this.querySelector(":not([slot='toggle-navigation']) [data-toggle-nav]"));
+    const hasNavigationContent =
+      Boolean(this.querySelector('[slot="navigation"]')) ||
+      Boolean(this.querySelector('[slot="navigation-header"]')) ||
+      Boolean(this.querySelector('[slot="navigation-footer"]'));
+    this.disableNavigationToggle = hasCustomToggle || !hasNavigationContent;
+  };
 
   protected update(changedProperties: PropertyValues<this>): void {
     if (changedProperties.has('view')) {
@@ -249,25 +258,47 @@ export default class WaPage extends WebAwesomeElement {
   connectedCallback() {
     super.connectedCallback();
 
-    this.pageResizeObserver.observe(this);
+    // SSR guard: browser APIs are not available during server-side rendering
+    if (!isServer) {
+      this.pageResizeObserver?.observe(this);
 
-    const navQuery = ":not([slot='toggle-navigation']) [data-toggle-nav]";
+      document.addEventListener('scroll', this.updateAsideAndMenuHeights, { passive: true });
+      this.updateAsideAndMenuHeights();
+      setTimeout(this.updateAsideAndMenuHeights);
 
-    // check once on initial connect
-    // eslint-disable-next-line
-    this.disableNavigationToggle = Boolean(this.querySelector(navQuery));
-
-    setTimeout(() => {
-      this.headerResizeObserver.observe(this.header);
-      this.subheaderResizeObserver.observe(this.subheader);
-      this.bannerResizeObserver.observe(this.banner);
-      this.footerResizeObserver.observe(this.footer);
-
-      // Check again when the element updates
-      // eslint-disable-next-line
-      this.disableNavigationToggle = Boolean(this.querySelector(navQuery));
-    });
+      setTimeout(() => {
+        this.headerResizeObserver?.observe(this.header);
+        this.subheaderResizeObserver?.observe(this.subheader);
+        this.bannerResizeObserver?.observe(this.banner);
+        this.footerResizeObserver?.observe(this.footer);
+      });
+    }
   }
+
+  /**
+   * https://stackoverflow.com/a/26831113
+   * This prevents awkward gaps when scrolling the page and the aside / menu dont "fill" the gaps.
+   */
+  visiblePixelsInViewport(element: HTMLElement | null) {
+    if (!element) {
+      return null;
+    }
+    const elementHeight = element.clientHeight;
+    const windowHeight = window.innerHeight;
+    const { top, bottom } = element.getBoundingClientRect();
+    return Math.max(0, top > 0 ? Math.min(elementHeight, windowHeight - top) : Math.min(bottom, windowHeight));
+  }
+
+  updateAsideAndMenuHeights = () => {
+    const visiblePixels = this.visiblePixelsInViewport(this.main);
+
+    if (visiblePixels == null) {
+      return;
+    }
+
+    this.aside.style.setProperty('--main-height', `${visiblePixels}px`);
+    this.menu.style.setProperty('--main-height', `${visiblePixels}px`);
+  };
 
   firstUpdated() {
     // If the user provides a #main-content id, it should be present in the default slot and the "skip to
@@ -278,15 +309,19 @@ export default class WaPage extends WebAwesomeElement {
       div.slot = 'skip-to-content-target';
       this.prepend(div);
     }
+
+    this.shadowRoot!.addEventListener('slotchange', this.updateNavigationToggleState);
+    this.updateNavigationToggleState();
   }
 
   disconnectedCallback() {
     super.disconnectedCallback();
-    this.pageResizeObserver.unobserve(this);
-    this.headerResizeObserver.unobserve(this.header);
-    this.subheaderResizeObserver.unobserve(this.subheader);
-    this.footerResizeObserver.unobserve(this.footer);
-    this.bannerResizeObserver.unobserve(this.banner);
+    this.pageResizeObserver?.unobserve(this);
+    this.headerResizeObserver?.unobserve(this.header);
+    this.subheaderResizeObserver?.unobserve(this.subheader);
+    this.footerResizeObserver?.unobserve(this.footer);
+    this.bannerResizeObserver?.unobserve(this.banner);
+    document.removeEventListener('scroll', this.updateAsideAndMenuHeights);
   }
 
   /**
@@ -405,12 +440,8 @@ export default class WaPage extends WebAwesomeElement {
           <slot name=${this.view === 'mobile' ? 'navigation' : '____'}></slot>
         </slot>
 
-        <slot name="mobile-navigation-footer">
-          <slot
-            part="navigation-footer"
-            slot="footer"
-            name=${this.view === 'mobile' ? 'navigation-footer' : '___'}
-          ></slot>
+        <slot slot="footer" name="mobile-navigation-footer">
+          <slot part="navigation-footer" name=${this.view === 'mobile' ? 'navigation-footer' : '___'}></slot>
         </slot>
       </wa-drawer>
     `;
@@ -423,33 +454,34 @@ declare global {
   }
 }
 
-//
-// Append a supporting light DOM styles for <wa-page>
-//
-const stylesheet = new CSSStyleSheet();
+if (typeof CSSStyleSheet !== 'undefined' && typeof document !== 'undefined' && 'adoptedStyleSheets' in document) {
+  //
+  // Append a supporting light DOM styles for <wa-page>
+  //
+  const stylesheet = new CSSStyleSheet();
 
-stylesheet.replaceSync(`
-:is(html, body):has(wa-page) {
-  min-height: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
+  stylesheet.replaceSync(`
+  :is(html, body):has(wa-page) {
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
   }
 
-  /**
-  Because headers are sticky, this is needed to make sure page fragment anchors scroll down past the headers / subheaders and are visible.
-  IE: \`<a href="#id-for-h2">\` anchors.
-  */
-  wa-page :is(*, *:after, *:before) {
-  scroll-margin-top: var(--scroll-margin-top);
-  }
+    /**
+    Because headers are sticky, this is needed to make sure page fragment anchors scroll down past the headers / subheaders and are visible.
+    IE: \`<a href="#id-for-h2">\` anchors.
+    */
+    wa-page :is(*, *:after, *:before) {
+    scroll-margin-top: var(--scroll-margin-top);
+    }
 
-  wa-page[view='desktop'] [data-toggle-nav] {
-  display: none;
-  }
+    wa-page[view='desktop'] [data-toggle-nav] {
+    display: none;
+    }
 
-  wa-page[view='mobile'] .wa-desktop-only, wa-page[view='desktop'] .wa-mobile-only {
-  display: none !important;
-  }
-`);
-document.adoptedStyleSheets = [...document.adoptedStyleSheets, stylesheet];
+    wa-page[view='mobile'] .wa-desktop-only, wa-page[view='desktop'] .wa-mobile-only {
+    display: none !important;
+    }
+  `);
+  document.adoptedStyleSheets = [...document.adoptedStyleSheets, stylesheet];
+}
