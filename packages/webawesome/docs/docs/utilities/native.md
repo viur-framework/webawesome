@@ -10,9 +10,9 @@ Native styles use design tokens to spruce up native HTML elements so that they m
 ## Using native styles
 
 <wa-tab-group>
-  <wa-tab panel="cdn"><wa-icon name="rocket" variant="regular" library="cdn"></wa-icon> CDN</wa-tab>
-  <wa-tab panel="npm"><wa-icon name="box-open" variant="regular" library="cdn"></wa-icon> npm</wa-tab>
-  <wa-tab panel="self-hosted"><wa-icon name="arrow-down-to-line" variant="regular" library="cdn"></wa-icon> Self-Hosted</wa-tab>
+  <wa-tab panel="cdn"><wa-icon name="rocket" variant="regular"></wa-icon> CDN</wa-tab>
+  <wa-tab panel="npm"><wa-icon name="box-open" variant="regular"></wa-icon> npm</wa-tab>
+  <wa-tab panel="self-hosted"><wa-icon name="arrow-down-to-line" variant="regular"></wa-icon> Self-Hosted</wa-tab>
 
   <wa-tab-panel name="cdn">
 {% markdown %}

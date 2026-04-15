@@ -9,7 +9,7 @@ Unlike `<wa-callout>`, alerts are stateful and can be shown/hidden, optionally d
 
 ```html {.example}
 <wa-alert open>
-  <wa-icon slot="icon" name="circle-info" library="cdn"></wa-icon>
+  <wa-icon slot="icon" name="circle-info"></wa-icon>
   This is a standard alert. You can customize its content and even the icon.
 </wa-alert>
 ```
@@ -24,7 +24,7 @@ Set the `variant` attribute to change the alert's variant.
 
 ```html {.example}
 <wa-alert variant="brand" open>
-  <wa-icon slot="icon" name="circle-info" library="cdn"></wa-icon>
+  <wa-icon slot="icon" name="circle-info"></wa-icon>
   <strong>This is super informative</strong><br />
   You can tell by how pretty the alert is.
 </wa-alert>
@@ -32,7 +32,7 @@ Set the `variant` attribute to change the alert's variant.
 <br />
 
 <wa-alert variant="success" open>
-  <wa-icon slot="icon" name="circle-check" library="cdn"></wa-icon>
+  <wa-icon slot="icon" name="circle-check"></wa-icon>
   <strong>Your changes have been saved</strong><br />
   You can safely exit the app now.
 </wa-alert>
@@ -40,7 +40,7 @@ Set the `variant` attribute to change the alert's variant.
 <br />
 
 <wa-alert variant="neutral" open>
-  <wa-icon slot="icon" name="gear" library="cdn"></wa-icon>
+  <wa-icon slot="icon" name="gear"></wa-icon>
   <strong>Your settings have been updated</strong><br />
   Settings will take effect on next login.
 </wa-alert>
@@ -48,7 +48,7 @@ Set the `variant` attribute to change the alert's variant.
 <br />
 
 <wa-alert variant="warning" open>
-  <wa-icon slot="icon" name="triangle-exclamation" library="cdn"></wa-icon>
+  <wa-icon slot="icon" name="triangle-exclamation"></wa-icon>
   <strong>Your session has ended</strong><br />
   Please login again to continue.
 </wa-alert>
@@ -56,7 +56,7 @@ Set the `variant` attribute to change the alert's variant.
 <br />
 
 <wa-alert variant="danger" open>
-  <wa-icon slot="icon" name="circle-exclamation" library="cdn"></wa-icon>
+  <wa-icon slot="icon" name="circle-exclamation"></wa-icon>
   <strong>Your account has been deleted</strong><br />
   We're very sorry to see you go!
 </wa-alert>
@@ -64,7 +64,7 @@ Set the `variant` attribute to change the alert's variant.
 <br />
 
 <wa-alert variant="info" open>
-  <wa-icon slot="icon" name="circle-info" library="cdn"></wa-icon>
+  <wa-icon slot="icon" name="circle-info"></wa-icon>
   <strong>Just so you know</strong><br />
   Here's some additional information you might find useful.
 </wa-alert>
@@ -76,7 +76,7 @@ Add the `closable` attribute to show a close button that will hide the alert.
 
 ```html {.example}
 <wa-alert variant="brand" open closable class="alert-closable">
-  <wa-icon slot="icon" name="circle-info" library="cdn"></wa-icon>
+  <wa-icon slot="icon" name="circle-info"></wa-icon>
   You can close this alert any time!
 </wa-alert>
 
@@ -105,7 +105,7 @@ Set the `duration` attribute to automatically hide an alert after a period of ti
   <wa-button variant="brand">Show Alert</wa-button>
 
   <wa-alert variant="brand" duration="3000" closable>
-    <wa-icon slot="icon" name="circle-info" variant="regular" library="cdn"></wa-icon>
+    <wa-icon slot="icon" name="circle-info" variant="regular"></wa-icon>
     This alert will automatically hide itself after three seconds, unless you interact with it.
   </wa-alert>
 </div>

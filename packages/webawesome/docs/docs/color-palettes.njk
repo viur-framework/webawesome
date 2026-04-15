@@ -71,7 +71,7 @@ layout: page
   {% for palette in themer.palettes %}
     <div class="palette-instructions" data-palette="{{ palette.name | lower }}" {% if not loop.first %}hidden{% endif %}>
       <wa-tab-group>
-        <wa-tab panel="cdn"><wa-icon name="rocket" variant="regular"  library="cdn"></wa-icon> CDN</wa-tab>
+        <wa-tab panel="cdn"><wa-icon name="rocket" variant="regular" ></wa-icon> CDN</wa-tab>
         <wa-tab panel="npm"><wa-icon name="box-open" variant="regular"></wa-icon> npm</wa-tab>
         <wa-tab panel="self-hosted"><wa-icon name="arrow-down-to-line" variant="regular"></wa-icon> Self-Hosted</wa-tab>
 

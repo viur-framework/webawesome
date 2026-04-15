@@ -384,7 +384,7 @@ async function updateResults(query = '') {
       a.href = page.url;
       a.innerHTML = `
         <div class="site-search-result-icon" aria-hidden="true">
-          <wa-icon name="${icon}" library="cdn"></wa-icon>
+          <wa-icon name="${icon}"></wa-icon>
         </div>
         <div class="site-search-result-details">
           <div class="site-search-result-title"></div>

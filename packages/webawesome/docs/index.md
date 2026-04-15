@@ -240,7 +240,7 @@ layout: page
             <p>Unlock Pro-only themes, components, patterns, and great services like the Theme Builder.</p>
           </div>
           <wa-button class="wa-dark" size="small" href="/purchase">
-            <wa-icon slot="start" name="rocket" library="cdn"></wa-icon>
+            <wa-icon slot="start" name="rocket"></wa-icon>
             Purchase Pro
           </wa-button>
         {% endif %}
@@ -254,10 +254,10 @@ layout: page
     <div class="wa-stack">
       <div class="wa-split">
         <div class="wa-cluster icon-heading">
-          <wa-icon name="pen-ruler" class="brand-orange"  library="cdn"></wa-icon>
+          <wa-icon name="pen-ruler" class="brand-orange" ></wa-icon>
           <h3>Get started</h3>
         </div>
-        <wa-icon name="arrow-right" library="cdn"></wa-icon>
+        <wa-icon name="arrow-right"></wa-icon>
       </div>
       <p>Check out our installation guide to start building with Web Awesome.</p>
     </div>
@@ -269,28 +269,28 @@ layout: page
     <div class="grid">
       <div class="wa-stack">
         <div class="wa-cluster icon-heading">
-          <wa-icon name="code" class="brand-orange" library="cdn"></wa-icon>
+          <wa-icon name="code" class="brand-orange"></wa-icon>
           <h3>Entirely native</h3>
         </div>
         <p>Built on web standards to last for years to come. No excess tooling. No third-party bloat.</p>
       </div>
       <div class="wa-stack">
         <div class="wa-cluster icon-heading">
-          <wa-icon name="palette" class="brand-orange" library="cdn"></wa-icon>
+          <wa-icon name="palette" class="brand-orange"></wa-icon>
           <h3>Fully customizable</h3>
         </div>
         <p>Show off your own style with components that consistently adapt to your theme.</p>
       </div>
       <div class="wa-stack">
         <div class="wa-cluster icon-heading">
-          <wa-icon name="wheelchair-move" class="brand-orange" library="cdn"></wa-icon>
+          <wa-icon name="wheelchair-move" class="brand-orange"></wa-icon>
           <h3>Accessibility forward</h3>
         </div>
         <p>Build a website that everyone can use. Designed to be inclusive and usable by everyone.</p>
       </div>
       <div class="wa-stack">
         <div class="wa-cluster icon-heading">
-          <wa-icon name="handshake-simple" class="brand-orange" library="cdn"></wa-icon>
+          <wa-icon name="handshake-simple" class="brand-orange"></wa-icon>
           <h3>Proudly open source</h3>
         </div>
         <p>Use Web Awesome Free however you like. Always free, always open source.</p>
@@ -309,10 +309,10 @@ layout: page
         <div class="wa-stack">
           <div class="wa-split">
             <div class="wa-cluster icon-heading">
-              <wa-icon family="brands" name="github" library="cdn"></wa-icon>
+              <wa-icon family="brands" name="github"></wa-icon>
               <h3>GitHub</h3>
             </div>
-            <wa-icon name="arrow-up-right" library="cdn"></wa-icon>
+            <wa-icon name="arrow-up-right"></wa-icon>
           </div>
           <p>Get involved by opening issues, contributing to discussions, or creating PRs.</p>
         </div>
@@ -321,10 +321,10 @@ layout: page
         <div class="wa-stack">
           <div class="wa-split">
             <div class="wa-cluster icon-heading">
-              <wa-icon family="brands" name="discord" library="cdn"></wa-icon>
+              <wa-icon family="brands" name="discord"></wa-icon>
               <h3>Discord</h3>
             </div>
-            <wa-icon name="arrow-up-right" library="cdn"></wa-icon>
+            <wa-icon name="arrow-up-right"></wa-icon>
           </div>
           <p>Share your work, ask questions, and explore ideas with other Web Awesome builders.</p>
         </div>
@@ -332,13 +332,13 @@ layout: page
       <wa-button href="mailto:hello@webawesome.com" appearance="filled" class="tile">
         <div class="wa-split">
           <div class="wa-cluster icon-heading">
-            <wa-icon name="envelope-open" library="cdn"></wa-icon>
+            <wa-icon name="envelope-open"></wa-icon>
             <h3 class="wa-cluster wa-gap-xs">
               <span>hello@webawesome.com</span>
-              <wa-icon name="hand-wave" variant="regular" library="cdn"></wa-icon>
+              <wa-icon name="hand-wave" variant="regular"></wa-icon>
             </h3>
           </div>
-          <wa-icon name="arrow-up-right" library="cdn"></wa-icon>
+          <wa-icon name="arrow-up-right"></wa-icon>
         </div>
       </wa-button>
     </div>
@@ -348,44 +348,44 @@ layout: page
 
   <div class="wa-stack wa-gap-xl">
     <h2 class="wa-cluster brand-font">
-      <wa-icon name="hashtag" style="color: var(--wa-brand-orange);" library="cdn"></wa-icon>
+      <wa-icon name="hashtag" style="color: var(--wa-brand-orange);"></wa-icon>
       <span>Stay in the know</span>
     </h2>
     <div class="wa-grid" style="--min-column-size: 30ch;">
       <wa-button href="https://bsky.app/profile/webawesome.com" rel="noopener noreferrer" target="_blank" appearance="filled" class="tile">
         <div class="wa-split">
           <div class="wa-cluster icon-heading">
-            <wa-icon family="brands" name="bluesky" library="cdn"></wa-icon>
+            <wa-icon family="brands" name="bluesky"></wa-icon>
             <h3>Bluesky</h3>
           </div>
-          <wa-icon name="arrow-up-right" library="cdn"></wa-icon>
+          <wa-icon name="arrow-up-right"></wa-icon>
         </div>
       </wa-button>
       <wa-button href="https://mastodon.social/@webawesome" rel="noopener noreferrer" target="_blank" appearance="filled" class="tile">
         <div class="wa-split">
           <div class="wa-cluster icon-heading">
-            <wa-icon family="brands" name="mastodon" library="cdn"></wa-icon>
+            <wa-icon family="brands" name="mastodon"></wa-icon>
             <h3>Mastodon</h3>
           </div>
-          <wa-icon name="arrow-up-right" library="cdn"></wa-icon>
+          <wa-icon name="arrow-up-right"></wa-icon>
         </div>
       </wa-button>
       <wa-button href="https://x.com/webawesomer" rel="noopener noreferrer" target="_blank" appearance="filled" class="tile">
         <div class="wa-split">
           <div class="wa-cluster icon-heading">
-            <wa-icon family="brands" name="x-twitter" library="cdn"></wa-icon>
+            <wa-icon family="brands" name="x-twitter"></wa-icon>
             <h3>Twitter (X)</h3>
           </div>
-          <wa-icon name="arrow-up-right" library="cdn"></wa-icon>
+          <wa-icon name="arrow-up-right"></wa-icon>
         </div>
       </wa-button>
       <wa-button href="https://www.threads.com/@web.awesome" rel="noopener noreferrer" target="_blank" appearance="filled" class="tile">
         <div class="wa-split">
           <div class="wa-cluster icon-heading">
-            <wa-icon family="brands" name="threads" library="cdn"></wa-icon>
+            <wa-icon family="brands" name="threads"></wa-icon>
             <h3>Threads</h3>
           </div>
-          <wa-icon name="arrow-up-right" library="cdn"></wa-icon>
+          <wa-icon name="arrow-up-right"></wa-icon>
         </div>
       </wa-button>
     </div>

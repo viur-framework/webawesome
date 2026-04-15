@@ -27,7 +27,7 @@ let buildContexts = {
   unbundledContext: {},
 };
 
-const REBUILD_MANIFEST = false;
+const REBUILD_MANIFEST = !process.env.GITHUB_ACTIONS;
 
 const debugPerf = process.env.DEBUG_PERFORMANCE === '1';
 const isDeveloping = process.argv.includes('--develop');
@@ -133,7 +133,7 @@ export async function build(options = {}) {
     spinner.start('Generating CEM');
 
     try {
-      execSync('cem analyze --config "custom-elements-manifest.js"');
+      execSync('npx --yes @custom-elements-manifest/analyzer analyze --config "custom-elements-manifest.js"');
     } catch (error) {
       console.error(`\n\n${error.message}`);
 
