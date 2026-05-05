@@ -4,6 +4,7 @@ import { customElement, property, query } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { live } from 'lit/directives/live.js';
+import { warnDeprecatedSize } from '../../internal/size.js';
 import { HasSlotController } from '../../internal/slot.js';
 import { MirrorValidator } from '../../internal/validators/mirror-validator.js';
 import { watch } from '../../internal/watch.js';
@@ -13,7 +14,8 @@ import sizeStyles from '../../styles/component/size.styles.js';
 import styles from './switch.styles.js';
 
 /**
- * @summary Switches allow the user to toggle an option on or off.
+ * @summary Switches toggle a single setting on or off and apply the change immediately, without requiring a form
+ *  submission.
  * @documentation https://webawesome.com/docs/components/switch
  * @status stable
  * @since 2.0
@@ -68,7 +70,12 @@ export default class WaSwitch extends WebAwesomeFormAssociatedElement {
   }
 
   /** The switch's size. */
-  @property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
+  @property({ reflect: true }) size: 'xs' | 's' | 'm' | 'l' | 'xl' | 'small' | 'medium' | 'large' = 'm';
+
+  @watch('size')
+  handleSizeChange() {
+    warnDeprecatedSize(this.localName, this.size);
+  }
 
   /** Disables the switch. */
   @property({ type: Boolean }) disabled = false;

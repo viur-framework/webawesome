@@ -4,6 +4,7 @@ import { customElement, property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { live } from 'lit/directives/live.js';
+import { warnDeprecatedSize } from '../../internal/size.js';
 import { HasSlotController } from '../../internal/slot.js';
 import { MirrorValidator } from '../../internal/validators/mirror-validator.js';
 import { watch } from '../../internal/watch.js';
@@ -15,7 +16,7 @@ import { LocalizeController } from '../../utilities/localize.js';
 import styles from './textarea.styles.js';
 
 /**
- * @summary Textareas collect data from the user and allow multiple lines of text.
+ * @summary Textareas collect multi-line text input from the user, with optional resizing and character counting.
  * @documentation https://webawesome.com/docs/components/textarea
  * @status stable
  * @since 2.0
@@ -88,7 +89,12 @@ export default class WaTextarea extends WebAwesomeFormAssociatedElement {
   @property({ attribute: 'value', reflect: true }) defaultValue: string = this.getAttribute('value') ?? '';
 
   /** The textarea's size. */
-  @property({ reflect: true }) size: 'small' | 'medium' | 'large' = 'medium';
+  @property({ reflect: true }) size: 'xs' | 's' | 'm' | 'l' | 'xl' | 'small' | 'medium' | 'large' = 'm';
+
+  @watch('size')
+  handleSizeChange() {
+    warnDeprecatedSize(this.localName, this.size);
+  }
 
   /** The textarea's visual appearance. */
   @property({ reflect: true }) appearance: 'filled' | 'outlined' | 'filled-outlined' = 'outlined';
