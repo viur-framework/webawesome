@@ -302,6 +302,42 @@ The preferred placement of the combobox's listbox can be set with the `placement
 </wa-combobox>
 ```
 
+### Custom Value
+
+Use the `custom-value` attribute to allow users to enter values that aren't in the suggestions list. The typed value is committed when the user presses Enter or moves focus away from the combobox.
+
+```html {.example}
+<wa-combobox
+  label="Reason for completion"
+  placeholder="Select or type a reason"
+  custom-value
+  class="combobox-custom-value"
+></wa-combobox>
+
+<div style="margin-top: 0.75rem; font-size: 0.875rem; color: var(--wa-color-neutral-600)">
+  Current value: <strong id="custom-value-output">—</strong>
+</div>
+
+<script>
+  const combobox = document.querySelector('.combobox-custom-value');
+  const output = document.querySelector('#custom-value-output');
+
+  combobox.source = query => {
+    const options = [
+      { value: 'Target depth reached', text: 'Target depth reached' },
+      { value: 'Equipment failure', text: 'Equipment failure' },
+      { value: 'Obstruction encountered', text: 'Obstruction encountered' },
+    ];
+    if (!query) return options;
+    return options.filter(o => o.text.toLowerCase().includes(query.toLowerCase()));
+  };
+
+  combobox.addEventListener('change', () => {
+    output.textContent = combobox.value || '—';
+  });
+</script>
+```
+
 ### Start & End Decorations
 
 Use the `start` and `end` slots to add presentational elements like `<wa-icon>` within the combobox.

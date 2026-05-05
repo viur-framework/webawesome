@@ -199,10 +199,10 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
       );
     }
 
-    // Drop values not in the DOM
+    // Drop values not in the DOM (unless customValue is set)
     let ret: null | string | string[] = value;
     if (value != null) {
-      ret = value.filter(v => this.optionValues!.has(v));
+      ret = this.customValue ? value : value.filter(v => this.optionValues!.has(v));
       ret = this.multiple ? ret : ret[0];
       ret = ret ?? null;
     }
@@ -299,6 +299,9 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
   /** Message displayed when no result found. */
   @property({ attribute: 'empty-message' }) emptyMessage: string = 'no data found';
 
+  /** When true, allows the user to enter a custom value that is not in the list of options. */
+  @property({ attribute: 'custom-value', type: Boolean, reflect: true }) customValue = false;
+
   connectedCallback() {
     super.connectedCallback();
 
@@ -355,6 +358,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
     // Close when focusing out of the select
     const path = event.composedPath();
     if (this && !path.includes(this)) {
+      this.commitCustomValue();
       this.hide();
     }
   };
@@ -409,6 +413,10 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
           this.hide();
           this.displayInput.focus({ preventScroll: true });
         }
+      } else if (this.customValue) {
+        this.commitCustomValue();
+        this.hide();
+        this.displayInput.focus({ preventScroll: true });
       }
 
       return;
@@ -498,6 +506,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
     // Close when clicking outside of the select
     const path = event.composedPath();
     if (this && !path.includes(this)) {
+      this.commitCustomValue();
       this.hide();
     }
     this.displayInput.focus();
@@ -756,7 +765,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
       }
     } else {
       const selectedOption = this.selectedOptions[0];
-      this.displayLabel = selectedOption?.label ?? '';
+      this.displayLabel = selectedOption?.label ?? (this.customValue ? (this._value?.[0] ?? '') : '');
     }
 
     // Update validity
@@ -946,6 +955,23 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
   //@ts-ignore
   inputHandler(event: InputEvent) {
     this.fetchSuggestions(this.displayInput.value);
+  }
+
+  private commitCustomValue() {
+    if (!this.customValue || !this.displayInput) return;
+    const text = this.displayInput.value;
+    const current = this._value?.[0] ?? '';
+    if (text === current) return;
+
+    this._value = text ? [text] : null;
+    this.displayLabel = text;
+    this.hasInteracted = true;
+    this.requestUpdate('value');
+
+    this.updateComplete.then(() => {
+      this.dispatchEvent(new InputEvent('input', { bubbles: true, composed: true }));
+      this.dispatchEvent(new Event('change', { bubbles: true, composed: true }));
+    });
   }
 
   render() {
