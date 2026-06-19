@@ -3,17 +3,20 @@ import { parse as HTMLParse } from 'node-html-parser';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import { anchorHeadingsTransformer } from './_transformers/anchor-headings.js';
+import { changelogListIconsTransformer } from './_transformers/changelog-list-icons.js';
 import { codeExamplesTransformer } from './_transformers/code-examples.js';
 import { copyCodeTransformer } from './_transformers/copy-code.js';
 import { currentLinkTransformer } from './_transformers/current-link.js';
+import { dynamicSnippetsTransformer } from './_transformers/dynamic-snippets.js';
 import { highlightCodeTransformer } from './_transformers/highlight-code.js';
+import { linkifyComponentsTransformer } from './_transformers/linkify-components.js';
 import { outlineTransformer } from './_transformers/outline.js';
 import { getComponents } from './_utils/manifest.js';
 import { markdown } from './_utils/markdown.js';
 import { SimulateWebAwesomeApp } from './_utils/simulate-webawesome-app.js';
 // import { formatCodePlugin } from './_plugins/format-code.js';
-// import litPlugin from '@lit-labs/eleventy-plugin-lit';
 import { HtmlBasePlugin } from '@11ty/eleventy';
+import litPlugin from '@lit-labs/eleventy-plugin-lit'; // TODO REV
 import { readFile } from 'fs/promises';
 import process from 'process';
 import * as url from 'url';
@@ -23,6 +26,7 @@ import { replaceTextPlugin } from './_plugins/replace-text.js';
 import { searchPlugin } from './_plugins/search.js';
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 const isDev = process.argv.includes('--develop');
+
 const passThroughExtensions = ['js', 'css', 'png', 'svg', 'jpg', 'mp4'];
 
 async function getPackageData() {
@@ -67,7 +71,11 @@ export default async function (eleventyConfig) {
    * If you plan to add or remove any of these extensions, make sure to let either Konnor or Cory know as these
    * passthrough extensions will also need to be updated in the Web Awesome App.
    */
-  const passThrough = [...passThroughExtensions.map(ext => path.join(docsDir, '**/*.' + ext))];
+  const passThrough = [
+    path.join(docsDir, 'assets'),
+    path.join(docsDir, 'assets-pro'),
+    ...passThroughExtensions.map(ext => path.join(docsDir, '**/*.' + ext)),
+  ];
 
   /**
    * This is the guard we use for now to make sure our final built files don't need a 2nd pass by the server. This keeps
@@ -78,6 +86,7 @@ export default async function (eleventyConfig) {
   //
   // Set all global template data here
   //
+  eleventyConfig.addGlobalData('isDev', isDev || process.env.NODE_ENV === 'development');
   eleventyConfig.addGlobalData('package', packageData);
   eleventyConfig.addGlobalData('layout', 'page.njk');
   eleventyConfig.addGlobalData('server', {
@@ -255,7 +264,10 @@ export default async function (eleventyConfig) {
       currentLinkTransformer(),
       codeExamplesTransformer(),
       highlightCodeTransformer(),
+      dynamicSnippetsTransformer(),
       copyCodeTransformer(),
+      changelogListIconsTransformer(),
+      linkifyComponentsTransformer(allComponents.map(c => c.tagName).filter(Boolean)),
     ];
 
     for (const transformer of transformers) {
@@ -271,20 +283,23 @@ export default async function (eleventyConfig) {
         replace: /\[version\]/gs,
         replaceWith: packageData.version,
       },
-      // Replace [issue:1234] with a link to the issue on GitHub
+      // Replace [pr:1234] with an outlined badge link to the pull request on GitHub
       {
         replace: /\[pr:([0-9]+)\]/gs,
-        replaceWith: '<a href="https://github.com/shoelace-style/webawesome/pull/$1" target="_blank">#$1</a>',
+        replaceWith:
+          '<a class="ref-link ref-pr" href="https://github.com/shoelace-style/webawesome/pull/$1" target="_blank"><wa-badge variant="neutral" appearance="outlined"><wa-icon slot="start" name="code-pull-request" variant="regular" aria-hidden="true"></wa-icon>#$1</wa-badge></a>',
       },
-      // Replace [pr:1234] with a link to the pull request on GitHub
+      // Replace [issue:1234] with an outlined badge link to the issue on GitHub
       {
         replace: /\[issue:([0-9]+)\]/gs,
-        replaceWith: '<a href="https://github.com/shoelace-style/webawesome/issues/$1" target="_blank">#$1</a>',
+        replaceWith:
+          '<a class="ref-link ref-issue" href="https://github.com/shoelace-style/webawesome/issues/$1" target="_blank"><wa-badge variant="neutral" appearance="outlined"><wa-icon slot="start" name="circle-dot" variant="regular" aria-hidden="true"></wa-icon>#$1</wa-badge></a>',
       },
-      // Replace [discuss:1234] with a link to the discussion on GitHub
+      // Replace [discuss:1234] with an outlined badge link to the discussion on GitHub
       {
         replace: /\[discuss:([0-9]+)\]/gs,
-        replaceWith: '<a href="https://github.com/shoelace-style/webawesome/discussions/$1" target="_blank">#$1</a>',
+        replaceWith:
+          '<a class="ref-link ref-discuss" href="https://github.com/shoelace-style/webawesome/discussions/$1" target="_blank"><wa-badge variant="neutral" appearance="outlined"><wa-icon slot="start" name="comments" variant="regular" aria-hidden="true"></wa-icon>#$1</wa-badge></a>',
       },
     ]),
   );
@@ -346,20 +361,33 @@ export default async function (eleventyConfig) {
   //   //  - resize-observer (why SSR this?)
   //   //  - tooltip (why SSR this?)
   //   //
-  //   const omittedModules = [];
-  //   const componentModules = componentList
-  //     .filter(component => !omittedModules.includes(component.tagName.split(/wa-/)[1]))
-  //     .map(component => {
-  //       const name = component.tagName.split(/wa-/)[1];
-  //       const componentDirectory = process.env.UNBUNDLED_DIST_DIRECTORY || path.join('.', 'dist');
-  //       return path.join(componentDirectory, 'components', name, `${name}.js`);
-  //     });
-  //
-  //   eleventyConfig.addPlugin(litPlugin, {
-  //     mode: 'worker',
-  //     componentModules,
-  //   });
-  // }
+
+  // We only want to run SSR if we're not running the app shell around 11ty. If we run the SSR plugin here with the app shell also doing SSR, it breaks.
+  if (!serverBuild && process.env.SSR === 'true') {
+    // @ts-expect-error Run connectedCallback in SSR to make it compatible with lit context.
+    globalThis.litSsrCallConnectedCallback = true;
+
+    const omittedModules = [];
+    const componentList = [];
+    allComponents.forEach(c => {
+      if (!c.tagName) {
+        return;
+      }
+      componentList.push(c);
+    });
+    const componentModules = componentList
+      .filter(component => !omittedModules.includes(component.tagName.split(/wa-/)[1]))
+      .map(component => {
+        const name = component.tagName.split(/wa-/)[1];
+        const componentDirectory = process.env.UNBUNDLED_DIST_DIRECTORY || path.join('.', 'dist');
+        return path.join(componentDirectory, 'components', name, `${name}.js`);
+      });
+
+    eleventyConfig.addPlugin(litPlugin, {
+      mode: 'worker',
+      componentModules,
+    });
+  }
 
   // For a server build, we expect a server to run the second transform.
   // For dev builds, we run the second transform in a middleware.
@@ -371,7 +399,7 @@ export default async function (eleventyConfig) {
       }
 
       /** This largely mimics what an app would do and just stubs out what we don't care about. */
-      return SimulateWebAwesomeApp(content);
+      return SimulateWebAwesomeApp(content, { isDev: isDev, ssr: process.env.SSR === 'true' });
     });
   }
 }

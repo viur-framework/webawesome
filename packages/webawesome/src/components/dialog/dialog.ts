@@ -51,8 +51,8 @@ import styles from './dialog.styles.js';
  * @cssproperty --spacing - The amount of space around and between the dialog's content.
  * @cssproperty --width - The preferred width of the dialog. Note that the dialog will shrink to accommodate smaller screens.
  * @cssproperty [--backdrop-filter=none] - A filter to apply to the backdrop behind the dialog.
- * @cssproperty [--show-duration=200ms] - The animation duration when showing the dialog.
- * @cssproperty [--hide-duration=200ms] - The animation duration when hiding the dialog.
+ * @cssproperty [--show-duration=var(--wa-transition-normal)] - The animation duration when showing the dialog.
+ * @cssproperty [--hide-duration=var(--wa-transition-normal)] - The animation duration when hiding the dialog.
  */
 @customElement('wa-dialog')
 export default class WaDialog extends WebAwesomeElement {
@@ -220,7 +220,7 @@ export default class WaDialog extends WebAwesomeElement {
 
   render() {
     const hasHeader = !this.withoutHeader;
-    const hasFooter = this.hasUpdated ? this.hasSlotController.test('footer') : this.withFooter;
+    const hasFooter = this.hasSlotController.test('footer', 'withFooter');
 
     return html`
       <dialog
@@ -263,13 +263,10 @@ export default class WaDialog extends WebAwesomeElement {
 
         <div part="body" class="body"><slot></slot></div>
 
-        ${hasFooter
-          ? html`
-              <footer part="footer" class="footer">
-                <slot name="footer"></slot>
-              </footer>
-            `
-          : ''}
+        <!-- Use a hidden element so we still get "slotchange" events. -->
+        <footer part="footer" class="footer" ?hidden=${!hasFooter}>
+          <slot name="footer"></slot>
+        </footer>
       </dialog>
     `;
   }
