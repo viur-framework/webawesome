@@ -11,17 +11,29 @@
     {{ theme.name }}
   </wa-tab>
   {%- else -%}
+  {% raw %}{%- if not currentUser.hasPro -%}{% endraw %}
   <wa-tab panel="{{ theme.filename | stripExtension }}"
     data-title="{{ theme.name }}"
     data-description="{{ theme.description }}"
     data-palette="{{ theme.palette.filename | stripExtension }}"
     data-brand="{{ theme.colorBrand.color }}"
-    {% raw %}{%- if not currentUser.hasPro -%}{% endraw %} disabled {% raw %}{%- endif -%}{% endraw %}>
+    disabled>
     <span class="wa-cluster wa-gap-xs wa-flex-nowrap">
       {{ theme.name }}
-      {% raw %}{%- if not currentUser.hasPro -%}{% endraw %}{{ proBadge({ description: "This theme requires access to " ~ site.namePro }) }}{% raw %}{%- endif -%}{% endraw %}
+      {{ proBadge({ description: "This theme requires access to " ~ site.namePro }) }}
     </span>
   </wa-tab>
+  {% raw %}{%- else -%}{% endraw %}
+  <wa-tab panel="{{ theme.filename | stripExtension }}"
+    data-title="{{ theme.name }}"
+    data-description="{{ theme.description }}"
+    data-palette="{{ theme.palette.filename | stripExtension }}"
+    data-brand="{{ theme.colorBrand.color }}">
+    <span class="wa-cluster wa-gap-xs wa-flex-nowrap">
+      {{ theme.name }}
+    </span>
+  </wa-tab>
+  {% raw %}{%- endif -%}{% endraw %}
   {%- endif -%}
   {%- endfor -%}
   {%- for theme in themer.themes -%}

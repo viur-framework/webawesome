@@ -15,12 +15,20 @@
   {%- if not palette.isPro -%}
   <wa-tab panel="{{ palette.name | lower }}">{{ palette.name }}</wa-tab>
   {%- else -%}
-  <wa-tab panel="{{ palette.name | lower }}" {% raw %}{%- if not currentUser.hasPro -%}{% endraw %} disabled {% raw %}{%- endif -%}{% endraw %}>
+  {% raw %}{%- if not currentUser.hasPro -%}{% endraw %}
+  <wa-tab panel="{{ palette.name | lower }}" disabled>
     <span class="wa-cluster wa-gap-xs wa-flex-nowrap">
       {{ palette.name }}
-      {% raw %}{%- if not currentUser.hasPro -%}{% endraw %}{{ proBadge({ description: "This palette requires access to " ~ site.namePro }) }}{% raw %}{%- endif -%}{% endraw %}
+      {{ proBadge({ description: "This palette requires access to " ~ site.namePro }) }}
     </span>
   </wa-tab>
+  {% raw %}{%- else -%}{% endraw %}
+  <wa-tab panel="{{ palette.name | lower }}">
+    <span class="wa-cluster wa-gap-xs wa-flex-nowrap">
+      {{ palette.name }}
+    </span>
+  </wa-tab>
+  {% raw %}{%- endif -%}{% endraw %}
   {%- endif -%}
   {%- endfor -%}
   {%- for palette in themer.palettes -%}

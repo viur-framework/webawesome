@@ -1,7 +1,13 @@
 <div class="wa-cluster wa-gap-3xs">
-  <wa-switch id="ssr-switch" {% raw %}{{ bool_attr("checked", req.cookies.webawesome_ssr === "true") }}{% endraw %} size="s">
+  {% raw %}{% if req.cookies.webawesome_ssr == "true" %}{% endraw %}
+  <wa-switch id="ssr-switch" checked size="s">
     Try SSR
   </wa-switch>
+  {% raw %}{% else %}{% endraw %}
+  <wa-switch id="ssr-switch" size="s">
+    Try SSR
+  </wa-switch>
+  {% raw %}{% endif %}{% endraw %}
 
   <wa-button href="/docs/ssr" appearance="plain" pill id="ssr-info-button" size="xs">
     <wa-icon label="About SSR" name="circle-info" variant="regular" class="wa-font-size-s"></wa-icon>
