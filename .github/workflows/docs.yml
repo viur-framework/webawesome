@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies and build
         run: |
           npm install
-          cd packages/webawesome && npm run build
+          cd packages/webawesome && npm run icons && npm run build
       - name: collect
         run: |
             mkdir -p combined_site
