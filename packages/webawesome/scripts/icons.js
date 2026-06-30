@@ -45,11 +45,25 @@ function haveTar() {
 async function main() {
   let iconsJsonPath = ICONS_JSON;
   let assetsDir = ASSETS_DIR;
-  if (process.argv[2]) {
-    iconsJsonPath = path.join(path.resolve(process.argv[2]), 'icons.json');
+
+  // Parse args: positionals are [icons.json dir, assets dir]; `--fallback <folder>`
+  // sources any requested icon that's missing from the given folder (e.g. `solid`).
+  // Font Awesome's `regular`, `light`, `thin`, duotone, etc. are largely Pro, so a
+  // Free-only build can fall back to `solid` to keep those icons rendering.
+  const positionals = [];
+  let fallbackFolder = null;
+  const rawArgs = process.argv.slice(2);
+  for (let i = 0; i < rawArgs.length; i++) {
+    const a = rawArgs[i];
+    if (a === '--fallback') fallbackFolder = rawArgs[++i];
+    else if (a.startsWith('--fallback=')) fallbackFolder = a.slice('--fallback='.length);
+    else positionals.push(a);
   }
-  if (process.argv[3]) {
-    assetsDir = path.resolve(process.argv[3]);
+  if (positionals[0]) {
+    iconsJsonPath = path.join(path.resolve(positionals[0]), 'icons.json');
+  }
+  if (positionals[1]) {
+    assetsDir = path.resolve(positionals[1]);
   }
 
   if (!fs.existsSync(iconsJsonPath)) {
@@ -122,18 +136,42 @@ async function main() {
     }
   }
 
+  // Optional fallback: source still-missing icons from `--fallback` folder (e.g. solid).
+  const fellBack = [];
+  if (fallbackFolder && missing.length) {
+    for (let i = missing.length - 1; i >= 0; i--) {
+      const rel = missing[i];
+      const name = path.basename(rel);
+      const src = path.join(svgsRoot, fallbackFolder, name);
+      if (fs.existsSync(src)) {
+        const dest = path.join(assetsDir, rel);
+        ensureDirSync(path.dirname(dest));
+        fs.copyFileSync(src, dest);
+        copied++;
+        fellBack.push(rel);
+        missing.splice(i, 1);
+      }
+    }
+  }
+
   const manifest = {
     package: PKG,
     version: latest7,
     totalRequested: wanted.size,
     copied,
+    fallbackFolder,
+    fellBack,
     missing,
     timestamp: new Date().toISOString(),
   };
   await fsp.writeFile(path.join(assetsDir, 'fontawesome-manifest.json'), JSON.stringify(manifest, null, 2), 'utf8');
 
   console.log(`✔ Finished: ${copied}/${wanted.size} Icons.`);
+  if (fellBack.length) {
+    console.log(`↳ ${fellBack.length} icon(s) fell back to "${fallbackFolder}".`);
+  }
   if (missing.length) {
+    console.warn(`Still missing (${missing.length}):`);
     for (const m of missing) console.warn('  -', m);
   }
 }

@@ -63,13 +63,15 @@
 <link rel="apple-touch-icon" href="/assets/images/app-icons/apple-touch-icon.png">
 
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
-<!-- TEST
+
+{# Self-host the default icon library from /assets/icons (Font Awesome Free). #}
+{# Regenerate the SVGs with `npm run icons` (driven by icons.json). #}
+{# NOTE: inline module imports are NOT rewritten by HtmlBasePlugin, so the #}
+{# pathPrefix (/webawesome) must be written out explicitly here. #}
 <script type="module">
   import { setIconPath } from '/webawesome/dist/webawesome.js';
-  setIconPath('https://ka-f.fontawesome.com/releases/v7.2.0/svgs/');
+  setIconPath('/webawesome/assets/icons');
 </script>
-<script type="module" src="/dist/webawesome.loader.js"></script>
--->
 <script type="module" src="/dist/webawesome.ssr-loader.js"></script>
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/cera-round-pro-400.woff2" crossorigin>
 {% if pageClass == 'home' %}

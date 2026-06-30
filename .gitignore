@@ -13,3 +13,4 @@ _bundle_
 .idea
 packages/webawesome/assets
 .claude/settings.local.json
+packages/webawesome/docs/assets/icons
