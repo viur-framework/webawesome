@@ -4,7 +4,7 @@
     "access": "public"
   },
   "description": "A forward-thinking library of web components for ViUR",
-  "version": "0.15.0",
+  "version": "0.16.0",
   "homepage": "https://viur-framework.github.io/webawesome/",
   "author": "Web Awesome",
   "contributors": [
@@ -77,16 +77,19 @@
     "test:component": "web-test-runner -- --watch --group",
     "test:component:server": "SSR_ONLY=\"true\" npm run test:component",
     "test:component:client": "CSR_ONLY=\"true\" npm run test:component",
+    "test:hydration": "node scripts/check-hydration.js",
     "test:watch": "web-test-runner --watch --group default",
     "prettier": "prettier --check --log-level=warn --ignore-path=\"../../.prettierignore\" .",
     "prettier:fix": "prettier --write --log-level=warn --ignore-path=\"../../.prettierignore\" .",
     "spellcheck": "cspell \"**/*.{js,ts,json,html,css,md}\" --no-progress --config=\"../../cspell.json\"",
-    "verify": "npm run prettier && npm run build",
+    "verify:skills": "node scripts/verify-skills.js",
+    "verify": "npm run prettier && npm run build && npm run verify:skills",
     "prepublishOnly": "npm run verify",
     "check-updates": "npm-check-updates --cooldown 7 --interactive --format group",
     "print-version": "echo $npm_package_version",
     "tag-version": "git tag -a \"v$(npm run print-version | tail -n1)\" -m \"tag v$(npm run print-version | tail -n1)\"",
     "postversion": "node ./scripts/update-root-version.js",
+    "icons:collect": "node scripts/collect-doc-icons.js",
     "icons": "node scripts/icons.js . docs/assets/icons --fallback solid"
   },
   "engines": {
@@ -95,9 +98,10 @@
   "dependencies": {
     "@ctrl/tinycolor": "4.1.0",
     "@floating-ui/dom": "^1.6.13",
+    "@konnorr/qr-creator": "^1.0.1",
+    "@lit-labs/ssr": "^4.1.0",
     "@lit-labs/ssr-client": "^1.1.8",
     "@lit/context": "^1.1.6",
-    "@konnorr/qr-creator": "^1.0.1",
     "@lit/react": "^1.0.8",
     "@shoelace-style/animations": "^1.2.0",
     "@shoelace-style/localize": "^3.2.2",
@@ -114,6 +118,7 @@
   "devDependencies": {
     "@wc-toolkit/cem-validator": "^1.0.3",
     "@wc-toolkit/jsx-types": "^1.3.0",
+    "cookie-parser": "^1.4.7",
     "eleventy-plugin-git-commit-date": "^0.1.3",
     "esbuild": "^0.25.11",
     "gray-matter": "^4.0.3",

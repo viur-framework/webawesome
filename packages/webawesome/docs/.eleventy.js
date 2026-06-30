@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid';
 import { parse as HTMLParse } from 'node-html-parser';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { anchorHeadingsTransformer } from './_transformers/anchor-headings.js';
+import { anchorHeadingsTransformer, createId } from './_transformers/anchor-headings.js';
 import { changelogListIconsTransformer } from './_transformers/changelog-list-icons.js';
 import { codeExamplesTransformer } from './_transformers/code-examples.js';
 import { copyCodeTransformer } from './_transformers/copy-code.js';
@@ -21,6 +21,7 @@ import { readFile } from 'fs/promises';
 import process from 'process';
 import * as url from 'url';
 import { generateAgentSkill } from '../scripts/agent-skill.js';
+import { generateDesignSkill } from '../scripts/design-skill.js';
 import { getSiteDir } from '../scripts/utils.js';
 import { replaceTextPlugin } from './_plugins/replace-text.js';
 import { searchPlugin } from './_plugins/search.js';
@@ -136,6 +137,8 @@ export default async function (eleventyConfig) {
   eleventyConfig.addFilter('stripExtension', string => path.parse(string + '').name);
   eleventyConfig.addFilter('stripPrefix', content => content.replace(/^wa-/, ''));
   eleventyConfig.addFilter('uniqueId', (_value, length = 8) => nanoid(length));
+  // Generates the same heading anchor id used by anchorHeadingsTransformer, so links can target headings reliably
+  eleventyConfig.addFilter('headingId', content => createId(String(content ?? '')));
 
   eleventyConfig.addGlobalData('eleventyComputed', {
     // Page title with smart + default site name formatting
@@ -254,11 +257,18 @@ export default async function (eleventyConfig) {
       anchorHeadingsTransformer({ container: '#content' }),
       outlineTransformer({
         container: '#content',
-        target: '.outline-links',
+        target: '#outline-standard',
         selector: 'h2, h3',
         ifEmpty: doc => {
           doc.querySelector('#outline')?.remove();
         },
+      }),
+      outlineTransformer({
+        container: '#content',
+        target: '#outline-expandable wa-details',
+        selector: 'h2, h3',
+        listClass: 'wa-grid wa-gap-xs wa-list-plain',
+        linkIcon: 'hashtag',
       }),
       // Add current link classes
       currentLinkTransformer(),
@@ -335,6 +345,7 @@ export default async function (eleventyConfig) {
     await generateAgentSkill({
       siteDir,
     });
+    await generateDesignSkill();
   });
 
   // This needs to happen in "eleventy.after" otherwise incremental builds never update.
@@ -363,9 +374,8 @@ export default async function (eleventyConfig) {
   //   //
 
   // We only want to run SSR if we're not running the app shell around 11ty. If we run the SSR plugin here with the app shell also doing SSR, it breaks.
-  if (!serverBuild && process.env.SSR === 'true') {
+  if (!isDev && !serverBuild && process.env.SSR === 'true') {
     // @ts-expect-error Run connectedCallback in SSR to make it compatible with lit context.
-    globalThis.litSsrCallConnectedCallback = true;
 
     const omittedModules = [];
     const componentList = [];
@@ -392,6 +402,12 @@ export default async function (eleventyConfig) {
   // For a server build, we expect a server to run the second transform.
   // For dev builds, we run the second transform in a middleware.
   if (!isDev && !serverBuild) {
+    const ssr = process.env.SSR === 'true';
+
+    if (ssr) {
+      globalThis.litSsrCallConnectedCallback = true;
+    }
+
     eleventyConfig.addTransform('simulate-webawesome-app', function (content) {
       // Only run the transform on files nunjucks would transform.
       if (!this.page.inputPath.match(/.(md|html|njk)$/)) {
@@ -399,7 +415,7 @@ export default async function (eleventyConfig) {
       }
 
       /** This largely mimics what an app would do and just stubs out what we don't care about. */
-      return SimulateWebAwesomeApp(content, { isDev: isDev, ssr: process.env.SSR === 'true' });
+      return SimulateWebAwesomeApp(content, { isDev: isDev, ssr });
     });
   }
 }

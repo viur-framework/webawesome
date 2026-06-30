@@ -279,6 +279,7 @@ export default css`
 
   .is-icon-button .label {
     display: flex;
+    justify-content: center;
   }
 
   .label::slotted(wa-icon) {

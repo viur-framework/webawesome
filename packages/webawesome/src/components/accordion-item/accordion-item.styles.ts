@@ -4,16 +4,15 @@ export default css`
   @layer wa-component {
     :host {
       --spacing: var(--wa-space-m);
-      --show-duration: 200ms;
-      --hide-duration: 200ms;
-      --easing: ease;
+      --show-duration: var(--wa-transition-normal);
+      --hide-duration: var(--wa-transition-normal);
+      --easing: var(--wa-transition-easing);
 
       display: block;
     }
 
     :host(:not(:first-child)) {
-      border-top: var(--wa-panel-border-width) var(--wa-panel-border-style)
-        var(--wa-accordion-divider-color, var(--wa-color-surface-border));
+      border-top: var(--wa-panel-border-width) var(--wa-panel-border-style) var(--wa-color-surface-border);
     }
 
     :host([appearance='filled']) {
