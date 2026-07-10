@@ -176,28 +176,6 @@
 </wa-scroller>
 {% endif %}
 
-{# SSR #}
-{% if component.ssr.length > 0 %}
-  {# Purposefully hidden so that it populates TOC #}
-  <h2 style="visibility: collapse; margin: 0;">SSR</h2>
-  <wa-callout variant="neutral">
-    <wa-icon slot="icon" name="server" variant="regular"></wa-icon>
-
-    <div class="wa-stack wa-gap-s">
-      <p class="wa-heading-m">Using <code class="component-tag">&lt;{{ component.tagName }}&gt;</code> with <abbr title="Server-Side Rendering">SSR</abbr></p>
-
-      <div>
-        {% for obj in component.ssr %}
-          {{ obj.description | markdown | safe }}
-        {% endfor %}
-      </div>
-
-      <p>Learn more about <a href="/docs/ssr">Web Awesome and Server-Side Rendering</a>.</p>
-    </div>
-  </wa-callout>
-{% endif %}
-
-
 {# Events #}
 {% if component.events.length %}
 <h2>Events</h2>
@@ -227,7 +205,7 @@
 
 {# Custom Properties #}
 {% if component.cssProperties.length %}
-<h2>CSS custom properties</h2>
+<h2>CSS Custom Properties</h2>
 <p>Learn more about <a href="/docs/usage/#custom-properties">CSS custom properties</a>.</p>
 
 <wa-scroller>
@@ -291,7 +269,7 @@
 
 {# CSS Parts #}
 {% if component.cssParts.length %}
-<h2>CSS parts</h2>
+<h2>CSS Parts</h2>
 <p>Learn more about <a href="/docs/usage/#css-parts">CSS parts</a>.</p>
 
 <wa-scroller>
@@ -334,6 +312,16 @@
   <li><a href="/docs/components/{{ dependency | stripPrefix }}"><code>&lt;{{ dependency }}&gt;</code></a></li>
   {% endfor %}
 </ul>
+{% endif %}
+
+{# SSR #}
+{% if component.ssr.length > 0 %}
+<h2>SSR</h2>
+<p>Learn more about <a href="/docs/ssr">Server-Side Rendering (SSR)</a>.</p>
+
+{% for obj in component.ssr %}
+  {{ obj.description | markdown | safe }}
+{% endfor %}
 {% endif %}
 
 <wa-divider></wa-divider>

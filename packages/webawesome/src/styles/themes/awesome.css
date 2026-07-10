@@ -597,6 +597,10 @@
       --checked-icon-color: var(--wa-color-surface-default);
     }
 
+    wa-option {
+      --current-text-color: var(--wa-color-surface-default);
+    }
+
     wa-switch {
       --height: 1.5em;
     }

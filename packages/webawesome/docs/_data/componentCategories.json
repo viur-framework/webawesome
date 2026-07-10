@@ -1,7 +1,7 @@
 [
   { "label": "Actions", "slug": "actions", "icon": "hand-pointer" },
-  { "label": "Forms", "slug": "forms", "icon": "pen-field" },
-  { "label": "Layout", "slug": "layout", "icon": "layer" },
+  { "label": "Forms", "slug": "forms", "icon": "pen-to-square" },
+  { "label": "Layout", "slug": "layout", "icon": "layer-group" },
   { "label": "Navigation", "slug": "navigation", "icon": "compass" },
   { "label": "Feedback", "slug": "feedback", "icon": "bell" },
   { "label": "Media", "slug": "media", "icon": "photo-film" },
