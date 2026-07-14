@@ -21,7 +21,9 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [22.22.1]
+        # Track the latest Node 22 LTS: `npm install -g npm@latest` below pulls npm 12+, whose
+        # engine requires Node ^22.22.2, so an exact older pin (e.g. 22.22.1) breaks the install.
+        node-version: [22.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
