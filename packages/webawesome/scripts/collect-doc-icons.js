@@ -10,8 +10,8 @@
 //
 // Usage: node scripts/collect-doc-icons.js
 //
-import { readdirSync, statSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
-import { dirname, join, resolve, extname, basename } from 'node:path';
+import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { basename, dirname, extname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));

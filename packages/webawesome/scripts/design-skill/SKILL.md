@@ -161,7 +161,7 @@ These are the things that go wrong most often. Treat them as hard constraints.
    border, or a "styled" box whose visible surface never changed. (Real example: a `<wa-callout variant=
 "brand">` on a theme that inverted `--wa-color-brand-fill-quiet`/`-on-quiet` rendered a dark panel with
    near-black body text, because the callout's text color came from a token the author never checked. The
-   fix was to read [the callout reference](references/components/callout.md) — which documents that host
+   fix was to read the callout reference — which documents that host
    `background`/`color` are supported and exposes `message`/`icon` parts — and set the colors explicitly.)
    If you cannot point to the doc line that says a token/part/attribute exists, you have not earned the right
    to use it yet — go read the doc.

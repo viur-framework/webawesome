@@ -91,7 +91,14 @@ export async function build(options = {}) {
       let steps = [cleanup, copyManifest, generateAllComponentFile, generateTypes, generateStyles];
 
       if (REBUILD_MANIFEST) {
-        steps = [cleanup, generateManifest, generateAllComponentFile, generateReactWrappers, generateTypes, generateStyles];
+        steps = [
+          cleanup,
+          generateManifest,
+          generateAllComponentFile,
+          generateReactWrappers,
+          generateTypes,
+          generateStyles,
+        ];
       }
 
       for (const step of steps) {

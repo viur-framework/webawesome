@@ -5376,11 +5376,7 @@
           "documentation": "https://webawesome.com/docs/components/tree-item",
           "status": "stable",
           "since": "2.0",
-          "dependencies": [
-            "wa-checkbox",
-            "wa-icon",
-            "wa-spinner"
-          ],
+          "dependencies": ["wa-checkbox", "wa-icon", "wa-spinner"],
           "tagName": "wa-tree-item",
           "customElement": true,
           "modulePath": "components/tree-item/tree-item.js",
@@ -8426,10 +8422,7 @@
           "documentation": "https://webawesome.com/docs/components/button",
           "status": "stable",
           "since": "2.0",
-          "dependencies": [
-            "wa-icon",
-            "wa-spinner"
-          ],
+          "dependencies": ["wa-icon", "wa-spinner"],
           "tagName": "wa-button",
           "customElement": true,
           "modulePath": "components/button/button.js",
@@ -9912,10 +9905,7 @@
           "documentation": "https://webawesome.com/docs/components/alert",
           "status": "experimental",
           "since": "3.0",
-          "dependencies": [
-            "wa-button",
-            "wa-icon"
-          ],
+          "dependencies": ["wa-button", "wa-icon"],
           "tagName": "wa-alert",
           "customElement": true,
           "modulePath": "components/alert/alert.js",
@@ -18102,13 +18092,7 @@
           "documentation": "https://webawesome.com/docs/components/color-picker",
           "status": "stable",
           "since": "2.0",
-          "dependencies": [
-            "wa-button",
-            "wa-button-group",
-            "wa-input",
-            "wa-popup",
-            "wa-visually-hidden"
-          ],
+          "dependencies": ["wa-button", "wa-button-group", "wa-input", "wa-popup", "wa-visually-hidden"],
           "tagName": "wa-color-picker",
           "customElement": true,
           "modulePath": "components/color-picker/color-picker.js",
@@ -20445,12 +20429,7 @@
           "documentation": "https://webawesome.com/docs/components/select",
           "status": "stable",
           "since": "2.0",
-          "dependencies": [
-            "wa-icon",
-            "wa-popup",
-            "wa-tag",
-            "wa-option"
-          ],
+          "dependencies": ["wa-icon", "wa-popup", "wa-tag", "wa-option"],
           "tagName": "wa-select",
           "customElement": true,
           "modulePath": "components/select/select.js",
@@ -22115,12 +22094,7 @@
           "documentation": "https://webawesome.com/docs/components/combobox",
           "status": "stable",
           "since": "2.0",
-          "dependencies": [
-            "wa-icon",
-            "wa-popup",
-            "wa-tag",
-            "wa-option"
-          ],
+          "dependencies": ["wa-icon", "wa-popup", "wa-tag", "wa-option"],
           "tagName": "wa-combobox",
           "customElement": true,
           "modulePath": "components/combobox/combobox.js",
@@ -23748,10 +23722,7 @@
           "documentation": "https://webawesome.com/docs/components/copy",
           "status": "stable",
           "since": "3.6",
-          "dependencies": [
-            "wa-icon",
-            "wa-tooltip"
-          ],
+          "dependencies": ["wa-icon", "wa-tooltip"],
           "tagName": "wa-copy-button",
           "customElement": true,
           "modulePath": "components/copy-button/copy-button.js",
@@ -26743,10 +26714,7 @@
           "documentation": "https://webawesome.com/docs/components/dropdown",
           "status": "stable",
           "since": "2.0",
-          "dependencies": [
-            "wa-dropdown-item",
-            "wa-popup"
-          ],
+          "dependencies": ["wa-dropdown-item", "wa-popup"],
           "tagName": "wa-dropdown",
           "customElement": true,
           "modulePath": "components/dropdown/dropdown.js",
@@ -43152,11 +43120,7 @@
           "documentation": "https://webawesome.com/docs/components/tab-group",
           "status": "stable",
           "since": "2.0",
-          "dependencies": [
-            "wa-button",
-            "wa-tab",
-            "wa-tab-panel"
-          ],
+          "dependencies": ["wa-button", "wa-tab", "wa-tab-panel"],
           "ssr": [
             {
               "name": "-",
@@ -43510,10 +43474,7 @@
           "documentation": "https://webawesome.com/docs/components/table-wrapper",
           "status": "experimental",
           "since": "3.0",
-          "dependencies": [
-            "wa-input",
-            "wa-icon"
-          ],
+          "dependencies": ["wa-input", "wa-icon"],
           "tagName": "wa-table-wrapper",
           "customElement": true,
           "modulePath": "components/table-wrapper/table-wrapper.js",
@@ -47644,10 +47605,7 @@
           "documentation": "https://webawesome.com/docs/components/time-input",
           "status": "experimental",
           "since": "3.8",
-          "dependencies": [
-            "wa-icon",
-            "wa-popup"
-          ],
+          "dependencies": ["wa-icon", "wa-popup"],
           "tagName": "wa-time-input",
           "customElement": true,
           "modulePath": "components/time-input/time-input.js",

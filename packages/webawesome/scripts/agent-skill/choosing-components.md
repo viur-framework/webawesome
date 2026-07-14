@@ -10,12 +10,12 @@ intent, then check that component's individual reference for its API.
 
 The major decisions:
 
-- **Pick one from a set** — radio group, select, combobox (Pro), switch, slider, rating, color picker
-- **Pick many** — multiple checkboxes, multi-select, multi-combobox (Pro)
+- **Pick one from a set** — radio group, select, combobox, switch, slider, rating, color picker
+- **Pick many** — multiple checkboxes, multi-select, multi-combobox
 - **Trigger an action** — button, copy button, dropdown menu, button group, tabs
-- **Show feedback or status** — callout, toast (Pro), badge, spinner, progress, skeleton, tooltip, popover
-- **Capture input** — input, number input, textarea, file input (Pro)
-- **Show data** — format helpers, relative time, QR code, comparison, carousel, avatar, charts (Pro)
+- **Show feedback or status** — callout, badge, spinner, progress, skeleton, tooltip, popover
+- **Capture input** — input, number input, textarea, file input
+- **Show data** — format helpers, relative time, QR code, comparison, carousel, avatar
 - **Navigate or organize** — page, breadcrumb, tabs, details, tree, divider, card, tag, badge
 - **Overlay or float** — dialog, drawer, tooltip, popover, dropdown
 
@@ -29,7 +29,7 @@ The user is choosing one value from a set of options.
 | --------------------------------------------- | ------------------------------------ |
 | 2–5 visible options, all related              | `<wa-radio-group>` with `<wa-radio>` |
 | More options, dropdown form field             | `<wa-select>` with `<wa-option>`     |
-| Many options + typeahead / search             | `<wa-combobox>` **(Pro)**            |
+| Many options + typeahead / search             | `<wa-combobox>`                      |
 | Yes / no toggle that takes effect immediately | `<wa-switch>`                        |
 | Yes / no in a form (submitted later)          | `<wa-checkbox>`                      |
 | A numeric value within a continuous range     | `<wa-slider>`                        |
@@ -38,7 +38,7 @@ The user is choosing one value from a set of options.
 
 **`<wa-dropdown>` is not for picking a value.** `<wa-dropdown>` is for a **menu of actions** (think: a
 "More…" button that opens a list of commands). For picking a value from a list, use `<wa-select>` (or
-`<wa-combobox>` if the user has Pro and you need typeahead). This is the single most common confusion in
+`<wa-combobox>` if you need typeahead). This is the single most common confusion in
 the catalog.
 
 **Switch vs. checkbox.** Switch = instant-apply setting ("notifications on / off"). Checkbox = form
@@ -55,7 +55,7 @@ Multi-selection from a set.
 | ----------------------------------------- | ---------------------------------------------- |
 | A small set of independent options        | Multiple `<wa-checkbox>` elements              |
 | Many options in a multi-select dropdown   | `<wa-select multiple>`                         |
-| Many options with typeahead, multi-select | `<wa-combobox multiple>` **(Pro)**             |
+| Many options with typeahead, multi-select | `<wa-combobox>` (multi-select via its `multiple` property) |
 | Removable chip / tag selections           | `<wa-tag with-remove>` (manage your own state) |
 
 ---
@@ -87,17 +87,12 @@ Non-interactive output telling the user something.
 | You need…                                                  | Use                                                                       |
 | ---------------------------------------------------------- | ------------------------------------------------------------------------- |
 | Persistent inline message (info, success, warning, danger) | `<wa-callout>` with a `variant`                                           |
-| Brief ephemeral notification                               | `<wa-toast-item>` inside `<wa-toast>` **(Pro)**                           |
 | Compact status indicator (number, "NEW", state)            | `<wa-badge>`                                                              |
 | Loading, duration unknown                                  | `<wa-spinner>`                                                            |
 | Loading, with progress                                     | `<wa-progress-bar>` (horizontal) or `<wa-progress-ring>` (compact circle) |
 | Placeholder while content loads                            | `<wa-skeleton>`                                                           |
 | Hover hint on a target                                     | `<wa-tooltip>`                                                            |
 | Larger contextual popup with rich content                  | `<wa-popover>`                                                            |
-
-**Callout vs. toast.** Callout = persistent, sits in the layout (e.g. a form error, an info panel). Toast
-= ephemeral, floats over the layout briefly (e.g. "Saved!" after a successful save). If the user might
-miss it on a glance, it's a callout.
 
 **Tooltip vs. popover.** Tooltip = text-only hint, automatic on hover / focus. Popover = arbitrary rich
 content, click to open. If you need anything beyond a short string, it's a popover.
@@ -113,7 +108,7 @@ The user types or uploads.
 | Single-line text (incl. email, password, etc.) | `<wa-input>` with the appropriate `type`                     |
 | A number with stepper buttons                  | `<wa-number-input>` (richer than `<wa-input type="number">`) |
 | Multi-line text                                | `<wa-textarea>`                                              |
-| File upload                                    | `<wa-file-input>` **(Pro)**                                  |
+| File upload                                    | native `<input type="file">`                                 |
 | A color value                                  | `<wa-color-picker>`                                          |
 
 Use a `<form>` and the [form controls reference](form-controls.md) for validation patterns and form
@@ -139,9 +134,6 @@ Read-only data display.
 | An animation                                      | `<wa-animation>`                                                                         |
 | Markdown content rendered inline                  | `<wa-markdown>`                                                                          |
 | Include external HTML                             | `<wa-include>`                                                                           |
-| A small inline trend chart                        | `<wa-sparkline>` **(Pro)**                                                               |
-| A data chart (bar, line, pie, donut, radar, etc.) | The chart family **(Pro)** — `<wa-bar-chart>`, `<wa-line-chart>`, `<wa-pie-chart>`, etc. |
-| A video player                                    | `<wa-video>` or `<wa-video-playlist>` **(Pro)**                                          |
 
 ---
 
@@ -200,21 +192,16 @@ accessible.
 
 ---
 
-## A note on Pro
+## Not available in this build
 
-Components marked **(Pro)** in the tables above require [Web Awesome Pro](https://webawesome.com/purchase).
-The Pro-only set is:
+This is the free Web Awesome distribution. A few capabilities from the commercial upstream aren't
+bundled here — reach for these Free fallbacks instead:
 
-- **`<wa-combobox>`** — typeahead select (single or `multiple`)
-- **`<wa-file-input>`** — file upload form control
-- **`<wa-toast>` / `<wa-toast-item>`** — toast notification stack
-- **`<wa-sparkline>`** — small inline trend chart
-- **The chart family** — `<wa-chart>` (generic), `<wa-bar-chart>`, `<wa-line-chart>`, `<wa-pie-chart>`,
-  `<wa-doughnut-chart>`, `<wa-polar-area-chart>`, `<wa-radar-chart>`, `<wa-scatter-chart>`,
-  `<wa-bubble-chart>`
-- **The video family** — `<wa-video>`, `<wa-video-playlist>`
+- **Charts / sparklines** — render with a dedicated charting library, or compose simple bars from the
+  layout utilities.
+- **Toast notifications** — use `<wa-callout>` for messages that can live in the layout.
+- **File upload** — use the native `<input type="file">` element.
+- **Video** — use the native `<video>` element.
 
-Don't use Pro components unless the user has Web Awesome Pro. When in doubt, pick the closest Free
-equivalent (`<wa-select>` instead of `<wa-combobox>`, native `<input type="file">` instead of
-`<wa-file-input>`, `<wa-callout>` instead of toast for non-ephemeral messages) or compose from primitives.
-The full Pro list also lives in the main `SKILL.md`.
+`<wa-combobox>` (typeahead select, single or multi-select via its `multiple` property) is included in
+this build.
