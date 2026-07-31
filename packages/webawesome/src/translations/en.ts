@@ -108,6 +108,7 @@ const translation: Translation = {
   paginationLast: 'Last',
   paginationPrev: 'Previous',
   paginationNext: 'Next',
+  comboboxSuggestionsAvailable: count => (count === 1 ? '1 suggestion available' : `${count} suggestions available`),
   am: 'AM',
   chooseTime: 'Choose time',
   closeTimeInput: 'Close time picker',

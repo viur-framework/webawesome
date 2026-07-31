@@ -10,6 +10,7 @@ import { WaHideEvent } from '../../events/hide.js';
 import type { WaRemoveEvent } from '../../events/remove.js';
 import { WaShowEvent } from '../../events/show.js';
 import { animateWithClass } from '../../internal/animate.js';
+import escapeRegExp from '../../internal/escape-regexp.js';
 import { waitForEvent } from '../../internal/event.js';
 import { scrollIntoView } from '../../internal/scroll.js';
 import { HasSlotController } from '../../internal/slot.js';
@@ -18,6 +19,7 @@ import { watch } from '../../internal/watch.js';
 import { WebAwesomeFormAssociatedElement } from '../../internal/webawesome-form-associated-element.js';
 import formControlStyles from '../../styles/component/form-control.styles.js';
 import sizeStyles from '../../styles/component/size.styles.js';
+import visuallyHidden from '../../styles/component/visually-hidden.styles.js';
 import { LocalizeController } from '../../utilities/localize.js';
 import '../icon/icon.js';
 import '../option/option.js';
@@ -89,7 +91,7 @@ export interface SuggestionSource {
  */
 @customElement('wa-combobox')
 export default class WaCombobox extends WebAwesomeFormAssociatedElement {
-  static css = [styles, formControlStyles, sizeStyles];
+  static css = [styles, formControlStyles, sizeStyles, visuallyHidden];
 
   static get validators() {
     const validators = isServer
@@ -941,7 +943,7 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
     this.handleDefaultSlotChange();
   }
   highlightSearchTextInSuggestions(items: Suggestion[], searchText: string) {
-    const regex = new RegExp(searchText, 'gi');
+    const regex = new RegExp(escapeRegExp(searchText), 'gi');
 
     return items.map(item => {
       const highlightedSuggestion = item.text.replace(regex, match => `<span class="highlight">${match}</span>`);
@@ -1133,6 +1135,11 @@ export default class WaCombobox extends WebAwesomeFormAssociatedElement {
           aria-hidden=${hasHint ? 'false' : 'true'}
           >${this.hint}</slot
         >
+        <div class="wa-visually-hidden" role="status" aria-live="polite">
+          ${this.suggestions.length === 0
+            ? this.emptyMessage
+            : this.localize.term('comboboxSuggestionsAvailable', this.suggestions.length)}
+        </div>
       </div>
     `;
   }

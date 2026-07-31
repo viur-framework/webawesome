@@ -121,6 +121,7 @@ const translation: Translation = {
   paginationLast: 'Lezter',
   paginationPrev: 'vorheriger',
   paginationNext: 'nächster',
+  comboboxSuggestionsAvailable: count => (count === 1 ? '1 Vorschlag verfügbar' : `${count} Vorschläge verfügbar`),
 };
 
 registerTranslation(translation);

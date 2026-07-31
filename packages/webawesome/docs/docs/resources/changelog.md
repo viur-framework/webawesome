@@ -32,10 +32,13 @@ Web Awesome follows <a href="https://semver.org/" class="appearance-plain">Seman
 ## Unreleased
 :::added
 
+- Added a live region to `<wa-combobox>` that announces the number of available suggestions or the empty message as the user types
+
 :::
 
 :::fixed
 
+- Fixed a bug in `<wa-combobox>` that crashed suggestion highlighting when the search text contained regex special characters such as `(`
 - Fixed non-deterministic component ordering in the generated `src/react/index.ts`, caused by an unsorted component list in `scripts/make-react.js`
 
 :::
