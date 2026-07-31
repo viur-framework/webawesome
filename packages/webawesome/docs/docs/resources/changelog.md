@@ -30,8 +30,10 @@ Web Awesome follows <a href="https://semver.org/" class="appearance-plain">Seman
 {% include "changelog-email-signup.njk" %}
 
 ## Unreleased
+
 :::added
 
+- Added `aria-label`, `role="navigation"`, and a live region announcing the current page to `<wa-pagination>`
 - Added a live region to `<wa-combobox>` that announces the number of available suggestions or the empty message as the user types
 
 :::

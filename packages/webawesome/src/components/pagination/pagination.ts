@@ -1,10 +1,11 @@
 import type { PropertyValues, TemplateResult } from 'lit';
 import { html, nothing } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { repeat } from 'lit/directives/repeat.js';
 import { onEvent } from '../../internal/event.js';
 import { watch } from '../../internal/watch.js';
 import WebAwesomeElement from '../../internal/webawesome-element.js';
+import visuallyHidden from '../../styles/component/visually-hidden.styles.js';
 import { LocalizeController } from '../../utilities/localize.js';
 import WaButton from '../button/button.js';
 import '../icon/icon.js';
@@ -32,8 +33,9 @@ import styles from './pagination.styles.js';
  */
 @customElement('wa-pagination')
 export default class WaPagination extends WebAwesomeElement {
-  static css = [styles];
+  static css = [styles, visuallyHidden];
   private readonly localize = new LocalizeController(this);
+  @state() private announceText = '\u200B';
   /** Current page */
   @property({ type: Number, reflect: true, attribute: 'value' }) value = 1;
   /** Page Break Size */
@@ -79,7 +81,7 @@ export default class WaPagination extends WebAwesomeElement {
   }
   _renderSimple() {
     return html`<wa-input
-        size="small"
+        size="s"
         type="number"
         step="1"
         min="1"
@@ -114,7 +116,12 @@ export default class WaPagination extends WebAwesomeElement {
     return html`${repeat(
       array,
       item =>
-        html`<wa-button size="small" data-page-no=${item} .variant=${this.value == item ? 'brand' : 'default'}
+        html`<wa-button
+          size="s"
+          data-page-no=${item}
+          .variant=${this.value == item ? 'brand' : 'default'}
+          aria-label=${this.localize.term('paginationGoToPage', item, pageCount)}
+          aria-current=${this.value == item ? 'page' : nothing}
           >${item}</wa-button
         > `,
     )}`;
@@ -128,7 +135,7 @@ export default class WaPagination extends WebAwesomeElement {
     }
     if (this.showSizeChange) {
       result.push(
-        html`<wa-select size="small" part="show-size-change" .value=${this.pageSize + ''}>
+        html`<wa-select size="s" part="show-size-change" .value=${this.pageSize + ''}>
           ${repeat(this.pageSizeOptions, (value, _index) => html`<wa-option .value=${value + ''}>${value}</wa-option>`)}
         </wa-select>`,
       );
@@ -217,6 +224,7 @@ export default class WaPagination extends WebAwesomeElement {
         tempValue = this.pageCount;
       }
       this.value = tempValue;
+      this.announceText = this.localize.term('paginationGoToPage', this.value, this.pageCount);
       this.dispatchEvent(
         new CustomEvent('change', {
           detail: { value: this.value },
@@ -228,7 +236,8 @@ export default class WaPagination extends WebAwesomeElement {
   }
 
   render() {
-    return html`<div part="base" page-align=${this.align}>
+    return html`<div part="base" role="navigation" aria-label=${this.localize.term('paginationNavigation')} page-align=${this.align}>
+      <div role="status" aria-live="polite" aria-atomic="true" class="wa-visually-hidden">${this.announceText}</div>
       <slot name="start"></slot>
       ${this.total == 0
         ? html`<div part="empty"><slot name="empty">${this.localize.term('paginationEmpty')}</slot></div>`
@@ -237,10 +246,11 @@ export default class WaPagination extends WebAwesomeElement {
               ? html`<wa-tooltip for="wa-pagination-first">${this.localize.term('paginationFirst')}</wa-tooltip>
                   <wa-button
                     id="wa-pagination-first"
-                    size="small"
+                    size="s"
                     ?disabled=${this.value == 1}
                     data-page-no="first"
                     appearance="plain"
+                    aria-label=${this.localize.term('paginationFirst')}
                   >
                     <wa-icon part="first" name="chevron-bar-left" library="system"></wa-icon>
                   </wa-button> `
@@ -251,8 +261,9 @@ export default class WaPagination extends WebAwesomeElement {
               id="wa-pagination-prev"
               ?disabled=${this.value == 1}
               data-page-no="prev"
-              size="small"
+              size="s"
               appearance="plain"
+              aria-label=${this.localize.term('paginationPrev')}
             >
               <wa-icon part="prev" name="chevron-left" ?disabled=${this.value <= 1} library="system"></wa-icon>
             </wa-button>
@@ -262,10 +273,11 @@ export default class WaPagination extends WebAwesomeElement {
             <wa-tooltip for="wa-pagination-next">${this.localize.term('paginationNext')}</wa-tooltip>
             <wa-button
               id="wa-pagination-next"
-              size="small"
+              size="s"
               ?disabled=${this.value + 1 > this.pageCount}
               data-page-no="next"
               appearance="plain"
+              aria-label=${this.localize.term('paginationNext')}
             >
               <wa-icon part="next" name="chevron-right" ?disabled=${this.value <= 1} library="system"></wa-icon>
             </wa-button>
@@ -273,10 +285,11 @@ export default class WaPagination extends WebAwesomeElement {
               ? html`<wa-tooltip for="wa-pagination-last">${this.localize.term('paginationLast')}</wa-tooltip>
                   <wa-button
                     id="wa-pagination-last"
-                    size="small"
+                    size="s"
                     ?disabled=${this.value == this.pageCount}
                     data-page-no="last"
                     appearance="plain"
+                    aria-label=${this.localize.term('paginationLast')}
                   >
                     <wa-icon part="last" name="chevron-bar-right" library="system"></wa-icon>
                   </wa-button> `

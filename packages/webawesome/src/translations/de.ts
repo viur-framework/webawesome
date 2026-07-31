@@ -121,6 +121,8 @@ const translation: Translation = {
   paginationLast: 'Lezter',
   paginationPrev: 'vorheriger',
   paginationNext: 'nächster',
+  paginationNavigation: 'Seitennavigation',
+  paginationGoToPage: (page, total) => `Seite ${page} von ${total}`,
   comboboxSuggestionsAvailable: count => (count === 1 ? '1 Vorschlag verfügbar' : `${count} Vorschläge verfügbar`),
 };
 

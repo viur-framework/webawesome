@@ -108,6 +108,8 @@ const translation: Translation = {
   paginationLast: 'Last',
   paginationPrev: 'Previous',
   paginationNext: 'Next',
+  paginationNavigation: 'Pagination',
+  paginationGoToPage: (page, total) => `Page ${page} of ${total}`,
   comboboxSuggestionsAvailable: count => (count === 1 ? '1 suggestion available' : `${count} suggestions available`),
   am: 'AM',
   chooseTime: 'Choose time',

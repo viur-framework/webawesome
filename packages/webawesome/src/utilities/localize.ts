@@ -120,6 +120,9 @@ export interface Translation extends DefaultTranslation {
   paginationLast: string;
   paginationPrev: string;
   paginationNext: string;
+  // Pagination a11y (optional so existing locales don't need updates; falls back to English)
+  paginationNavigation?: string;
+  paginationGoToPage?: (page: number, total: number) => string;
   // Combobox (optional so existing locales don't need updates; falls back to English)
   comboboxSuggestionsAvailable?: (count: number) => string;
   // Time input (optional so existing locales don't need updates; falls back to English)
