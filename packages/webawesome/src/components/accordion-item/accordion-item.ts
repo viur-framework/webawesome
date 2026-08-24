@@ -1,4 +1,4 @@
-import { html } from 'lit';
+import { html, type PropertyValues } from 'lit';
 import { customElement, property, query, state } from 'lit/decorators.js';
 import { classMap } from 'lit/directives/class-map.js';
 import { WaAccordionItemCollapsedEvent } from '../../events/accordion-item-collapsed.js';
@@ -16,7 +16,7 @@ import styles from './accordion-item.styles.js';
  * @summary Accordion items are used inside `<wa-accordion>` to create expandable sections with accessible headers.
  * @documentation https://webawesome.com/docs/components/accordion
  * @status experimental
- * @since 1.0
+ * @since 3.8
  *
  * @dependency wa-icon
  *
@@ -74,7 +74,8 @@ export default class WaAccordionItem extends WebAwesomeElement {
   /** @internal Set by the parent accordion to control the visual appearance. */
   @property({ reflect: true }) appearance: 'filled' | 'outlined' | 'filled-outlined' | 'plain' = 'outlined';
 
-  firstUpdated() {
+  firstUpdated(changedProperties: PropertyValues<typeof this>) {
+    super.firstUpdated(changedProperties);
     this.body.style.height = this.expanded ? 'auto' : '0';
   }
 
