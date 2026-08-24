@@ -1,8 +1,9 @@
+{% set component = getComponent('wa-' + page.fileSlug) %}
+{% set description = component.summary %}
+{% set ogDescription = component.summary %}
 {% extends '../_layouts/docs.njk' %}
 {% from "pro-badge.njk" import proBadge %}
 {% from "macros/component-badges.njk" import componentMetaBadges %}
-{% set component = getComponent('wa-' + page.fileSlug) %}
-{% set description = component.summary %}
 
 {# Component header #}
 {% block beforeContent %}
@@ -27,8 +28,10 @@
 
 {# Component API #}
 {% block afterContent %}
+<h2>API</h2>
+
 {# Importing #}
-<h2>Importing</h2>
+<h3>Importing</h3>
 <p>
   If you're using the autoloader or a hosted project, components load on demand &mdash; no manual import needed. To
   cherry-pick a component manually, use one of the following snippets.
@@ -65,7 +68,7 @@
 
 {# Slots #}
 {% if component.slots.length %}
-<h2>Slots</h2>
+<h3>Slots</h3>
 <p>Learn more about <a href="/docs/usage/#slots">using slots</a>.</p>
 
 <wa-scroller>
@@ -96,7 +99,7 @@
 
 {# Properties #}
 {% if component.properties.length %}
-<h2>Attributes & Properties</h2>
+<h3>Attributes & Properties</h3>
 <p>Learn more about <a href="/docs/usage/#attributes-and-properties">attributes and properties</a>.</p>
 
 <wa-scroller>
@@ -143,7 +146,7 @@
 
 {# Methods #}
 {% if component.methods.length %}
-<h2>Methods</h2>
+<h3>Methods</h3>
 <p>Learn more about <a href="/docs/usage/#methods">methods</a>.</p>
 
 <wa-scroller>
@@ -178,7 +181,7 @@
 
 {# Events #}
 {% if component.events.length %}
-<h2>Events</h2>
+<h3>Events</h3>
 <p>Learn more about <a href="/docs/usage/#events">events</a>.</p>
 
 <wa-scroller>
@@ -205,7 +208,7 @@
 
 {# Custom Properties #}
 {% if component.cssProperties.length %}
-<h2>CSS Custom Properties</h2>
+<h3>CSS Custom Properties</h3>
 <p>Learn more about <a href="/docs/usage/#custom-properties">CSS custom properties</a>.</p>
 
 <wa-scroller>
@@ -237,7 +240,7 @@
 
 {# Custom States #}
 {% if component.cssStates.length %}
-<h2>Custom States</h2>
+<h3>Custom States</h3>
 <p>Learn more about <a href="/docs/usage/#custom-states">custom states</a>.</p>
 
 <wa-scroller>
@@ -269,11 +272,23 @@
 
 {# CSS Parts #}
 {% if component.cssParts.length %}
-<h2>CSS Parts</h2>
+<h3>CSS Parts</h3>
 <p>Learn more about <a href="/docs/usage/#css-parts">CSS parts</a>.</p>
 
+{#
+  Visual anatomy diagram (progressive enhancement over the table; component-anatomy.js reads the part list
+  from these data-part-name rows). Sub-components (`parent` in front matter) are skipped automatically; opt
+  others out with `hasAnatomy: false` (overlays/portals, layout wrappers). All-state-dependent parts need no
+  flag — the JS drops the stage when nothing is highlightable. The wrapper is the sticky diagram's containing
+  block, so it releases the pin when the table ends (see anatomy.css).
+#}
+<div class="anatomy-section">
+{% if (hasAnatomy != false and not parent) or hasAnatomy == true %}
+<component-anatomy component="{{ component.tagName }}" class="wa-not-prose wa-mask-fade-below"></component-anatomy>
+{% endif %}
+
 <wa-scroller>
-  <table class="component-table wa-hover-rows">
+  <table class="component-table wa-hover-rows" data-anatomy-table>
     <thead>
       <tr>
         <th class="table-name">Name</th>
@@ -283,7 +298,7 @@
     </thead>
     <tbody>
       {% for cssPart in component.cssParts %}
-      <tr>
+      <tr{% if cssPart.deprecated %} class="wa-color-text-quiet"{% else %} data-part-name="{{ cssPart.name }}"{% endif %}>
         <td class="table-name"><code>{{ cssPart.name }}</code></td>
         <td class="table-description">{{ cssPart.description | inlineMarkdown | safe }}</td>
         <td class="table-selector">
@@ -297,11 +312,12 @@
     </tbody>
   </table>
 </wa-scroller>
+</div>
 {% endif %}
 
 {# Dependencies #}
 {% if component.dependencies.length %}
-<h2>Dependencies</h2>
+<h3>Dependencies</h3>
 <p>
   This component automatically imports the following elements. Sub-dependencies, if any exist, will also be included in
   this list.
@@ -316,7 +332,7 @@
 
 {# SSR #}
 {% if component.ssr.length > 0 %}
-<h2>SSR</h2>
+<h3>SSR</h3>
 <p>Learn more about <a href="/docs/ssr">Server-Side Rendering (SSR)</a>.</p>
 
 {% for obj in component.ssr %}

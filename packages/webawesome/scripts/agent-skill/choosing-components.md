@@ -13,9 +13,9 @@ The major decisions:
 - **Pick one from a set** — radio group, select, combobox, switch, slider, rating, color picker
 - **Pick many** — multiple checkboxes, multi-select, multi-combobox
 - **Trigger an action** — button, copy button, dropdown menu, button group, tabs
-- **Show feedback or status** — callout, badge, spinner, progress, skeleton, tooltip, popover
-- **Capture input** — input, number input, textarea, file input
-- **Show data** — format helpers, relative time, QR code, comparison, carousel, avatar
+- **Show feedback or status** — callout, toast, badge, spinner, progress, skeleton, tooltip, popover
+- **Capture input** — input, number input, textarea, file input (Pro)
+- **Show data** — format helpers, relative time, QR code, comparison, carousel, avatar, charts (Pro)
 - **Navigate or organize** — page, breadcrumb, tabs, details, tree, divider, card, tag, badge
 - **Overlay or float** — dialog, drawer, tooltip, popover, dropdown
 
@@ -87,6 +87,7 @@ Non-interactive output telling the user something.
 | You need…                                                  | Use                                                                       |
 | ---------------------------------------------------------- | ------------------------------------------------------------------------- |
 | Persistent inline message (info, success, warning, danger) | `<wa-callout>` with a `variant`                                           |
+| Brief ephemeral notification                               | `<wa-toast-item>` inside `<wa-toast>`                           |
 | Compact status indicator (number, "NEW", state)            | `<wa-badge>`                                                              |
 | Loading, duration unknown                                  | `<wa-spinner>`                                                            |
 | Loading, with progress                                     | `<wa-progress-bar>` (horizontal) or `<wa-progress-ring>` (compact circle) |
@@ -205,3 +206,4 @@ bundled here — reach for these Free fallbacks instead:
 
 `<wa-combobox>` (typeahead select, single or multi-select via its `multiple` property) is included in
 this build.
+

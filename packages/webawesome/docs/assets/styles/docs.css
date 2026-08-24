@@ -6,6 +6,7 @@
 @import 'cera-typeface.css';
 @import 'theme-icons.css';
 @import 'utils.css';
+@import 'anatomy.css';
 
 :root {
   /* layout-based example style aspects */
@@ -123,13 +124,11 @@ wa-page:not([view='mobile']) > main {
   margin-inline: auto;
 }
 
-/* Anchor wa-prose's line-length to the docs' reading-column token instead
- * of its 65ch default. The override has to land on .wa-prose itself —
- * upstream prose.css declares --wa-prose-line-length on :where(.wa-prose),
- * and a value declared on the element wins over an inherited value even
- * at 0 specificity. */
+/* Docs reading column, kept in ch (a reading measure). Must land on .wa-prose itself:
+ * upstream sets --wa-prose-line-length on :where(.wa-prose) at 0 specificity, so an
+ * own-element declaration is needed to win over the inherited value. */
 #content > .wa-prose {
-  --wa-prose-line-length: var(--content-width-m);
+  --wa-prose-line-length: round(up, 110ch, 1px);
 }
 
 #content {
@@ -154,6 +153,15 @@ wa-page:not([view='mobile']) > main {
     margin-block-start: var(--wa-prose-rhythm-xl);
   }
   :is(h1, h2, h3, h4, h5, h6) + .code-example {
+    margin-block-start: var(--wa-prose-rhythm-m);
+  }
+
+  /* The anchor-heading transformer injects a <wa-tooltip> between stacked headings,
+     breaking the sibling adjacency prose.css tightens on — bridge it through the tooltip. */
+  .anchor-heading:has(+ wa-tooltip + .anchor-heading) {
+    margin-block-end: 0;
+  }
+  .anchor-heading + wa-tooltip + .anchor-heading {
     margin-block-start: var(--wa-prose-rhythm-m);
   }
 
@@ -428,6 +436,10 @@ wa-card .page-name {
       font-size: var(--wa-font-size-s);
       line-height: var(--wa-line-height-normal);
       margin: 0 0 var(--wa-space-m);
+
+      &:last-child {
+        margin-block-end: 0;
+      }
     }
 
     .component-list-badges {
@@ -473,6 +485,70 @@ wa-card .page-name {
     &:first-of-type {
       margin-block-start: 0;
     }
+  }
+}
+
+/* Framework docs: hub logo cards + framework-page info cards */
+
+/* Hub: brand logos sit in a fixed-height row, always in full brand color */
+.framework-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  block-size: 2.5rem;
+}
+
+.framework-icon {
+  max-inline-size: 6.5rem;
+  font-size: var(--wa-font-size-3xl);
+  color: var(--color, currentColor);
+}
+
+.search-list-grid .framework-card::part(body) {
+  align-items: center;
+  justify-content: center;
+  gap: var(--wa-space-s);
+  min-block-size: 8rem;
+  text-align: center;
+}
+
+.framework-card .page-name {
+  margin: 0;
+}
+
+/* Framework pages: "next steps" / "see it in action" info cards */
+.info-cards .search-list-grid wa-card {
+  --spacing: var(--wa-space-l);
+}
+
+.info-cards .search-list-grid .page-name {
+  font-size: var(--wa-font-size-m);
+}
+
+.info-card-icon {
+  margin-block-end: var(--wa-space-s);
+  font-size: var(--wa-font-size-xl);
+}
+
+/* Duotone icon whose secondary (brand) color fades in on hover.
+   Companion to .duotone-illustrated (utils.css); ported so it also works on the free docs build. */
+.duotone-hover-context wa-icon.duotone-illustrated.duotone-secondary-reveal {
+  --secondary-opacity: 0;
+  transition: --secondary-opacity var(--wa-transition-slow) ease-in-out;
+}
+
+.duotone-hover-context[data-duotone-hover-trigger]:is(:hover, :focus-visible)
+  wa-icon.duotone-illustrated.duotone-secondary-reveal,
+.duotone-hover-context:has(:is(a, button):is(:hover, :focus-visible))
+  wa-icon.duotone-illustrated.duotone-secondary-reveal {
+  --secondary-opacity: 1;
+}
+
+/* Reduced motion + touch: show the two-tone icon up front instead of on hover */
+@media (prefers-reduced-motion: reduce), (hover: none) {
+  .duotone-hover-context wa-icon.duotone-illustrated.duotone-secondary-reveal {
+    transition: none;
+    --secondary-opacity: 1;
   }
 }
 
