@@ -24,7 +24,9 @@ describe('<wa-combobox>', () => {
         it('should not throw when the search text contains regex special characters', async () => {
           const el = await fixture<WaCombobox>(html` <wa-combobox></wa-combobox> `);
 
-          expect(() => el.highlightSearchTextInSuggestions([{ text: 'foo(bar', value: 'foo(bar' }], 'foo(')).to.not.throw();
+          expect(() =>
+            el.highlightSearchTextInSuggestions([{ text: 'foo(bar', value: 'foo(bar' }], 'foo('),
+          ).to.not.throw();
         });
 
         it('should treat regex special characters in the search text as literal', async () => {

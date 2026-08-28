@@ -286,9 +286,7 @@ export default class WaDialog extends WebAwesomeElement {
     const hasFooter = this.hasSlotController.test('footer', 'withFooter');
 
     return html`
-      ${this.contained
-        ? html`<div part="scrim" class="scrim" @pointerdown=${this.handleScrimPointerDown}></div>`
-        : ''}
+      ${this.contained ? html`<div part="scrim" class="scrim" @pointerdown=${this.handleScrimPointerDown}></div>` : ''}
       <dialog
         part="dialog"
         class=${classMap({
