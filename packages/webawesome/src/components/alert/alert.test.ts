@@ -109,6 +109,18 @@ describe('<wa-alert>', () => {
         expect(el.open).to.be.false;
         expect(el.hidden).to.be.true;
       });
+
+      it('should show a duration progress bar for finite durations', async () => {
+        const el = await fixture<WaAlert>(html` <wa-alert open duration="5000">Alert</wa-alert> `);
+
+        expect(el.shadowRoot!.querySelector('[part~="progress-bar"]')).to.exist;
+      });
+
+      it('should not show a duration progress bar without a finite duration', async () => {
+        const el = await fixture<WaAlert>(html` <wa-alert open>Alert</wa-alert> `);
+
+        expect(el.shadowRoot!.querySelector('[part~="progress-bar"]')).to.not.exist;
+      });
     });
   }
 });

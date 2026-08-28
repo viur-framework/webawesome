@@ -82,6 +82,14 @@ export default class WaDialog extends WebAwesomeElement {
   @property({ attribute: 'light-dismiss', type: Boolean }) lightDismiss = false;
 
   /**
+   * Renders the dialog contained within its parent element instead of the browser's top layer. The dialog is shown
+   * non-modally (no page-wide focus trap or scroll lock) and positions itself absolutely inside the nearest positioned
+   * ancestor, covering it with its own scrim. Use this for dialogs that should only block a section of the page, e.g.
+   * a single tab panel. [Escape] closes the dialog while focus is inside it.
+   */
+  @property({ type: Boolean, reflect: true }) contained = false;
+
+  /**
    * Only required for SSR. Set to `true` if you're slotting in a `footer` element so the server-rendered markup
    * includes the footer before the component hydrates on the client.
    */
@@ -91,9 +99,18 @@ export default class WaDialog extends WebAwesomeElement {
     super.firstUpdated(changedProperties);
     if (this.open) {
       this.addOpenListeners();
+      this.openNativeDialog();
+      this.renderedWatcher.start(this.dialog);
+    }
+  }
+
+  /** Opens the native dialog — modal in the top layer, or non-modal when contained. */
+  private openNativeDialog() {
+    if (this.contained) {
+      this.dialog.show();
+    } else {
       this.dialog.showModal();
       lockBodyScrolling(this);
-      this.renderedWatcher.start(this.dialog);
     }
   }
 
@@ -134,11 +151,18 @@ export default class WaDialog extends WebAwesomeElement {
   }
 
   private addOpenListeners() {
-    document.addEventListener('keydown', this.handleDocumentKeyDown);
+    // Contained dialogs only react to [Escape] while focus is inside them —
+    // a global listener would close a dialog in a background section.
+    if (this.contained) {
+      this.addEventListener('keydown', this.handleDocumentKeyDown);
+    } else {
+      document.addEventListener('keydown', this.handleDocumentKeyDown);
+    }
     registerDismissible(this);
   }
 
   private removeOpenListeners() {
+    this.removeEventListener('keydown', this.handleDocumentKeyDown);
     document.removeEventListener('keydown', this.handleDocumentKeyDown);
     unregisterDismissible(this);
   }
@@ -173,6 +197,15 @@ export default class WaDialog extends WebAwesomeElement {
     }
   }
 
+  /** Contained mode: the scrim replaces ::backdrop — same dismiss semantics. */
+  private handleScrimPointerDown = () => {
+    if (this.lightDismiss) {
+      this.requestClose(this.dialog);
+    } else {
+      void animateWithClass(this.dialog, 'pulse');
+    }
+  };
+
   private handleDocumentKeyDown = (event: KeyboardEvent) => {
     if (event.key === 'Escape' && this.open && isTopDismissible(this)) {
       event.preventDefault();
@@ -199,8 +232,7 @@ export default class WaDialog extends WebAwesomeElement {
     } else if (isRendered && !this.dialog.open) {
       // Resume the modal now that the dialog is rendered again
       this.addOpenListeners();
-      this.dialog.showModal();
-      lockBodyScrolling(this);
+      this.openNativeDialog();
     }
   }
 
@@ -231,9 +263,7 @@ export default class WaDialog extends WebAwesomeElement {
     this.addOpenListeners();
     this.originalTrigger = document.activeElement as HTMLElement;
     this.open = true;
-    this.dialog.showModal();
-
-    lockBodyScrolling(this);
+    this.openNativeDialog();
     this.renderedWatcher.start(this.dialog);
 
     // Set focus on autocomplete if it exists
@@ -256,12 +286,16 @@ export default class WaDialog extends WebAwesomeElement {
     const hasFooter = this.hasSlotController.test('footer', 'withFooter');
 
     return html`
+      ${this.contained
+        ? html`<div part="scrim" class="scrim" @pointerdown=${this.handleScrimPointerDown}></div>`
+        : ''}
       <dialog
         part="dialog"
         class=${classMap({
           dialog: true,
           open: this.open,
         })}
+        tabindex="-1"
         @cancel=${this.handleDialogCancel}
         @click=${this.handleDialogClick}
         @pointerdown=${this.handleDialogPointerDown}

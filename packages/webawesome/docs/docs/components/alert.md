@@ -98,7 +98,7 @@ Icons are optional. Simply omit the `icon` slot if you don't want them.
 
 ### Duration
 
-Set the `duration` attribute to automatically hide an alert after a period of time. This is useful for alerts that don't require acknowledgement. The timer pauses while the alert is hovered.
+Set the `duration` attribute to automatically hide an alert after a period of time. This is useful for alerts that don't require acknowledgement. A bar at the bottom indicates the remaining time, and the timer pauses while the alert is hovered.
 
 ```html {.example}
 <div class="alert-duration">

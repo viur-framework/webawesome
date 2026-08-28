@@ -1,5 +1,5 @@
 import { html } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { customElement, property, state } from 'lit/decorators.js';
 import { WaAfterHideEvent } from '../../events/after-hide.js';
 import { WaAfterShowEvent } from '../../events/after-show.js';
 import { WaHideEvent } from '../../events/hide.js';
@@ -35,15 +35,21 @@ import styles from './alert.styles.js';
  * @csspart message - The container that wraps the alert's main content.
  * @csspart close-button - The alert's close button, a `<wa-button>`.
  * @csspart close-button__base - The close button's exported `base` part.
+ * @csspart progress-bar - The bar that indicates the remaining duration.
  *
  * @cssproperty [--show-duration=150ms] - The show duration to use when applying built-in animation classes.
  * @cssproperty [--hide-duration=150ms] - The hide duration to use when applying built-in animation classes.
+ * @cssproperty [--progress-bar-height=4px] - The height of the duration progress bar.
+ * @cssproperty [--progress-bar-color=currentColor] - The color of the duration progress bar.
  */
 @customElement('wa-alert')
 export default class WaAlert extends WaCallout {
   static css = [...(Array.isArray(WaCallout.css) ? WaCallout.css : WaCallout.css ? [WaCallout.css] : []), styles];
 
-  private autoHideTimeout: number;
+  private autoHideAnimationFrame: number | null = null;
+  private autoHideStartTime: number | null = null;
+  private autoHideRemaining = 0;
+  @state() private timeLeft = 100;
   private readonly localize = new LocalizeController(this);
 
   /** Indicates whether or not the alert is open. You can toggle this attribute to show and hide the alert. */
@@ -63,6 +69,7 @@ export default class WaAlert extends WaCallout {
   }
 
   disconnectedCallback() {
+    this.clearAutoHideTimer();
     super.disconnectedCallback();
     this.removeEventListener('mouseenter', this.handleMouseEnter);
     this.removeEventListener('mouseleave', this.handleMouseLeave);
@@ -76,28 +83,82 @@ export default class WaAlert extends WaCallout {
   }
 
   private clearAutoHideTimer() {
-    window.clearTimeout(this.autoHideTimeout);
+    if (this.autoHideAnimationFrame !== null) {
+      cancelAnimationFrame(this.autoHideAnimationFrame);
+      this.autoHideAnimationFrame = null;
+    }
+
+    this.autoHideStartTime = null;
   }
 
   private startAutoHideTimer() {
     this.clearAutoHideTimer();
-    if (this.duration !== Infinity && this.duration > 0) {
-      this.autoHideTimeout = window.setTimeout(() => this.hide(), this.duration);
+
+    if (this.duration > 0 && Number.isFinite(this.duration)) {
+      this.autoHideRemaining = this.duration;
+      this.timeLeft = 100;
+      this.autoHideStartTime = performance.now();
+      this.tickAutoHideTimer();
+    } else {
+      this.autoHideRemaining = 0;
+      this.timeLeft = 100;
     }
   }
+
+  private pauseAutoHideTimer() {
+    if (this.autoHideStartTime === null) {
+      return;
+    }
+
+    this.autoHideRemaining = Math.max(0, this.autoHideRemaining - (performance.now() - this.autoHideStartTime));
+    this.clearAutoHideTimer();
+    this.timeLeft = (this.autoHideRemaining / this.duration) * 100;
+  }
+
+  private resumeAutoHideTimer() {
+    if (
+      !this.open ||
+      this.duration <= 0 ||
+      !Number.isFinite(this.duration) ||
+      this.autoHideStartTime !== null ||
+      this.autoHideRemaining <= 0
+    ) {
+      return;
+    }
+
+    this.autoHideStartTime = performance.now();
+    this.tickAutoHideTimer();
+  }
+
+  private tickAutoHideTimer = () => {
+    if (this.autoHideStartTime === null) {
+      return;
+    }
+
+    const now = performance.now();
+    const elapsed = now - this.autoHideStartTime;
+    this.autoHideRemaining = Math.max(this.autoHideRemaining - elapsed, 0);
+    this.timeLeft = (this.autoHideRemaining / this.duration) * 100;
+
+    if (this.autoHideRemaining > 0) {
+      this.autoHideStartTime = now;
+      this.autoHideAnimationFrame = requestAnimationFrame(this.tickAutoHideTimer);
+    } else {
+      this.clearAutoHideTimer();
+      this.hide();
+    }
+  };
 
   private handleCloseClick = () => {
     this.hide();
   };
 
   private handleMouseEnter = () => {
-    this.clearAutoHideTimer();
+    this.pauseAutoHideTimer();
   };
 
   private handleMouseLeave = () => {
-    if (this.open) {
-      this.startAutoHideTimer();
-    }
+    this.resumeAutoHideTimer();
   };
 
   @watch('duration')
@@ -166,6 +227,14 @@ export default class WaAlert extends WaCallout {
         <slot></slot>
       </div>
 
+      ${this.open && this.duration > 0 && Number.isFinite(this.duration)
+        ? html`<div
+            part="progress-bar"
+            class="progress-bar"
+            style="--progress: ${this.timeLeft}%"
+            aria-hidden="true"
+          ></div>`
+        : ''}
       ${this.closable
         ? html`
             <wa-button

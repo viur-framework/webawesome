@@ -182,6 +182,35 @@ export default css`
     }
   }
 
+  /* Contained: absolut im nächsten positionierten Vorfahren statt Top-Layer.
+     Der Scrim ersetzt ::backdrop (das gibt es nur bei showModal()). */
+  :host([contained]) {
+    position: absolute;
+    inset: 0;
+    z-index: 100;
+  }
+
+  :host([contained]) .scrim {
+    position: absolute;
+    inset: 0;
+    /*
+      Match what ::backdrop actually renders today: custom properties don't
+      reliably inherit into ::backdrop across engines, so the modal backdrop
+      effectively shows the fallback color. Using the same literal value keeps
+      contained dialogs visually identical to modal ones.
+    */
+    background-color: rgb(0 0 0 / 0.25);
+    backdrop-filter: var(--backdrop-filter, none);
+    animation: show-backdrop var(--show-duration, 200ms) ease;
+  }
+
+  :host([contained]) .dialog {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    height: fit-content;
+  }
+
   @media (forced-colors: active) {
     .dialog {
       border: solid 1px white;
