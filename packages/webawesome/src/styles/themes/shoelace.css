@@ -572,35 +572,37 @@
 
     /* Use unique focus styles for text-based inputs */
     :is(
-      wa-input,
-      wa-textarea,
-      wa-select,
-      wa-combobox,
-      input:not(
-        [type='button'],
-        [type='checkbox'],
-        [type='color'],
-        [type='file'],
-        [type='hidden'],
-        [type='image'],
-        [type='radio'],
-        [type='range'],
-        [type='reset'],
-        [type='submit']
-      ),
-      textarea,
-      select
-    ):not([appearance='filled'], .wa-filled) {
+        wa-input,
+        wa-textarea,
+        wa-select,
+        wa-combobox,
+        wa-tag-input,
+        input:not(
+            [type='button'],
+            [type='checkbox'],
+            [type='color'],
+            [type='file'],
+            [type='hidden'],
+            [type='image'],
+            [type='radio'],
+            [type='range'],
+            [type='reset'],
+            [type='submit']
+          ),
+        textarea,
+        select
+      ):not([appearance='filled'], .wa-filled) {
       --wa-focus-ring: var(--wa-focus-ring-style) var(--wa-focus-ring-width)
         color-mix(in oklab, var(--wa-color-focus), transparent 50%);
       --wa-focus-ring-offset: 0;
 
       &:focus-within {
-        &:where(:not(wa-input, wa-textarea, wa-select, wa-combobox)),
+        &:where(:not(wa-input, wa-textarea, wa-select, wa-combobox, wa-tag-input)),
         &:where(wa-input)::part(base),
         &:where(wa-textarea)::part(base),
         &:where(wa-select)::part(combobox),
-        &:where(wa-combobox)::part(combobox) {
+        &:where(wa-combobox)::part(combobox),
+        &:where(wa-tag-input)::part(tag-input) {
           border-color: var(--wa-color-brand-border-loud);
         }
       }

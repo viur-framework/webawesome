@@ -14,8 +14,8 @@ The major decisions:
 - **Pick many** — multiple checkboxes, multi-select, multi-combobox
 - **Trigger an action** — button, copy button, dropdown menu, button group, tabs
 - **Show feedback or status** — callout, toast, badge, spinner, progress, skeleton, tooltip, popover
-- **Capture input** — input, number input, textarea, file input (Pro)
-- **Show data** — format helpers, relative time, QR code, comparison, carousel, avatar, charts (Pro)
+- **Capture input** — input, number input, textarea, native file input
+- **Show data** — format helpers, relative time, QR code, comparison, carousel, avatar
 - **Navigate or organize** — page, breadcrumb, tabs, details, tree, divider, card, tag, badge
 - **Overlay or float** — dialog, drawer, tooltip, popover, dropdown
 
@@ -87,7 +87,7 @@ Non-interactive output telling the user something.
 | You need…                                                  | Use                                                                       |
 | ---------------------------------------------------------- | ------------------------------------------------------------------------- |
 | Persistent inline message (info, success, warning, danger) | `<wa-callout>` with a `variant`                                           |
-| Brief ephemeral notification                               | `<wa-toast-item>` inside `<wa-toast>`                           |
+| Brief ephemeral notification                               | `<wa-toast-item>` inside `<wa-toast>`                                     |
 | Compact status indicator (number, "NEW", state)            | `<wa-badge>`                                                              |
 | Loading, duration unknown                                  | `<wa-spinner>`                                                            |
 | Loading, with progress                                     | `<wa-progress-bar>` (horizontal) or `<wa-progress-ring>` (compact circle) |
@@ -109,6 +109,7 @@ The user types or uploads.
 | Single-line text (incl. email, password, etc.) | `<wa-input>` with the appropriate `type`                     |
 | A number with stepper buttons                  | `<wa-number-input>` (richer than `<wa-input type="number">`) |
 | Multi-line text                                | `<wa-textarea>`                                              |
+| A free-form list of short values (keywords, emails, labels) | `<wa-tag-input>`                                |
 | File upload                                    | native `<input type="file">`                                 |
 | A color value                                  | `<wa-color-picker>`                                          |
 
@@ -200,10 +201,9 @@ bundled here — reach for these Free fallbacks instead:
 
 - **Charts / sparklines** — render with a dedicated charting library, or compose simple bars from the
   layout utilities.
-- **Toast notifications** — use `<wa-callout>` for messages that can live in the layout.
 - **File upload** — use the native `<input type="file">` element.
 - **Video** — use the native `<video>` element.
 
-`<wa-combobox>` (typeahead select, single or multi-select via its `multiple` property) is included in
-this build.
+`<wa-combobox>` (typeahead select, single or multi-select via its `multiple` property) and
+`<wa-toast>` / `<wa-toast-item>` are included in this build.
 
