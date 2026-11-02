@@ -943,6 +943,10 @@ export default class WaSelect extends WebAwesomeFormAssociatedElement {
 
       this.removeOpenListeners();
       await animateWithClass(this.popup.popup, 'hide');
+      // Reopened while the hide animation ran: keep what the show branch just revealed
+      if (this.open) {
+        return;
+      }
       this.listbox.hidden = true;
       this.popup.active = false;
 

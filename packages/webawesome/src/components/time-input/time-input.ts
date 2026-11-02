@@ -400,6 +400,10 @@ export default class WaTimeInput extends WebAwesomeFormAssociatedElement {
       }
       this.removeOpenListeners();
       await animateWithClass(this.popup.popup, 'hide');
+      // Reopened while the hide animation ran: keep what the show branch just revealed
+      if (this.open) {
+        return;
+      }
       this.popup.active = false;
       this.dispatchEvent(new WaAfterHideEvent());
       // If focus is in the popup, return it to the active segment.
